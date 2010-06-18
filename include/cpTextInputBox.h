@@ -25,6 +25,8 @@
 #define CPTEXTINPUTBOX
 
 #include "cpGUI_base.h"
+#include "cpGuiContainer.h"
+#include "cpObject.h"
 
 namespace cp
 {

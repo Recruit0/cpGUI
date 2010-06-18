@@ -27,6 +27,10 @@
 
 
 #include "cpGUI_base.h"
+#include "cpGuiContainer.h"
+#include "cpObject.h"
+#include "cpButton.h"
+#include "cpScrollBar.h"
 
 #include <stdexcept>
 

@@ -25,6 +25,7 @@
 #define CPIMAGEBUTTON
 
 #include "cpGUI_base.h"
+#include "cpObject.h"
 
 namespace cp
 {
