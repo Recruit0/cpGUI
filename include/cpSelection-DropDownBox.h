@@ -24,6 +24,7 @@
 #define CPSELECTIONBOX
 
 #include "cpGUI_base.h"
+#include "cpScrollBar.h"
 
 namespace cp
 {

@@ -25,6 +25,7 @@
 #define CPCHECKBOX
 
 #include "cpGUI_base.h"
+#include "cpButton.h"
 
 namespace cp
 {

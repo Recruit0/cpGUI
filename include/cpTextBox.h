@@ -24,6 +24,8 @@
 #define CPTEXTBOX
 
 #include "cpGUI_base.h"
+#include "cpObject.h"
+#include "cpScrollBar.h"
 
 namespace cp
 {
