@@ -2,10 +2,7 @@ cmake_minimum_required( VERSION 2.6 )
    
 find_package(SFML REQUIRED
 	COMPONENTS
-		System
-		Audio
 		Graphics
-		Window
 	)
 
 set (SOURCES
