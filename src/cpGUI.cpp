@@ -2341,7 +2341,7 @@ cpObject(parent, GUI, "", posx, posy, width, height)
 		Width = 200;
 	if(Height < 200)
 		Height = 200;
-	Filename = "";
+	Filename = NULL;
 	fontSize = (unsigned int)Label.GetSize();
 	totalLines = 0;
 	startingLine = 0;
