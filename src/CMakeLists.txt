@@ -3,10 +3,11 @@ cmake_minimum_required( VERSION 2.6 )
 find_package(SFML REQUIRED
 	COMPONENTS
 		Graphics
+		Window
+		System
 	)
 
 set (SOURCES
-	cpGUI.cpp
 	cpGUI_base.cpp
 	cpCheckBox.cpp
 	cpImageButton.cpp
