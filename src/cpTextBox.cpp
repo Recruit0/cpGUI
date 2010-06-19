@@ -1,20 +1,20 @@
 //cpGUI - Copyright (c) 2009 Jason Cupp
 //
-//This software is provided 'as-is', without any express or implied warranty. 
-//In no event will the authors be held liable for any damages arising from the 
+//This software is provided 'as-is', without any express or implied warranty.
+//In no event will the authors be held liable for any damages arising from the
 //use of this software.
 //
-//Permission is granted to anyone to use this software for any purpose, including 
-//commercial applications, and to alter it and redistribute it freely, subject to 
+//Permission is granted to anyone to use this software for any purpose, including
+//commercial applications, and to alter it and redistribute it freely, subject to
 //the following restrictions:
 //
 //
-//1. The origin of this software must not be misrepresented; you must not claim 
-//that you wrote the original software. If you use this software in a product, an 
+//1. The origin of this software must not be misrepresented; you must not claim
+//that you wrote the original software. If you use this software in a product, an
 //acknowledgment in the product documentation would be appreciated but is not required.
 //
 //
-//2. Altered source versions must be plainly marked as such, and must not be 
+//2. Altered source versions must be plainly marked as such, and must not be
 //misrepresented as being the original software.
 //
 //
@@ -25,17 +25,19 @@
 
 #include "cpGUI_base.h"
 #include "cpTextBox.h"
-using namespace cp;
+#include <cstring>
 
+using namespace cp;
+using namespace std;
 
 /// *************************************************************
 /// This is a non-editable, read only text box used
-/// for displaying long strings of text, or displaying a 
+/// for displaying long strings of text, or displaying a
 /// txt file.  This class automatically word wraps the text
 /// to fit the size of the box.  Minimum size is 200x200.
 /// *************************************************************
-cpTextBox::cpTextBox(sf::RenderWindow *parent, cpGuiContainer *GUI, 
-					 float posx, float posy, float width, float height) : 
+cpTextBox::cpTextBox(sf::RenderWindow *parent, cpGuiContainer *GUI,
+					 float posx, float posy, float width, float height) :
 cpObject(parent, GUI, "", posx, posy, width, height)
 {
 	backgroundColor = sf::Color::White;
@@ -91,18 +93,32 @@ void cpTextBox::Draw()
 /// Loads a simple text file, word wraps it to fit the
 /// Text Box, and sets totalLines for the total number of lines.
 /// Rich text is not supported.
-void cpTextBox::LoadFile(char* filename)
+void cpTextBox::LoadFile( const char* const filename)
 {
 	totalLines = 0;
 	Filename = filename;
-	if(Filename == "")
+	// The code below used to try to use a completely null pointer "filename"
+  // Should work as intended now, although have not stepped through the logic
+  // of this code
+	if( filename == 0 ) // New code that catches null ptr
+	{
+    return;
+	}
+	// This is the original code, haven't stepped through code surrounding this
+	// to see what the purpose of this was
+	/*
+	if( strcmp( Filename, "" ) )
+	{
+	  Filename = "ERROR 2";
 		return;
+	}
+	*/
 	lineSFStrings.clear();
 	std::ifstream file(filename);
 	if(!file.is_open())
 		return;
 
-	std::string Line, tempWord, tempLine; 
+	std::string Line, tempWord, tempLine;
 	sf::String sfTemp;
 	std::vector<std::string> tokens;
 	sfTemp = Label;
@@ -164,12 +180,12 @@ void cpTextBox::LoadFile(char* filename)
 /// possible return values are:
 /// CP_ST_NONE, CP_ST_MOUSE_ENTER, CP_ST_MOUSE_EXIT,
 /// CP_ST_MOUSE_IN, CP_ST_LBUTTON_DOWN, CP_ST_LBUTTON_RELEASED.
-/// 
+///
 /// The difference between CP_ST_MOUSE_ENTER & CP_ST_MOUSE_IN
 /// is that IN is active the entire time the mouse is inside the control
 /// and ENTER is only active right when the mouse enters the control
 ///
-/// This class accepts mouse wheel delta information from the 
+/// This class accepts mouse wheel delta information from the
 /// GuiContainer to update the scrollbar.
 int cpTextBox::CheckState(const sf::Input *input)
 {

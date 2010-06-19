@@ -1,23 +1,20 @@
-// cpGUI 
-// 
-// Copyright (c) 2009 Jason Cupp
-// Copyright 2010 Patrick VanDusen
+//cpGUI - Copyright (c) 2009 Jason Cupp
 //
-//This software is provided 'as-is', without any express or implied warranty. 
-//In no event will the authors be held liable for any damages arising from the 
+//This software is provided 'as-is', without any express or implied warranty.
+//In no event will the authors be held liable for any damages arising from the
 //use of this software.
 //
-//Permission is granted to anyone to use this software for any purpose, including 
-//commercial applications, and to alter it and redistribute it freely, subject to 
+//Permission is granted to anyone to use this software for any purpose, including
+//commercial applications, and to alter it and redistribute it freely, subject to
 //the following restrictions:
 //
 //
-//1. The origin of this software must not be misrepresented; you must not claim 
-//that you wrote the original software. If you use this software in a product, an 
+//1. The origin of this software must not be misrepresented; you must not claim
+//that you wrote the original software. If you use this software in a product, an
 //acknowledgment in the product documentation would be appreciated but is not required.
 //
 //
-//2. Altered source versions must be plainly marked as such, and must not be 
+//2. Altered source versions must be plainly marked as such, and must not be
 //misrepresented as being the original software.
 //
 //
@@ -53,7 +50,7 @@ int main()
 	textBox.SetFontSize(14);
 	textBox.LoadFile("license.txt");
 
-	
+
 	// *** Create a Selection Box and populate it with choices ***
 
 	cp::cpSelectionBox selBox(&App, &myGUI, 450, 70, 200, 150);
@@ -79,17 +76,16 @@ int main()
 	for(int t=0; t < 5; t++)
 		dropdownBox.AddChoice(choices2[t]);
 
-	
+
 	// *** Create an Image button using an sf::Image ***
 	// These buttons do not have a label, and the size is based on the image's size
 
-	/*
 	sf::Image image;
 	if(!image.LoadFromFile("dragon.png"))
 		return EXIT_FAILURE;
 
 	cp::cpImageButton imageBtn(&App, &myGUI, &image, 50, 400);
-	*/
+
 
 	// *** Create a regular Button with a label ***
 	// if you don't set the button big enough for the text,
@@ -150,7 +146,7 @@ int main()
 			// if you are using a Text Input box, this is where you
 			// put the function that processes your text input
 			textInputBox.ProcessTextInput(&Event);
-			
+
 			// This is the function that takes care of which control
 			// has focus out of all the controls registered to your
 			// GuiContainer.
@@ -181,11 +177,9 @@ int main()
 
 		if(dropdownBox.CheckState(&input) == cp::CP_ST_MOUSE_LBUTTON_RELEASED)
 			selection = dropdownBox.GetSelection();
-	
-		/*
+
 		if(imageBtn.CheckState(&input) == cp::CP_ST_MOUSE_LBUTTON_RELEASED)
 			App.Close();
-		*/
 
 		if(btn.CheckState(&input) == cp::CP_ST_MOUSE_LBUTTON_RELEASED)
 			App.Close();
@@ -222,7 +216,7 @@ int main()
 		// be visible, set Show(false) for that object.
 		textBox.Draw();
 		selBox.Draw();
-		//imageBtn.Draw();
+		imageBtn.Draw();
 		btn.Draw();
 		shapeBtn.Draw();
 		checkBox.Draw();
