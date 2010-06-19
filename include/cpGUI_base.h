@@ -1,4 +1,7 @@
-//cpGUI - Copyright (c) 2009 Jason Cupp
+// cpGUI 
+// 
+// Copyright (c) 2009 Jason Cupp
+// Copyright 2010 Patrick VanDusen
 //
 //This software is provided 'as-is', without any express or implied warranty. 
 //In no event will the authors be held liable for any damages arising from the 
@@ -21,33 +24,43 @@
 //3. This notice may not be removed or altered from any source distribution.
 
 
-#ifndef CPCHECKBOX
-#define CPCHECKBOX
 
-#include "cpGUI_base.h"
-#include "cpButton.h"
+#ifndef CPGUI_BASE
+#define CPGUI_BASE
+
+#include <cmath>
+#include <cstring>
+
+#include <fstream>
+#include <map>
+#include <sstream>
+#include <vector>
+
+#include <SFML/Graphics.hpp>
 
 namespace cp
 {
-	class cpCheckBox : public cpButton
+	enum
 	{
-	public:
-		cpCheckBox();
-		cpCheckBox(sf::RenderWindow* parent, cpGuiContainer *GUI, std::string label, 
-			float posx=0, float posy=0);
-		void Draw();
-		int CheckState(const sf::Input *input); 
-		bool SetSize(float width, float height);
-		void SetChecked(bool checked);
-		bool GetChecked();
-
-	private:
-		void CreateRects(std::string label);
-
-		sf::Shape line1, line2, line3;
-		bool isChecked;
-
+		CP_DEFAULT = -1,
+		CP_ST_MOUSE_ENTER,
+		CP_ST_MOUSE_EXIT,
+		CP_ST_MOUSE_IN,
+		CP_ST_MOUSE_LBUTTON_DOWN,
+		CP_ST_MOUSE_LBUTTON_RELEASED,
+		CP_ST_CHANGED,
+		CP_ST_NONE,
+		CP_TXT_RIGHT_ALIGN,
+		CP_TXT_LEFT_ALIGN,
+		CP_TXT_CENTER_ALIGN
 	};
+
+	struct FontData
+	{
+		sf::Font *myFont;
+		short timesUsed;
+	};
+
 }
 
 #endif

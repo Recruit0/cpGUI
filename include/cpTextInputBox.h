@@ -21,32 +21,45 @@
 //3. This notice may not be removed or altered from any source distribution.
 
 
-#ifndef CPCHECKBOX
-#define CPCHECKBOX
+#ifndef CPTEXTINPUTBOX
+#define CPTEXTINPUTBOX
 
 #include "cpGUI_base.h"
-#include "cpButton.h"
+#include "cpGuiContainer.h"
+#include "cpObject.h"
 
 namespace cp
 {
-	class cpCheckBox : public cpButton
+	class cpTextInputBox : public cpObject
 	{
 	public:
-		cpCheckBox();
-		cpCheckBox(sf::RenderWindow* parent, cpGuiContainer *GUI, std::string label, 
-			float posx=0, float posy=0);
+		cpTextInputBox();
+		cpTextInputBox(sf::RenderWindow *parent, cpGuiContainer *GUI, std::string label,
+			float posx=0, float posy=0, float width=CP_DEFAULT, float height=CP_DEFAULT,
+			int Style=CP_TXT_LEFT_ALIGN);
 		void Draw();
-		int CheckState(const sf::Input *input); 
+		int CheckState(const sf::Input *input);
 		bool SetSize(float width, float height);
-		void SetChecked(bool checked);
-		bool GetChecked();
+		void SetPosition(float posx, float posy);
+		void SetFont(std::string filename, unsigned int size);
+		void SetBackgroundColor(sf::Color color);
+		void SetFontStyle(unsigned long TextStyle);
+		void SetFontSize(unsigned int size);
+		void SetLabelColor(sf::Color color);
+		void SetLabelText(std::string text);
+		void ProcessTextInput(sf::Event *evt);
+
 
 	private:
 		void CreateRects(std::string label);
+		bool CheckTextFit();
 
-		sf::Shape line1, line2, line3;
-		bool isChecked;
-
+		sf::Shape caret;
+		bool bTooBig, caretOn;
+		std::string tempText;
+		sf::String tempLabel;
+		float elapsedTime;
+		int style;
 	};
 }
 
