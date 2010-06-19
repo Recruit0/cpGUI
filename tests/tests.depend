@@ -1,0 +1,44 @@
+# depslib dependency file v1.0
+1276923823 source:/home/recruit0/files/development/cpGUI/src/check_box.cpp
+	"cpGUI_base.h"
+	"cpCheckBox.h"
+
+1276923845 source:/home/recruit0/files/development/cpGUI/src/drop_down_box.cpp
+	"cpGUI_base.h"
+	"cpSelection-DropDownBox.h"
+
+1276924148 source:/home/recruit0/files/development/cpGUI/src/gui_container.cpp
+	"cpGUI_base.h"
+	"cpGuiContainer.h"
+	"cpObject.h"
+	"cpButton.h"
+	"cpScrollBar.h"
+	<stdexcept>
+	"gui_container.hpp"
+
+1276927097 /home/recruit0/files/development/cpGUI/include/gui_container.hpp
+	"SFML/Graphics.hpp"
+	"gui_container.inl"
+
+1276923990 source:/home/recruit0/files/development/cpGUI/src/image_button.cpp
+	"cpGUI_base.h"
+	"cpImageButton.h"
+
+1276924004 source:/home/recruit0/files/development/cpGUI/src/shape_button.cpp
+	"cpGUI_base.h"
+	"cpShapeButton.h"
+
+1276924017 source:/home/recruit0/files/development/cpGUI/src/text_box.cpp
+	"cpGUI_base.h"
+	"cpTextBox.h"
+	<cstring>
+
+1276924028 source:/home/recruit0/files/development/cpGUI/src/text_input_box.cpp
+	"cpGUI_base.h"
+	"cpTextInputBox.h"
+
+1276928246 source:/home/recruit0/files/development/cpGUI/tests/main.cpp
+	"gui_container.hpp"
+
+1276926973 /home/recruit0/files/development/cpGUI/include/gui_container.inl
+

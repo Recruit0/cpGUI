@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<CodeBlocks_project_file>
+	<FileVersion major="1" minor="6" />
+	<Project>
+		<Option title="tests" />
+		<Option pch_mode="2" />
+		<Option compiler="gcc" />
+		<Build>
+			<Target title="Debug">
+				<Option output="bin/Debug/tests" prefix_auto="1" extension_auto="1" />
+				<Option object_output="obj/Debug/" />
+				<Option type="0" />
+				<Option compiler="gcc" />
+				<Compiler>
+					<Add option="-g" />
+				</Compiler>
+			</Target>
+			<Target title="Release">
+				<Option output="bin/Release/tests" prefix_auto="1" extension_auto="1" />
+				<Option object_output="obj/Release/" />
+				<Option type="0" />
+				<Option compiler="gcc" />
+				<Compiler>
+					<Add option="-O2" />
+				</Compiler>
+				<Linker>
+					<Add option="-s" />
+				</Linker>
+			</Target>
+		</Build>
+		<Compiler>
+			<Add option="-Wall" />
+			<Add directory="../include" />
+		</Compiler>
+		<Linker>
+			<Add option="-lsfml-graphics" />
+			<Add option="-lsfml-window" />
+			<Add option="-lsfml-system" />
+		</Linker>
+		<Unit filename="../include/base.hpp" />
+		<Unit filename="../include/button.hpp" />
+		<Unit filename="../include/check_box.hpp" />
+		<Unit filename="../include/cpGUI.hpp" />
+		<Unit filename="../include/drop_down_box.hpp" />
+		<Unit filename="../include/gui_container.hpp" />
+		<Unit filename="../include/gui_container.inl" />
+		<Unit filename="../include/image_button.hpp" />
+		<Unit filename="../include/object.hpp" />
+		<Unit filename="../include/scroll_bar.hpp" />
+		<Unit filename="../include/shape_button.hpp" />
+		<Unit filename="../include/text_box.hpp" />
+		<Unit filename="../include/text_input_box.hpp" />
+		<Unit filename="../src/check_box.cpp" />
+		<Unit filename="../src/drop_down_box.cpp" />
+		<Unit filename="../src/gui_container.cpp" />
+		<Unit filename="../src/image_button.cpp" />
+		<Unit filename="../src/shape_button.cpp" />
+		<Unit filename="../src/text_box.cpp" />
+		<Unit filename="../src/text_input_box.cpp" />
+		<Unit filename="main.cpp" />
+		<Extensions>
+			<code_completion />
+			<debugger />
+		</Extensions>
+	</Project>
+</CodeBlocks_project_file>

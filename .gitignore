@@ -8,6 +8,7 @@
 !.cmake/
 
 bin/
+obj/
 doc/html
 doc/latex
 doc/man
