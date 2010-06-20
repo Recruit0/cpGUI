@@ -34,6 +34,7 @@ misrepresented as being the original software.
 namespace cp
 {
 
+// Not sure if we still need all of this
 enum
 {
     DEFAULT = -1,
@@ -62,21 +63,30 @@ public:
     ///
     /// \param referenced_window:   SFML rendering window to draw in.
     ///
-    // Thought about multiple windows but a GUI should belong to 1 window
     gui( sf::RenderWindow& referenced_window );
+    // Thought about multiple windows but a GUI should belong to 1 window
 
-    /// Passes the event down to its sub components
+    /// Passes the event down to its sub components.
     ///
     /// \param event:   The event to process
     ///
     void handle_event( const sf::Event& event );
 
+    /// Draws the entire GUI.
+    ///
+    void draw();
+
+    /// Returns the attached window as read-only.
+    ///
+    const sf::RenderWindow& get_window() const;
+    // May have function to retrun writable reference if necessary
+
     /// Adds a widget to the GUI
     ///
+    void add( /*widget*/ );
     // Still deciding how to design this part
     // Either dynamic binding or perhaps template mixed with typedef
     // Preferably static binding, i.e. compiler time
-    void add( /*widget*/ );
 
 #if 0
     void Register(cpObject* object);
@@ -99,6 +109,8 @@ public:
 private:
     sf::RenderWindow& window; ///< The window that the GUI is attached to
 
+    // Recruit0: We may be able to incorporate the old FontMap design into
+    // the new API, if it is the most efficient solution
 #if 0
     typedef std::map<std::string, FontData> FontMap;
     std::map<std::string, FontData> fontMap;

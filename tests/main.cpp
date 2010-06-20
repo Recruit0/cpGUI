@@ -25,6 +25,8 @@ misrepresented as being the original software.
 
 // #include "cpGUI.h"
 
+// #define CP_GUI_NO_DEFAULT_EVENTS
+
 #include "gui.hpp"
 
 using namespace sf;
@@ -33,18 +35,20 @@ using namespace cp;
 // This is used to test that everything is working as expected
 int main()
 {
-    RenderWindow main_window( VideoMode(800, 600, 32), "SFML Events" );
-    cp::gui gui( main_window );
+
+    RenderWindow main_window( VideoMode(800, 600, 32), "cpGUI tests" );
+    gui main_gui( main_window );
 
     while ( main_window.IsOpened() )
     {
         Event event;
         while ( main_window.GetEvent( event ) )
         {
-            gui.handle_event( event );
+            main_gui.handle_event( event );
         }
         main_window.Clear();
 
+        main_gui.draw();
 
         main_window.Display();
     }

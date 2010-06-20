@@ -43,6 +43,12 @@ window( referenced_window )
 {
 }
 
+// This function may be inlined, not sure yet
+void gui::draw()
+{
+    // Go through all the widgets and call their draw() functions
+}
+
 #if 0
 /// *********************************************************
 /// Class that contains all objects/controls in the GUI.
