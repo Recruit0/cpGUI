@@ -1,4 +1,3 @@
-<<<<<<< HEAD:src/gui_container.cpp
 /*----------------------------------------------------------------------------//
 cpGUI - a GUI tool kit with SFML as its primary back-end.
 
@@ -35,11 +34,11 @@ misrepresented as being the original software.
 using namespace cp;
 */
 
-#include "gui_container.hpp"
+#include "gui.hpp"
 
-using namespace cpGUI;
+using namespace cp;
 
-gui_container::gui_container( sf::RenderWindow& referenced_window ):
+gui::gui( sf::RenderWindow& referenced_window ):
 window( referenced_window )
 {
 }
@@ -2258,8 +2257,8 @@ void cpScrollBar::SetPosition(float posx, float posy)
 	CreateRects();
 }
 #endif
-=======
-		*/
+
+#if 0
 		clock2.Reset();
 	}
 	if(input->IsMouseButtonDown(sf::Mouse::Left) && !mouseDown && !sliderDrag &&
@@ -2430,4 +2429,4 @@ void cpScrollBar::SetPosition(float posx, float posy)
 	CreateRects();
 }
 
->>>>>>> c4ef17ee33f311888f933a1d23331c6d0173bb5c:src/cpGUI_base.cpp
+#endif

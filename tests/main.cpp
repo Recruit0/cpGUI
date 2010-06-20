@@ -25,16 +25,16 @@ misrepresented as being the original software.
 
 // #include "cpGUI.h"
 
-#include "gui_container.hpp"
+#include "gui.hpp"
 
 using namespace sf;
-using namespace cpGUI;
+using namespace cp;
 
 // This is used to test that everything is working as expected
 int main()
 {
     RenderWindow main_window( VideoMode(800, 600, 32), "SFML Events" );
-    gui_container gui( main_window );
+    cp::gui gui( main_window );
 
     while ( main_window.IsOpened() )
     {

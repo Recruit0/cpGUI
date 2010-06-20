@@ -37,27 +37,6 @@
 			<Add option="-lsfml-window" />
 			<Add option="-lsfml-system" />
 		</Linker>
-		<Unit filename="../include/base.hpp" />
-		<Unit filename="../include/button.hpp" />
-		<Unit filename="../include/check_box.hpp" />
-		<Unit filename="../include/cpGUI.hpp" />
-		<Unit filename="../include/drop_down_box.hpp" />
-		<Unit filename="../include/gui_container.hpp" />
-		<Unit filename="../include/gui_container.inl" />
-		<Unit filename="../include/image_button.hpp" />
-		<Unit filename="../include/object.hpp" />
-		<Unit filename="../include/scroll_bar.hpp" />
-		<Unit filename="../include/shape_button.hpp" />
-		<Unit filename="../include/text_box.hpp" />
-		<Unit filename="../include/text_input_box.hpp" />
-		<Unit filename="../src/check_box.cpp" />
-		<Unit filename="../src/drop_down_box.cpp" />
-		<Unit filename="../src/gui_container.cpp" />
-		<Unit filename="../src/image_button.cpp" />
-		<Unit filename="../src/shape_button.cpp" />
-		<Unit filename="../src/text_box.cpp" />
-		<Unit filename="../src/text_input_box.cpp" />
-		<Unit filename="main.cpp" />
 		<Extensions>
 			<code_completion />
 			<debugger />

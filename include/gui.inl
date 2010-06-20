@@ -1,7 +1,7 @@
 #ifndef GUI_CONTAINER_INL_INCLUDED
 #define GUI_CONTAINER_INL_INCLUDED
 
-inline void cpGUI::gui_container::handle_event( const sf::Event& event )
+inline void cp::gui::handle_event( const sf::Event& event )
 {
     switch ( event.Type )
     {

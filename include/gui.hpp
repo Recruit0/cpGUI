@@ -31,7 +31,7 @@ misrepresented as being the original software.
 // See if forward declaring other classes will prevent us from having to include
 // all the headers, so that the user can pick and choose which to include?
 
-namespace cpGUI
+namespace cp
 {
 
 enum
@@ -55,15 +55,15 @@ class cpObject;
 
 /// The top level class that represents the GUI.
 ///
-class gui_container
+class gui
 {
 public:
-    /// Constructor that stores what window to draw in.
+    /// Constructor that stores what window the GUI belongs to.
     ///
     /// \param referenced_window:   SFML rendering window to draw in.
     ///
     // Thought about multiple windows but a GUI should belong to 1 window
-    gui_container( sf::RenderWindow& referenced_window );
+    gui( sf::RenderWindow& referenced_window );
 
     /// Passes the event down to its sub components
     ///
@@ -74,6 +74,8 @@ public:
     /// Adds a widget to the GUI
     ///
     // Still deciding how to design this part
+    // Either dynamic binding or perhaps template mixed with typedef
+    // Preferably static binding, i.e. compiler time
     void add( /*widget*/ );
 
 #if 0
@@ -95,7 +97,7 @@ public:
 #endif
 
 private:
-    sf::RenderWindow& window;
+    sf::RenderWindow& window; ///< The window that the GUI is attached to
 
 #if 0
     typedef std::map<std::string, FontData> FontMap;
@@ -107,6 +109,6 @@ private:
 
 }
 
-#include "gui_container.inl"
+#include "gui.inl"
 
 #endif

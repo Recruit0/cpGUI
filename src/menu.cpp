@@ -1,4 +1,3 @@
-<<<<<<< HEAD:src/menu.cpp
 //cpGUI - Copyright (c) 2009 Jason Cupp
 //
 //This software is provided 'as-is', without any express or implied warranty.
@@ -599,31 +598,8 @@ void cpDropDownBox::SetLabelColor(sf::Color color)
 	tempTextColor = color;
 }
 #endif
-=======
-//cpGUI - Copyright (c) 2009 Jason Cupp
-//
-//This software is provided 'as-is', without any express or implied warranty. 
-//In no event will the authors be held liable for any damages arising from the 
-//use of this software.
-//
-//Permission is granted to anyone to use this software for any purpose, including 
-//commercial applications, and to alter it and redistribute it freely, subject to 
-//the following restrictions:
-//
-//
-//1. The origin of this software must not be misrepresented; you must not claim 
-//that you wrote the original software. If you use this software in a product, an 
-//acknowledgment in the product documentation would be appreciated but is not required.
-//
-//
-//2. Altered source versions must be plainly marked as such, and must not be 
-//misrepresented as being the original software.
-//
-//
-//3. This notice may not be removed or altered from any source distribution.
 
-
-
+#if 0
 
 #include "cpGUI_base.h"
 #include "cpSelection-DropDownBox.h"
@@ -635,7 +611,7 @@ using namespace cp;
 /// those choices will be listed in the box.  A selection can
 /// be made either by clicking on the choice, or with the keyboard
 /// *************************************************************************
-cpSelectionBox::cpSelectionBox(sf::RenderWindow *parent, cpGuiContainer *GUI, 
+cpSelectionBox::cpSelectionBox(sf::RenderWindow *parent, cpGuiContainer *GUI,
 							   float posx, float posy, float width, float height) :
 cpObject(parent, GUI, "", posx, posy, width, height)
 {
@@ -649,7 +625,7 @@ cpObject(parent, GUI, "", posx, posy, width, height)
 	mouseDown = false;
 	keyDown = false;
 	clock.Reset();
-	
+
 	SetUseWheel(true);
 
 	scrollbar = new cpScrollBar(Parent, gui, Height, viewableLines, choices.size(),
@@ -687,7 +663,7 @@ void cpSelectionBox::Draw()
 		int max = choices.size();
 		if(choices.size() > (unsigned int)viewableLines)
 			max = viewableLines;
-		if(currentSelection >= currentStartingLine && currentSelection < 
+		if(currentSelection >= currentStartingLine && currentSelection <
 			currentStartingLine + max)
 		{
 			selBox = sf::Shape::Rectangle(PosX, choices[currentSelection].GetPosition().y,
@@ -734,7 +710,7 @@ void cpSelectionBox::RemoveLastChoice()
 }
 
 /// Makes sure the text of all choices fits in the selection box
-/// BEWARE: if the text is too wide for the box, it will be 
+/// BEWARE: if the text is too wide for the box, it will be
 /// truncated never to be seen again.
 void cpSelectionBox::CheckTextWidth()
 {
@@ -758,17 +734,17 @@ void cpSelectionBox::CheckTextWidth()
 /// possible return values are:
 /// CP_ST_NONE, CP_ST_MOUSE_ENTER, CP_ST_MOUSE_EXIT,
 /// CP_ST_MOUSE_IN, CP_ST_LBUTTON_DOWN, CP_ST_LBUTTON_RELEASED.
-/// 
+///
 /// The difference between CP_ST_MOUSE_ENTER & CP_ST_MOUSE_IN
 /// is that IN is active the entire time the mouse is inside the control
 /// and ENTER is only active right when the mouse enters the control
-/// 
-/// In this class, the mouse wheel delta information is taken from 
+///
+/// In this class, the mouse wheel delta information is taken from
 /// the GuiContainer to update the scrollbar
 int cpSelectionBox::CheckState(const sf::Input *input)
 {
 	int state = cpObject::CheckState(input);
-	sf::Vector2f mousePos = Parent->ConvertCoords(input->GetMouseX(), input->GetMouseY()); 
+	sf::Vector2f mousePos = Parent->ConvertCoords(input->GetMouseX(), input->GetMouseY());
 
 	if(state == CP_ST_NONE)
 	{
@@ -792,7 +768,7 @@ int cpSelectionBox::CheckState(const sf::Input *input)
 		wheelDelta = 0;
 	}
 
-	if(input->IsKeyDown(sf::Key::Down) && (unsigned int)currentSelection < choices.size()-1 
+	if(input->IsKeyDown(sf::Key::Down) && (unsigned int)currentSelection < choices.size()-1
 		&& hasFocus && clock.GetElapsedTime() > .3f)
 	{
 		currentSelection++;
@@ -803,7 +779,7 @@ int cpSelectionBox::CheckState(const sf::Input *input)
 		}
 		clock.Reset();
 	}
-	if(input->IsKeyDown(sf::Key::Up) && currentSelection > 0 && 
+	if(input->IsKeyDown(sf::Key::Up) && currentSelection > 0 &&
 		hasFocus && clock.GetElapsedTime() > .3)
 	{
 		currentSelection--;
@@ -818,7 +794,7 @@ int cpSelectionBox::CheckState(const sf::Input *input)
 
 	if(input->IsMouseButtonDown(sf::Mouse::Left))
 	{
-		if(mousePos.x > PosX && mousePos.x < PosX+Width-15 && mousePos.y > PosY && 
+		if(mousePos.x > PosX && mousePos.x < PosX+Width-15 && mousePos.y > PosY &&
 			mousePos.y < PosY+Height)
 			mouseDown = true;
 	}
@@ -938,8 +914,8 @@ void cpSelectionBox::SetBackgroundColor(sf::Color color)
 // **********************************************************************
 // Drop down box
 // **********************************************************************
-cpDropDownBox::cpDropDownBox(sf::RenderWindow *parent, cpGuiContainer *GUI, 
-							 std::string label, float posx, float posy, 
+cpDropDownBox::cpDropDownBox(sf::RenderWindow *parent, cpGuiContainer *GUI,
+							 std::string label, float posx, float posy,
 							 float width, float height) : cpObject(parent,
 							 GUI, label, posx, posy, width, height)
 {
@@ -1030,11 +1006,11 @@ void cpDropDownBox::CheckTextWidth()
 /// possible return values are:
 /// CP_ST_NONE, CP_ST_MOUSE_ENTER, CP_ST_MOUSE_EXIT,
 /// CP_ST_MOUSE_IN, CP_ST_LBUTTON_DOWN, CP_ST_LBUTTON_RELEASED.
-/// 
+///
 /// The difference between CP_ST_MOUSE_ENTER & CP_ST_MOUSE_IN
 /// is that IN is active the entire time the mouse is inside the control
 /// and ENTER is only active right when the mouse enters the control
-/// 
+///
 /// The Selection Box part of the drop down box also recieves
 /// mouse wheel delta information from the GuiContainer.
 int cpDropDownBox::CheckState(const sf::Input *input)
@@ -1062,7 +1038,7 @@ int cpDropDownBox::CheckState(const sf::Input *input)
 		textColor = tempTextColor;
 	}
 
-	if(btnState == CP_ST_MOUSE_LBUTTON_RELEASED || state == 
+	if(btnState == CP_ST_MOUSE_LBUTTON_RELEASED || state ==
 		CP_ST_MOUSE_LBUTTON_RELEASED)
 	{
 		sBox->Show(!sBox->GetShow());
@@ -1198,4 +1174,5 @@ void cpDropDownBox::SetLabelColor(sf::Color color)
 	sBox->SetLabelColor(color);
 	tempTextColor = color;
 }
->>>>>>> c4ef17ee33f311888f933a1d23331c6d0173bb5c:src/cpSelection-DropDownBox.cpp
+
+#endif
