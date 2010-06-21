@@ -9,4 +9,4 @@ project(cpGUI-project)
 
 ## add_subdirectory(doc build/doc)
 add_subdirectory(src build/src)
-add_subdirectory(samples build/samples)
+add_subdirectory(tests build/tests)
