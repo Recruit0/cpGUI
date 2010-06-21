@@ -35,7 +35,8 @@ using namespace cp;
 // This is used to test that everything is working as expected
 int main()
 {
-
+    // Not sure if this automatically tries other video modes if unsuccessful
+    // Need to automate if it doesn't
     RenderWindow main_window( VideoMode(800, 600, 32), "cpGUI tests" );
     gui main_gui( main_window );
 

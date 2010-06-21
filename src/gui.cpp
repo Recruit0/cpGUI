@@ -73,6 +73,7 @@ cpGuiContainer::cpGuiContainer()
 	// cpObject::SetFont() function.
 	defaultFont = new sf::Font(sf::Font::GetDefaultFont());
 	defaultFilename = "Default";
+// Recruit0: This behavior looks weird, shouldn't happen in new API
 /*
 #ifdef WIN32
 	char tempdir[MAX_PATH];

@@ -23,10 +23,13 @@ misrepresented as being the original software.
 3. This notice may not be removed or altered from any source distribution.
 //----------------------------------------------------------------------------*/
 
+// ***NOTE***: Combined gui and base
+
 #ifndef GUI_CONTAINER_H
 #define GUI_CONTAINER_H
 
-#include "SFML/Graphics.hpp"
+#include <vector>
+#include <SFML/Graphics.hpp>
 
 // See if forward declaring other classes will prevent us from having to include
 // all the headers, so that the user can pick and choose which to include?
@@ -76,17 +79,21 @@ public:
     ///
     void draw();
 
-    /// Returns the attached window as read-only.
-    ///
-    const sf::RenderWindow& get_window() const;
-    // May have function to retrun writable reference if necessary
-
     /// Adds a widget to the GUI
     ///
     void add( /*widget*/ );
     // Still deciding how to design this part
     // Either dynamic binding or perhaps template mixed with typedef
     // Preferably static binding, i.e. compiler time
+
+    /// Returns the attached window as read-only.
+    ///
+    const sf::RenderWindow& get_window() const;
+    // May have function to retrun writable reference if necessary
+
+    /// Returns the vector array of fonts as read-only
+    ///
+    const std::vector<sf::Font>& get_fonts() const;
 
 #if 0
     void Register(cpObject* object);
@@ -108,6 +115,10 @@ public:
 
 private:
     sf::RenderWindow& window; ///< The window that the GUI is attached to
+    std::vector<sf::Font> fonts; ///< Loaded fonts
+    // I don't think fonts need to be in a map, they aren't going to change
+    // that often.
+    // Also make it an ordered array to speed of searching
 
     // Recruit0: We may be able to incorporate the old FontMap design into
     // the new API, if it is the most efficient solution
@@ -122,5 +133,57 @@ private:
 }
 
 #include "gui.inl"
+
+#endif
+
+
+
+#if 0
+
+#ifndef CPGUI_BASE
+#define CPGUI_BASE
+
+
+#include <cmath>
+#include <cstring>
+
+#include <fstream>
+#include <map>
+#include <sstream>
+#include <vector>
+
+#include <SFML/Graphics.hpp>
+
+
+namespace cpGUI
+{
+
+enum
+{
+    DEFAULT = -1,
+    ST_MOUSE_ENTER,
+    ST_MOUSE_EXIT,
+    ST_MOUSE_IN,
+    ST_MOUSE_LBUTTON_DOWN,
+    ST_MOUSE_LBUTTON_RELEASED,
+    ST_CHANGED,
+    ST_NONE,
+    TXT_RIGHT_ALIGN,
+    TXT_LEFT_ALIGN,
+    TXT_CENTER_ALIGN
+};
+
+
+struct FontData
+{
+    sf::Font *myFont;
+    short timesUsed;
+};
+
+
+}
+*/
+
+#endif
 
 #endif
