@@ -8,13 +8,11 @@ find_package(SFML REQUIRED
 	)
 
 set (SOURCES
-	cpGUI_base.cpp
-	cpCheckBox.cpp
-	cpImageButton.cpp
-	cpSelection-DropDownBox.cpp
-	cpShapeButton.cpp
-	cpTextBox.cpp
-	cpTextInputBox.cpp
+	button.cpp
+	check_box.cpp
+	gui.cpp
+	menu.cpp
+	text_box.cpp
 )
 
 include_directories(

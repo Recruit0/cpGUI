@@ -5,8 +5,8 @@ find_package(SFML REQUIRED
 		Graphics
 	)
 
-set (SAMPLE_1_SOURCES
-	cpGUI-example.cpp
+set (TEST_1_SOURCES
+	main.cpp
 )
 
 include_directories(
@@ -15,12 +15,12 @@ include_directories(
 )
 
 add_executable (
-	cpGUI-example
+	cpGUI-test
 	WIN32
-	${SAMPLE_1_SOURCES}
+	${TEST_1_SOURCES}
 )
 
-target_link_libraries ( cpGUI-example
+target_link_libraries ( cpGUI-test
 	${SFML_LIBRARY}
 	cpGUI
 )
