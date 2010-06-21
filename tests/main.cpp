@@ -27,6 +27,7 @@ misrepresented as being the original software.
 
 // #define CP_GUI_NO_DEFAULT_EVENTS
 
+#include "text_box.hpp"
 #include "gui.hpp"
 
 using namespace sf;

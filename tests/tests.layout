@@ -1,7 +1,4 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
 <CodeBlocks_layout_file>
 	<ActiveTarget name="Debug" />
-	<File name="../src/gui.cpp" open="1" top="1" tabpos="1">
-		<Cursor position="1466" topLine="33" />
-	</File>
 </CodeBlocks_layout_file>

@@ -37,7 +37,6 @@
 			<Add option="-lsfml-window" />
 			<Add option="-lsfml-system" />
 		</Linker>
-		<Unit filename="../include/base.hpp" />
 		<Unit filename="../include/button.hpp" />
 		<Unit filename="../include/check_box.hpp" />
 		<Unit filename="../include/cpGUI.hpp" />

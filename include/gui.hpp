@@ -91,9 +91,11 @@ public:
     const sf::RenderWindow& get_window() const;
     // May have function to retrun writable reference if necessary
 
-    /// Returns the vector array of fonts as read-only
+    /// Gets a font loaded in the GUI.
     ///
-    const std::vector<sf::Font>& get_fonts() const;
+    /// \param font:    The font to get
+    ///
+    const sf::Font& get_font( const std::string& font ) const;
 
 #if 0
     void Register(cpObject* object);
