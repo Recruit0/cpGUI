@@ -1,32 +1,64 @@
-//cpGUI - Copyright (c) 2009 Jason Cupp
-//
-//This software is provided 'as-is', without any express or implied warranty.
-//In no event will the authors be held liable for any damages arising from the
-//use of this software.
-//
-//Permission is granted to anyone to use this software for any purpose, including
-//commercial applications, and to alter it and redistribute it freely, subject to
-//the following restrictions:
-//
-//
-//1. The origin of this software must not be misrepresented; you must not claim
-//that you wrote the original software. If you use this software in a product, an
-//acknowledgment in the product documentation would be appreciated but is not required.
-//
-//
-//2. Altered source versions must be plainly marked as such, and must not be
-//misrepresented as being the original software.
-//
-//
-//3. This notice may not be removed or altered from any source distribution.
+/*----------------------------------------------------------------------------//
+cpGUI - a GUI tool kit with SFML as its primary back-end.
 
+Copyright (c) 2009 Jason Cupp
+Copyright (c) 2010 Patrick VanDusen, Alvin F.
 
+This software is provided 'as-is', without any express or implied warranty.
+In no event will the authors be held liable for any damages arising from the
+use of this software.
 
+Permission is granted to anyone to use this software for any purpose, including
+commercial applications, and to alter it and redistribute it freely, subject to
+the following restrictions:
 
-#include <SFML/Graphics.hpp>
-#include "cpGUI.h"
+1. The origin of this software must not be misrepresented; you must not claim
+that you wrote the original software. If you use this software in a product, an
+acknowledgment in the product documentation would be appreciated but is not
+required.
 
+2. Altered source versions must be plainly marked as such, and must not be
+misrepresented as being the original software.
 
+3. This notice may not be removed or altered from any source distribution.
+//----------------------------------------------------------------------------*/
+
+// #include "cpGUI.h"
+
+// #define CP_GUI_NO_DEFAULT_EVENTS
+
+#include "gui.hpp"
+
+using namespace sf;
+using namespace cp;
+
+// This is used to test that everything is working as expected
+int main()
+{
+    // Not sure if this automatically tries other video modes if unsuccessful
+    // Need to automate if it doesn't
+    RenderWindow main_window( VideoMode(800, 600, 32), "cpGUI tests" );
+    gui main_gui( main_window );
+
+    while ( main_window.IsOpened() )
+    {
+        Event event;
+        while ( main_window.GetEvent( event ) )
+        {
+            main_gui.handle_event( event );
+        }
+        main_window.Clear();
+
+        main_gui.draw();
+
+        main_window.Display();
+    }
+
+    return EXIT_SUCCESS;
+}
+
+// Any if 0 blocks are so that color coding still works (in Codeblocks)
+#if 0
 int main()
 {
 	sf::RenderWindow App(sf::VideoMode(800,600,32), "cpGUI");
@@ -228,4 +260,4 @@ int main()
 	}
 	return EXIT_SUCCESS;
 }
-
+#endif
