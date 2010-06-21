@@ -36,7 +36,7 @@ namespace cp
 	class cpSelectionBox : public cpObject
 	{
 	public:
-		cpSelectionBox(sf::RenderWindow *parent, cpGuiContainer *GUI, float posx=0,
+		cpSelectionBox(sf::RenderWindow *parent, cpGuiContainer *GUI, float posx=0, 
 			float posy=0, float width=CP_DEFAULT, float height=CP_DEFAULT);
 		cpSelectionBox();
 		~cpSelectionBox();
