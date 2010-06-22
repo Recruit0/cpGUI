@@ -105,6 +105,9 @@ public:
     // R0: The simplest solution would be to just use dynamic binding
     // Other methods may work but are more complicated and any increase in speed
     // is questionable. In the future this shouldn't change the API much/at all.
+    // pdusen: It may be more appropriate to require widgets to be
+    // allocated dynamically and contained in shared_ptrs; this can be
+    // ensured using factory functions. Revisit this option later.
 
     /// Returns the attached window as read-only.
     ///
