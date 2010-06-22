@@ -42,7 +42,7 @@ int main()
     gui main_gui( main_window );
     String test( "testing 1,2,3..." );
     text_box testing( test );
-    main_gui.add( &testing );
+    main_gui.add( testing );
 
     while ( main_window.IsOpened() )
     {
