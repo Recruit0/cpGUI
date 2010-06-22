@@ -43,9 +43,9 @@
 		<Unit filename="../include/gui.hpp" />
 		<Unit filename="../include/gui.inl" />
 		<Unit filename="../include/menu.hpp" />
-		<Unit filename="../include/object.hpp" />
 		<Unit filename="../include/scroll_bar.hpp" />
 		<Unit filename="../include/text_box.hpp" />
+		<Unit filename="../include/widget.hpp" />
 		<Unit filename="../src/button.cpp" />
 		<Unit filename="../src/check_box.cpp" />
 		<Unit filename="../src/gui.cpp" />

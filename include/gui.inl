@@ -1,15 +1,14 @@
 #ifndef GUI_INL
 #define GUI_INL
 
-inline void cp::gui::handle_event( const sf::Event& event )
+inline void cp::gui::handle_event( const sf::Event& event ) const
 {
-    // Pass the event down to the widgets, probably gonna have to go under
-    // this switch statement
+    // First, pass the event to the widget with focus
+
+    // This is the default even handler
+#ifndef CP_GUI_NO_DEFAULT_EVENTS // Switch off default event handler
     switch ( event.Type )
     {
-// Precompiler switch that turns of the default event handling code
-// It must be defined before you include this
-#ifndef CP_GUI_NO_DEFAULT_EVENTS
     case sf::Event::Closed:
         window.Close();
         break;
@@ -23,10 +22,15 @@ inline void cp::gui::handle_event( const sf::Event& event )
             break;
         }
         break;
-#endif
     default:
         break;
     }
+#endif // CP_GUI_NO_DEFAULT_EVENTS
+}
+
+inline void cp::gui::add( cp::widget& widget )
+{
+    widgets.push_back( boost::reference_wrapper<cp::widget>( widget ) );
 }
 
 inline const sf::RenderWindow& cp::gui::get_window() const

@@ -28,14 +28,28 @@ misrepresented as being the original software.
 #ifndef GUI_CONTAINER_H
 #define GUI_CONTAINER_H
 
-#include <vector>
-#include <SFML/Graphics.hpp>
+#include <SFML/Graphics.hpp> // Probably going to end up using lots of this
+// reference_wrapper is used in an inlined function, don't think this can be
+// forward declared, maybe inline is unnecessary as well
+#include <boost/ref.hpp>
 
 // See if forward declaring other classes will prevent us from having to include
 // all the headers, so that the user can pick and choose which to include?
+// Also forward declaring is preferable to including whole header files inside
+// header files
+
+// Forward declare small stuff so that user does not have to pull in
+// headers they might not use
+namespace std
+{
+template< class Tp, class Alloc > class vector;
+}
 
 namespace cp
 {
+
+// Forward declared classes
+class widget;
 
 // Not sure if we still need all of this
 enum
@@ -68,23 +82,29 @@ public:
     ///
     gui( sf::RenderWindow& referenced_window );
     // Thought about multiple windows but a GUI should belong to 1 window
+    // What if the user wants to draw to more than 1 window?
 
-    /// Passes the event down to its sub components.
+    /// Passes the event to the widget with focus and handles default events.
     ///
     /// \param event:   The event to process
     ///
-    void handle_event( const sf::Event& event );
+    void handle_event( const sf::Event& event ) const;
+    // I don't think this should change any of its private contents
 
     /// Draws the entire GUI.
     ///
-    void draw();
+    void draw() const;
+    // Probably should add error handling
 
     /// Adds a widget to the GUI
     ///
-    void add( /*widget*/ );
+    void add( cp::widget& widget );
     // Still deciding how to design this part
     // Either dynamic binding or perhaps template mixed with typedef
     // Preferably static binding, i.e. compiler time
+    // R0: The simplest solution would be to just use dynamic binding
+    // Other methods may work but are more complicated and any increase in speed
+    // is questionable. In the future this shouldn't change the API much/at all.
 
     /// Returns the attached window as read-only.
     ///
@@ -96,6 +116,7 @@ public:
     /// \param font:    The font to get
     ///
     const sf::Font& get_font( const std::string& font ) const;
+    // What about case where font is not found?
 
 #if 0
     void Register(cpObject* object);
@@ -116,15 +137,17 @@ public:
 #endif
 
 private:
-    sf::RenderWindow& window; ///< The window that the GUI is attached to
-    std::vector<sf::Font> fonts; ///< Loaded fonts
-    // I don't think fonts need to be in a map, they aren't going to change
-    // that often.
-    // Also make it an ordered array to speed of searching
+    // References are preferred to make it impossible to add null pointers
+    sf::RenderWindow& window; ///< The window that the GUI is attached to.
+    std::vector<boost::reference_wrapper<cp::widget> >
+    widgets; ///< Widgets of the GUI.
+    // This may point to nothing if the GUI doesn't have any widgets
+    // Don't think a special pointer is needed since not messing with
+    // memory management
+    widget* focused_widget;
 
-    // Recruit0: We may be able to incorporate the old FontMap design into
-    // the new API, if it is the most efficient solution
 #if 0
+    // Incorporate the old font map design as a font_manager object
     typedef std::map<std::string, FontData> FontMap;
     std::map<std::string, FontData> fontMap;
     short rightleft;
