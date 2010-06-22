@@ -13,6 +13,7 @@ set (SOURCES
 	gui.cpp
 	menu.cpp
 	text_box.cpp
+	widget.cpp
 )
 
 include_directories(
