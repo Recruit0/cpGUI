@@ -98,7 +98,7 @@ public:
 
     /// Adds a widget to the GUI
     ///
-    void add( cp::widget& widget );
+    void add( cp::widget* widget );
     // Still deciding how to design this part
     // Either dynamic binding or perhaps template mixed with typedef
     // Preferably static binding, i.e. compiler time
@@ -139,7 +139,7 @@ public:
 private:
     // References are preferred to make it impossible to add null pointers
     sf::RenderWindow& window; ///< The window that the GUI is attached to.
-    std::vector<boost::reference_wrapper<cp::widget> >
+    std::vector< cp::widget* >
     widgets; ///< Widgets of the GUI.
     // This may point to nothing if the GUI doesn't have any widgets
     // Don't think a special pointer is needed since not messing with

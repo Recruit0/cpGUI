@@ -42,14 +42,14 @@ public:
     ///
     /// \param  window: The window to draw in.
     ///
-    virtual void draw( const sf::RenderWindow& window ) const;
+    virtual void draw( sf::RenderWindow& window ) const;
 
     /// Responds to an event.
     ///
     /// \param event:   The event to process.
     ///
     virtual void handle_event( const sf::Event& event );
-private:
+protected:
     sf::Rect<int> bounding_box; ///< The box the widget resides in.
     sf::Color fill_color; ///< What color to fill the box with.
 };

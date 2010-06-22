@@ -40,6 +40,9 @@ int main()
     // Need to automate if it doesn't
     RenderWindow main_window( VideoMode(800, 600, 32), "cpGUI tests" );
     gui main_gui( main_window );
+    String test( "testing 1,2,3..." );
+    text_box testing( test );
+    main_gui.add( &testing );
 
     while ( main_window.IsOpened() )
     {

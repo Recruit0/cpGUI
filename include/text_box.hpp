@@ -53,10 +53,10 @@ namespace cp
 class text_box : public widget
 {
 public:
-    text_box( const std::string& text,
-              const sf::Color& text_color,
-              const sf::Color& fill_color,
-              const sf::Rect<int>& box = sf::Rect<int>::Rect() );
+    text_box( const sf::String& text,
+              const sf::Color& text_color = sf::Color( 0, 0, 0 ),
+              const sf::Color& fill_color = sf::Color( 255, 255, 255 ),
+              const sf::Rect<int>& bounding_box = sf::Rect<int>::Rect() );
 
     /// Loads a file as the text.
     ///
@@ -65,7 +65,7 @@ public:
     void load_file( const std::string& file_name );
 
     // Inherited functions
-    void draw( const sf::RenderWindow& window ) const;
+    void draw( sf::RenderWindow& window ) const;
     void handle_event( const sf::Event& event );
 
 private:
@@ -76,6 +76,8 @@ private:
     // something similar.
     sf::String text; ///< The text of this box.
     sf::Color text_color; ///< What color to draw the text in.
+    sf::Rect<int> bounding_box; ///< The box the widget resides in.
+    sf::Color fill_color; ///< What color to fill the box with.
     // Scrollbar
 };
 

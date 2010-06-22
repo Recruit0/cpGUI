@@ -28,11 +28,6 @@ inline void cp::gui::handle_event( const sf::Event& event ) const
 #endif // CP_GUI_NO_DEFAULT_EVENTS
 }
 
-inline void cp::gui::add( cp::widget& widget )
-{
-    widgets.push_back( boost::reference_wrapper<cp::widget>( widget ) );
-}
-
 inline const sf::RenderWindow& cp::gui::get_window() const
 {
     return window;

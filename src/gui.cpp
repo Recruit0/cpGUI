@@ -48,15 +48,20 @@ gui::gui( sf::RenderWindow& referenced_window ):
 {
 }
 
+void cp::gui::add( cp::widget* widget )
+{
+    widgets.push_back( widget );
+}
+
 // This is unlikely to be inlined anyway since it's looping
 void gui::draw() const
 {
     // Go through all the widgets and call their draw() functions
-    for ( vector<reference_wrapper<widget> >::const_iterator current_widget =
+    for ( vector< widget* >::const_iterator current_widget =
                 widgets.begin();
             current_widget != widgets.end(); current_widget++ )
     {
-        (*current_widget).get().draw( window );
+        (*current_widget)->draw( window );
     }
 }
 
