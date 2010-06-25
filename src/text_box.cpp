@@ -23,24 +23,44 @@ misrepresented as being the original software.
 3. This notice may not be removed or altered from any source distribution.
 //----------------------------------------------------------------------------*/
 
+#include <string>
+
 #include "text_box.hpp"
 
 using namespace sf;
 using namespace std;
 using namespace cp;
 
-text_box::text_box( const String& text,
-                    const Color& text_color,
-                    const Color& fill_color,
-                    const Rect<int>& bounding_box ):
-        text( text ), text_color( text_color ), bounding_box( bounding_box ),
-        fill_color( fill_color )
+bool resizable; ///< Whether the box can be resized.
+    bool moveable; ///< Whether the box can be moved.
+    bool writable; ///< Whether the text can be edited or not.
+    // R0: I've heard from Laurent that the "String class could be faster" or
+    // something similar. Might consider a different implementation later.
+    std::string text; ///< The text of this box.
+    sf::Color text_color; ///< What color to draw the text in.
+    uint32_t fill_color; ///< What color to fill the widget with.
+    uint32_t width; ///< The widget's width.
+    uint32_t height; ///< The widget's height.
+
+    // Inherited from widget
+    uint32_t x; ///< The widget's horizontal position in screen coordinates.
+    uint32_t y; ///< The widget's vertical position in screen coordinates.
+
+text_box::text_box( const string& new_text,
+              const uint32_t new_text_color,
+              const uint32_t new_fill_color,
+              const int new_x, const int new_y,
+              const int new_width, const int new_height ):
+              resizable( 0 ), movable( 0 ), writable( 1 ),
+              text( new_text ), text_color( new_text_color ),
+              fill_color( new_fill_color ),
+              width( new_width ), height( new_height ), x( new_x ), y( new_y )
 {
 }
 
-void text_box::draw( sf::RenderWindow& window ) const
+void text_box::draw( RenderWindow& window ) const
 {
-    window.Draw( text );
+    window.Draw( String( text ) );
 }
 
 void text_box::handle_event( const sf::Event& event )

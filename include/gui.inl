@@ -3,7 +3,7 @@
 
 inline void cp::gui::handle_event( const sf::Event& event ) const
 {
-    // First, pass the event to the widget with focus
+    focused_widget->handle_event( event );
 
     // This is the default even handler
 #ifndef CP_GUI_NO_DEFAULT_EVENTS // Switch off default event handler

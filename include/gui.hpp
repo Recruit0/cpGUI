@@ -23,23 +23,29 @@ misrepresented as being the original software.
 3. This notice may not be removed or altered from any source distribution.
 //----------------------------------------------------------------------------*/
 
+// TODO: Remove comments that aren't needed anymore.
+
 // ***NOTE***: Combined gui and base
+
+// NOTE: Only the functions that *require* SFML should have SFML data types in
+// public interfaces (e.g. event handling, drawing, etc.)
 
 #ifndef GUI_CONTAINER_H
 #define GUI_CONTAINER_H
 
-#include <SFML/Graphics.hpp> // Probably going to end up using lots of this
-// reference_wrapper is used in an inlined function, don't think this can be
-// forward declared, maybe inline is unnecessary as well
+// Try to minimize includes in header files
+#include <SFML/Graphics/RenderWindow.hpp>
+// Tried and failed to forward declare this
+// Errors with destructors and constructors without this header file
 #include <boost/ref.hpp>
+
+#include "widget.hpp"
 
 // See if forward declaring other classes will prevent us from having to include
 // all the headers, so that the user can pick and choose which to include?
 // Also forward declaring is preferable to including whole header files inside
 // header files
 
-// Forward declare small stuff so that user does not have to pull in
-// headers they might not use
 namespace std
 {
 template< class Tp, class Alloc > class vector;
@@ -47,9 +53,6 @@ template< class Tp, class Alloc > class vector;
 
 namespace cp
 {
-
-// Forward declared classes
-class widget;
 
 // Not sure if we still need all of this
 enum
@@ -96,24 +99,38 @@ public:
     void draw() const;
     // Probably should add error handling
 
-    /// Adds a widget to the GUI
+    /// Connects a widget to the GUI
     ///
-    void add( cp::widget& new_widget );
-    // Still deciding how to design this part
-    // Either dynamic binding or perhaps template mixed with typedef
-    // Preferably static binding, i.e. compiler time
-    // R0: The simplest solution would be to just use dynamic binding
-    // Other methods may work but are more complicated and any increase in speed
-    // is questionable. In the future this shouldn't change the API much/at all.
-    // pdusen: It may be more appropriate to require widgets to be
-    // allocated dynamically and contained in shared_ptrs; this can be
-    // ensured using factory functions. Revisit this option later.
+    /*
+    The way this is designed to work:
+    * Adds new_widget to list of widgets
+    * Tells new_widget to record where it's located in the list
+    * Once new_widget is destroyed, its destructor tell this class to remove
+    new widget from the list.
+    */
+    void connect( cp::widget& new_widget );
+    /*
+    Still deciding how to design this part
+    Either dynamic binding or perhaps template mixed with typedef
+    Preferably static binding, i.e. compiler time
+    R0: The simplest solution would be to just use dynamic binding
+    Other methods may work but are more complicated and any increase in speed
+    is questionable. In the future this shouldn't change the API much/at all.
+
+    pdusen: It may be more appropriate to require widgets to be
+    allocated dynamically and contained in shared_ptrs; this can be
+    ensured using factory functions. Revisit this option later.
+
+    R0: I'm going with the design discussed in the email. The factory pattern
+    will be used if this doesn't work out.
+    */
 
     /// Returns the attached window as read-only.
     ///
     const sf::RenderWindow& get_window() const;
     // May have function to retrun writable reference if necessary
 
+    // NOTE: font_manager should be a seperate object
     /// Gets a font loaded in the GUI.
     ///
     /// \param font:    The font to get
@@ -142,11 +159,8 @@ public:
 private:
     // References are preferred to make it impossible to add null pointers
     sf::RenderWindow& window; ///< The window that the GUI is attached to.
-    std::vector< boost::reference_wrapper<cp::widget> >
-    widgets; ///< Widgets of the GUI.
-    // This may point to nothing if the GUI doesn't have any widgets
-    // Don't think a special pointer is needed since not messing with
-    // memory management
+    std::vector< boost::reference_wrapper<cp::widget> > widgets; ///< Widgets of the GUI.
+    widget dummy_widget;
     widget* focused_widget;
 
 #if 0
@@ -164,7 +178,11 @@ private:
 
 #endif
 
-
+/*----------------------------------------------------------------------------//
+THIS IS THE OLD CODE BELOW
+USED AS A REFERENCE
+REMOVE BEFORE API IS RELEASED
+//----------------------------------------------------------------------------*/
 
 #if 0
 

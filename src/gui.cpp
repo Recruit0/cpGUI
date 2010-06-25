@@ -46,11 +46,15 @@ using namespace boost;
 gui::gui( sf::RenderWindow& referenced_window ):
         window( referenced_window )
 {
+    // So that focused_widget always refers to something
+    widgets.push_back( reference_wrapper<widget>( dummy_widget ) );
+    focused_widget = widgets[ 0 ].get_pointer();
 }
 
-void cp::gui::add( cp::widget& new_widget )
+void cp::gui::connect( cp::widget& new_widget )
 {
     widgets.push_back( reference_wrapper< widget >( new_widget ) );
+    //widgets.back().get().set_location( new_location );
 }
 
 // This is unlikely to be inlined anyway since it's looping
@@ -61,11 +65,14 @@ void gui::draw() const
                 widgets.begin();
             current_widget != widgets.end(); current_widget++ )
     {
+        // NOTE: This may actually be undefined behavior
+        // Although references are sort of like pointers
         (*current_widget).get().draw( window );
     }
 }
 
 #if 0
+
 /// *********************************************************
 /// Class that contains all objects/controls in the GUI.
 /// Used mostly for setting focus and keyboard controls.
@@ -2454,3 +2461,4 @@ void cpScrollBar::SetPosition(float posx, float posy)
 }
 
 #endif
+

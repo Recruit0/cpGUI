@@ -34,15 +34,15 @@ using namespace sf;
 using namespace cp;
 
 // This is used to test that everything is working as expected
+// Separate tests so that each object can be tested separately
 int main()
 {
     // Not sure if this automatically tries other video modes if unsuccessful
     // Need to automate if it doesn't
     RenderWindow main_window( VideoMode(800, 600, 32), "cpGUI tests" );
     gui main_gui( main_window );
-    String test( "testing 1,2,3..." );
-    text_box testing( test );
-    main_gui.add( testing );
+    text_box testing( "testing 1,2,3...", 0, 0xffffff, 0, 0, 100, 100 );
+    main_gui.connect( testing );
 
     while ( main_window.IsOpened() )
     {
@@ -65,203 +65,204 @@ int main()
 #if 0
 int main()
 {
-	sf::RenderWindow App(sf::VideoMode(800,600,32), "cpGUI");
-	App.SetPosition(10,10);
+    sf::RenderWindow App(sf::VideoMode(800,600,32), "cpGUI");
+    App.SetPosition(10,10);
 
-	// Create a GuiContainer to contain all of the controls we create.
-	// This is used mainly for setting focus.
-	// YOU HAVE TO HAVE ONE OF THESE or nothing will work.
+    // Create a GuiContainer to contain all of the controls we create.
+    // This is used mainly for setting focus.
+    // YOU HAVE TO HAVE ONE OF THESE or nothing will work.
 
-	cp::cpGuiContainer myGUI;
-
-
-	// *** Create a non-editable read only Text Box & display a txt file ***
-	// Parameters: 1. the parent render window; 2. your GuiContainer;
-	// 3&4. the x & y coordinates; 5&6. the width & height
-
-	cp::cpTextBox textBox(&App, &myGUI, 20,20,300,300);
-
-	// When setting the font size, the current font is reloaded with the new
-	// size for better quality.
-	textBox.SetFontSize(14);
-	textBox.LoadFile("license.txt");
+    cp::cpGuiContainer myGUI;
 
 
-	// *** Create a Selection Box and populate it with choices ***
+    // *** Create a non-editable read only Text Box & display a txt file ***
+    // Parameters: 1. the parent render window; 2. your GuiContainer;
+    // 3&4. the x & y coordinates; 5&6. the width & height
 
-	cp::cpSelectionBox selBox(&App, &myGUI, 450, 70, 200, 150);
+    cp::cpTextBox textBox(&App, &myGUI, 20,20,300,300);
 
-	std::string choices[] = {"Dwarf", "Elf", "Warrior", "Wizard",
-		"Adventurer", "Guild Leader", "Cleric", "eight", "nine",
-		"ten", "eleven", "twelve", "thirteen", "fourteen"};
-	for(int t=0; t < 14; t++)
-		selBox.AddChoice(choices[t]);
-
-	selBox.SetFontSize(20);
-
-
-	// *** Create a Drop Down Box and populate it with choices ***
-
-	cp::cpDropDownBox dropdownBox(&App, &myGUI, "Select your weapon", 450, 250, 200, 20);
-
-	// Set the maximum selection box depth before a scrollbar is used.
-	// 100 is default
-	dropdownBox.SetMaxDepth(200);
-
-	std::string choices2[] = {"Broad sword", "Axe", "Crossbow", "Long bow", "Mace"};
-	for(int t=0; t < 5; t++)
-		dropdownBox.AddChoice(choices2[t]);
+    // When setting the font size, the current font is reloaded with the new
+    // size for better quality.
+    textBox.SetFontSize(14);
+    textBox.LoadFile("license.txt");
 
 
-	// *** Create an Image button using an sf::Image ***
-	// These buttons do not have a label, and the size is based on the image's size
+    // *** Create a Selection Box and populate it with choices ***
 
-	sf::Image image;
-	if(!image.LoadFromFile("dragon.png"))
-		return EXIT_FAILURE;
+    cp::cpSelectionBox selBox(&App, &myGUI, 450, 70, 200, 150);
 
-	cp::cpImageButton imageBtn(&App, &myGUI, &image, 50, 400);
+    std::string choices[] = {"Dwarf", "Elf", "Warrior", "Wizard",
+                             "Adventurer", "Guild Leader", "Cleric", "eight", "nine",
+                             "ten", "eleven", "twelve", "thirteen", "fourteen"
+                            };
+    for (int t=0; t < 14; t++)
+        selBox.AddChoice(choices[t]);
 
-
-	// *** Create a regular Button with a label ***
-	// if you don't set the button big enough for the text,
-	// the button will automatically be resized.
-	// default fontsize is 20, you can resize the font and the button
-	// later.
-
-	cp::cpButton btn(&App, &myGUI, "Exit Game", 200, 440, 70, 30);
+    selBox.SetFontSize(20);
 
 
-	// *** Create a Shape Button from an sf::Shape ***
+    // *** Create a Drop Down Box and populate it with choices ***
 
-	sf::Shape shape;
-	shape.AddPoint(200,200, sf::Color::Red);
-	shape.AddPoint(250,300, sf::Color::Yellow);
-	shape.AddPoint(150,300, sf::Color::Blue);
+    cp::cpDropDownBox dropdownBox(&App, &myGUI, "Select your weapon", 450, 250, 200, 20);
 
-	cp::cpShapeButton shapeBtn(&App, &myGUI, &shape, 350, 420);
+    // Set the maximum selection box depth before a scrollbar is used.
+    // 100 is default
+    dropdownBox.SetMaxDepth(200);
 
-
-	// *** Create a simple on/off Check Box ***
-	// The size of the box is based on the size of the Label's font
-
-	cp::cpCheckBox checkBox(&App, &myGUI, "Play background music", 500, 480);
-	checkBox.SetFontSize(20);
-	checkBox.SetChecked(true); // unchecked by default
-	checkBox.SetMouseoverColor(sf::Color(200,100,100));
+    std::string choices2[] = {"Broad sword", "Axe", "Crossbow", "Long bow", "Mace"};
+    for (int t=0; t < 5; t++)
+        dropdownBox.AddChoice(choices2[t]);
 
 
-	// *** Create a Text Input Box which is a one line input box ***
-	// We will also create an sf::String do display above it for a description
+    // *** Create an Image button using an sf::Image ***
+    // These buttons do not have a label, and the size is based on the image's size
 
-	sf::String textInputString("Enter your name:", sf::Font::GetDefaultFont(), 20);
-	textInputString.SetPosition(500, 400);
-	textInputString.SetColor(sf::Color::Black);
+    sf::Image image;
+    if (!image.LoadFromFile("dragon.png"))
+        return EXIT_FAILURE;
 
-	cp::cpTextInputBox textInputBox(&App, &myGUI, "", 500, 430, 230, 25);
-
-
+    cp::cpImageButton imageBtn(&App, &myGUI, &image, 50, 400);
 
 
+    // *** Create a regular Button with a label ***
+    // if you don't set the button big enough for the text,
+    // the button will automatically be resized.
+    // default fontsize is 20, you can resize the font and the button
+    // later.
 
-	const sf::Input& input = App.GetInput();
+    cp::cpButton btn(&App, &myGUI, "Exit Game", 200, 440, 70, 30);
 
-	while(App.IsOpened())
-	{
 
-		// The standard Event loop
+    // *** Create a Shape Button from an sf::Shape ***
 
-		sf::Event Event;
-		while(App.GetEvent(Event))
-		{
-			if(Event.Type == sf::Event::Closed)
-				App.Close();
-			if((Event.Type == sf::Event::KeyPressed) && (Event.Key.Code == sf::Key::Escape))
-				App.Close();
+    sf::Shape shape;
+    shape.AddPoint(200,200, sf::Color::Red);
+    shape.AddPoint(250,300, sf::Color::Yellow);
+    shape.AddPoint(150,300, sf::Color::Blue);
 
-			// if you are using a Text Input box, this is where you
-			// put the function that processes your text input
-			textInputBox.ProcessTextInput(&Event);
+    cp::cpShapeButton shapeBtn(&App, &myGUI, &shape, 350, 420);
 
-			// This is the function that takes care of which control
-			// has focus out of all the controls registered to your
-			// GuiContainer.
-			myGUI.ProcessKeys(&Event);
-		}
 
-		// After the events are processed, we need to check the state of every
-		// control we create using your Input as a parameter.
-		// Most controls will return an integer that will tell you the
-		// mouse activity within that control.  For these controls, the
-		// possible return values are included in an enumeration:
-		// CP_STATE_MOUSE_ENTER, CP_STATE_MOUSE_EXIT, CP_STATE_MOUSE_IN,
-		// CP_STATE_MOUSE_LBUTTON_DOWN, CP_STATE_MOUSE_LBUTTON_RELEASED,
-		// CP_STATE_CHANGED, & CP_STATE_NONE
-		// you can use these values to decide what to do.
+    // *** Create a simple on/off Check Box ***
+    // The size of the box is based on the size of the Label's font
 
-		textBox.CheckState(&input);
+    cp::cpCheckBox checkBox(&App, &myGUI, "Play background music", 500, 480);
+    checkBox.SetFontSize(20);
+    checkBox.SetChecked(true); // unchecked by default
+    checkBox.SetMouseoverColor(sf::Color(200,100,100));
 
-		int selection; // an int to store the selection choice from
-					   // our selection box & drop down box
 
-		if(selBox.CheckState(&input) == cp::CP_ST_MOUSE_LBUTTON_RELEASED)
-		{
-			selection = selBox.GetSelection();
-			if(selection == 10)
-				selBox.RemoveLastChoice();
-		}
+    // *** Create a Text Input Box which is a one line input box ***
+    // We will also create an sf::String do display above it for a description
 
-		if(dropdownBox.CheckState(&input) == cp::CP_ST_MOUSE_LBUTTON_RELEASED)
-			selection = dropdownBox.GetSelection();
+    sf::String textInputString("Enter your name:", sf::Font::GetDefaultFont(), 20);
+    textInputString.SetPosition(500, 400);
+    textInputString.SetColor(sf::Color::Black);
 
-		if(imageBtn.CheckState(&input) == cp::CP_ST_MOUSE_LBUTTON_RELEASED)
-			App.Close();
-
-		if(btn.CheckState(&input) == cp::CP_ST_MOUSE_LBUTTON_RELEASED)
-			App.Close();
-
-		// Put the results of CheckState for the shape button in an int
-		// so we only have to call the function once.
-		// If the mouse enters the shape button, the normal button is
-		// hidden.  When the mouse exits the shape button, the normal
-		// button is shown.  When the shape button is clicked, the App closes
-		int state = shapeBtn.CheckState(&input);
-		if(state == cp::CP_ST_MOUSE_ENTER)
-			btn.Show(false);
-		if(state == cp::CP_ST_MOUSE_EXIT)
-			btn.Show(true);
-		if(state == cp::CP_ST_MOUSE_LBUTTON_RELEASED)
-			App.Close();
-
-		// When the Check Box is clicked, store the check state in 'playmusic'
-		bool playmusic;
-		if(checkBox.CheckState(&input) == cp::CP_ST_MOUSE_LBUTTON_RELEASED)
-			playmusic = checkBox.GetChecked();
-
-		std::string name;
-		if(textInputBox.CheckState(&input) == cp::CP_ST_MOUSE_LBUTTON_RELEASED)
-			name = textInputBox.GetLabelText();
+    cp::cpTextInputBox textInputBox(&App, &myGUI, "", 500, 430, 230, 25);
 
 
 
-		App.Clear(sf::Color(180,180,180));
 
 
-		// Every object you create should have the Draw() function
-		// called on every cycle.  If you don't want an object to
-		// be visible, set Show(false) for that object.
-		textBox.Draw();
-		selBox.Draw();
-		imageBtn.Draw();
-		btn.Draw();
-		shapeBtn.Draw();
-		checkBox.Draw();
-		App.Draw(textInputString);
-		textInputBox.Draw();
-		dropdownBox.Draw(); // drop down boxes should always be drawn last
+    const sf::Input& input = App.GetInput();
 
-		App.Display();
-	}
-	return EXIT_SUCCESS;
+    while (App.IsOpened())
+    {
+
+        // The standard Event loop
+
+        sf::Event Event;
+        while (App.GetEvent(Event))
+        {
+            if (Event.Type == sf::Event::Closed)
+                App.Close();
+            if ((Event.Type == sf::Event::KeyPressed) && (Event.Key.Code == sf::Key::Escape))
+                App.Close();
+
+            // if you are using a Text Input box, this is where you
+            // put the function that processes your text input
+            textInputBox.ProcessTextInput(&Event);
+
+            // This is the function that takes care of which control
+            // has focus out of all the controls registered to your
+            // GuiContainer.
+            myGUI.ProcessKeys(&Event);
+        }
+
+        // After the events are processed, we need to check the state of every
+        // control we create using your Input as a parameter.
+        // Most controls will return an integer that will tell you the
+        // mouse activity within that control.  For these controls, the
+        // possible return values are included in an enumeration:
+        // CP_STATE_MOUSE_ENTER, CP_STATE_MOUSE_EXIT, CP_STATE_MOUSE_IN,
+        // CP_STATE_MOUSE_LBUTTON_DOWN, CP_STATE_MOUSE_LBUTTON_RELEASED,
+        // CP_STATE_CHANGED, & CP_STATE_NONE
+        // you can use these values to decide what to do.
+
+        textBox.CheckState(&input);
+
+        int selection; // an int to store the selection choice from
+        // our selection box & drop down box
+
+        if (selBox.CheckState(&input) == cp::CP_ST_MOUSE_LBUTTON_RELEASED)
+        {
+            selection = selBox.GetSelection();
+            if (selection == 10)
+                selBox.RemoveLastChoice();
+        }
+
+        if (dropdownBox.CheckState(&input) == cp::CP_ST_MOUSE_LBUTTON_RELEASED)
+            selection = dropdownBox.GetSelection();
+
+        if (imageBtn.CheckState(&input) == cp::CP_ST_MOUSE_LBUTTON_RELEASED)
+            App.Close();
+
+        if (btn.CheckState(&input) == cp::CP_ST_MOUSE_LBUTTON_RELEASED)
+            App.Close();
+
+        // Put the results of CheckState for the shape button in an int
+        // so we only have to call the function once.
+        // If the mouse enters the shape button, the normal button is
+        // hidden.  When the mouse exits the shape button, the normal
+        // button is shown.  When the shape button is clicked, the App closes
+        int state = shapeBtn.CheckState(&input);
+        if (state == cp::CP_ST_MOUSE_ENTER)
+            btn.Show(false);
+        if (state == cp::CP_ST_MOUSE_EXIT)
+            btn.Show(true);
+        if (state == cp::CP_ST_MOUSE_LBUTTON_RELEASED)
+            App.Close();
+
+        // When the Check Box is clicked, store the check state in 'playmusic'
+        bool playmusic;
+        if (checkBox.CheckState(&input) == cp::CP_ST_MOUSE_LBUTTON_RELEASED)
+            playmusic = checkBox.GetChecked();
+
+        std::string name;
+        if (textInputBox.CheckState(&input) == cp::CP_ST_MOUSE_LBUTTON_RELEASED)
+            name = textInputBox.GetLabelText();
+
+
+
+        App.Clear(sf::Color(180,180,180));
+
+
+        // Every object you create should have the Draw() function
+        // called on every cycle.  If you don't want an object to
+        // be visible, set Show(false) for that object.
+        textBox.Draw();
+        selBox.Draw();
+        imageBtn.Draw();
+        btn.Draw();
+        shapeBtn.Draw();
+        checkBox.Draw();
+        App.Draw(textInputString);
+        textInputBox.Draw();
+        dropdownBox.Draw(); // drop down boxes should always be drawn last
+
+        App.Display();
+    }
+    return EXIT_SUCCESS;
 }
 #endif

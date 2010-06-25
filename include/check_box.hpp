@@ -24,6 +24,14 @@ misrepresented as being the original software.
 //----------------------------------------------------------------------------*/
 
 
+/*----------------------------------------------------------------------------//
+THIS IS THE OLD CODE BELOW
+USED AS A REFERENCE
+REMOVE BEFORE API IS RELEASED
+//----------------------------------------------------------------------------*/
+
+#if 0
+
 #ifndef CPCHECKBOX
 #define CPCHECKBOX
 
@@ -52,5 +60,7 @@ namespace cp
 
 	};
 }
+
+#endif
 
 #endif

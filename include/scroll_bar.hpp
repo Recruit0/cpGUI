@@ -23,6 +23,14 @@ misrepresented as being the original software.
 3. This notice may not be removed or altered from any source distribution.
 //----------------------------------------------------------------------------*/
 
+/*----------------------------------------------------------------------------//
+THIS IS THE OLD CODE BELOW
+USED AS A REFERENCE
+REMOVE BEFORE API IS RELEASED
+//----------------------------------------------------------------------------*/
+
+#if 0
+
 #ifndef CP_SCROLL_BAR_H
 #define CP_SCROLL_BAR_H
 
@@ -62,5 +70,7 @@ namespace cp {
 		bool mouseDown, clickGroove, sliderDrag, slDown;
 	};
 }
+
+#endif
 
 #endif

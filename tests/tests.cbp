@@ -29,6 +29,8 @@
 			</Target>
 		</Build>
 		<Compiler>
+			<Add option="-Wmain" />
+			<Add option="-pedantic" />
 			<Add option="-Wall" />
 			<Add directory="../include" />
 		</Compiler>

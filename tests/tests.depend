@@ -1,5 +1,5 @@
 # depslib dependency file v1.0
-1277153833 source:/home/recruit0/files/development/cpGUI/src/check_box.cpp
+1277414499 source:/home/recruit0/files/development/cpGUI/src/check_box.cpp
 	"cpGUI_base.h"
 	"cpCheckBox.h"
 	"cpGUI_base.h"
@@ -30,7 +30,8 @@
 	"cpGUI_base.h"
 	"cpShapeButton.h"
 
-1277178330 source:/home/recruit0/files/development/cpGUI/src/text_box.cpp
+1277406291 source:/home/recruit0/files/development/cpGUI/src/text_box.cpp
+	<string>
 	"text_box.hpp"
 	"cpGUI_base.h"
 	"cpTextBox.h"
@@ -42,19 +43,19 @@
 	"cpGUI_base.h"
 	"cpTextInputBox.h"
 
-1277212344 source:/home/recruit0/files/development/cpGUI/tests/main.cpp
+1277417342 source:/home/recruit0/files/development/cpGUI/tests/main.cpp
 	"text_box.hpp"
 	"gui.hpp"
 
 1276926973 /home/recruit0/files/development/cpGUI/include/gui_container.inl
 
-1277153833 source:/home/recruit0/files/development/cpGUI/src/button.cpp
+1277414488 source:/home/recruit0/files/development/cpGUI/src/button.cpp
 	"cpGUI_base.h"
 	"cpImageButton.h"
 	"cpGUI_base.h"
 	"cpShapeButton.h"
 
-1277212671 source:/home/recruit0/files/development/cpGUI/src/gui.cpp
+1277417076 source:/home/recruit0/files/development/cpGUI/src/gui.cpp
 	"cpGUI_base.h"
 	"cpGuiContainer.h"
 	"cpObject.h"
@@ -77,9 +78,10 @@
 	"cpGUI_base.h"
 	"cpSelection-DropDownBox.h"
 
-1277212671 /home/recruit0/files/development/cpGUI/include/gui.hpp
-	<SFML/Graphics.hpp>
+1277418460 /home/recruit0/files/development/cpGUI/include/gui.hpp
+	<SFML/Graphics/RenderWindow.hpp>
 	<boost/ref.hpp>
+	"widget.hpp"
 	"gui.inl"
 	<cmath>
 	<cstring>
@@ -89,9 +91,9 @@
 	<vector>
 	<SFML/Graphics.hpp>
 
-1277206317 /home/recruit0/files/development/cpGUI/include/gui.inl
+1277418349 /home/recruit0/files/development/cpGUI/include/gui.inl
 
-1277177646 /home/recruit0/files/development/cpGUI/include/text_box.hpp
+1277414463 /home/recruit0/files/development/cpGUI/include/text_box.hpp
 	<SFML/Graphics.hpp>
 	"widget.hpp"
 	"cpGUI_base.h"
@@ -103,10 +105,11 @@
 	"cpGUI_base.h"
 	"cpScrollBar.h"
 
-1277207670 /home/recruit0/files/development/cpGUI/include/widget.hpp
+1277417277 /home/recruit0/files/development/cpGUI/include/widget.hpp
 	<SFML/Graphics.hpp>
+	<boost/ref.hpp>
 	"cpGuiContainer.h"
 
-1277207692 source:/home/recruit0/files/development/cpGUI/src/widget.cpp
+1277417240 source:/home/recruit0/files/development/cpGUI/src/widget.cpp
 	"widget.hpp"
 

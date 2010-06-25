@@ -25,6 +25,14 @@ misrepresented as being the original software.
 
 // Radio buttons, drop-down list, full list and bar all classify as menu types
 
+/*----------------------------------------------------------------------------//
+THIS IS THE OLD CODE BELOW
+USED AS A REFERENCE
+REMOVE BEFORE API IS RELEASED
+//----------------------------------------------------------------------------*/
+
+#if 0
+
 #ifndef CPSELECTIONBOX
 #define CPSELECTIONBOX
 
@@ -102,5 +110,7 @@ namespace cp
 
 	};
 }
+
+#endif
 
 #endif

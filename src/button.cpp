@@ -260,4 +260,3 @@ void cpShapeButton::SetLabelColor(sf::Color color){}
 void cpShapeButton::SetLabelText(std::string text){}
 
 #endif
-

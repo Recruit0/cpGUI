@@ -299,4 +299,5 @@ bool cpCheckBox::GetChecked()
 {
 	return isChecked;
 }
+
 #endif

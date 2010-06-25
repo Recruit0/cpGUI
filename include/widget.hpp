@@ -27,17 +27,27 @@ misrepresented as being the original software.
 #define WIDGET_HPP
 
 #include <SFML/Graphics.hpp>
+#include <boost/ref.hpp>
 
 // R0: I've been thinking about having the widgets cache an image in memory
 // then just blit that during the gui.draw() function. Then just update their
 // images whenever needed. May do that later.
 
+namespace std
+{
+template< class Tp, class Alloc > class vector;
+}
+
 namespace cp
 {
+
+class gui;
 
 class widget
 {
 public:
+    ~widget();
+
     /// Draws the widget in the specified window
     ///
     /// \param  window: The window to draw in.
@@ -49,13 +59,29 @@ public:
     /// \param event:   The event to process.
     ///
     virtual void handle_event( const sf::Event& event );
+
+    /// Used to set the location of where the gui stores this widget so that it
+    /// may be removed during destruction.
+    ///
+    /// \param new_location:    Location to point to.
+    ///
+    void set_location( std::vector< boost::reference_wrapper<cp::widget> >::iterator new_location );
 protected:
-    sf::Rect<int> bounding_box; ///< The box the widget resides in.
-    sf::Color fill_color; ///< What color to fill the box with.
+    int x; ///< The widget's horizontal position in screen coordinates.
+    int y; ///< The widget's vertical position in screen coordinates.
+    /// Location of widget in gui::widgets so it can tell gui to delete it
+    std::vector< boost::reference_wrapper<cp::widget> >::iterator
+    location;
 };
 }
 
 #endif // WIDGET_HPP
+
+/*----------------------------------------------------------------------------//
+THIS IS THE OLD CODE BELOW
+USED AS A REFERENCE
+REMOVE BEFORE API IS RELEASED
+//----------------------------------------------------------------------------*/
 
 #if 0
 
