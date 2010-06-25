@@ -75,7 +75,7 @@ public:
 
     // Inherited functions
     void draw( sf::RenderWindow& window ) const;
-    void handle_event( const sf::Event& event );
+    void handle_event( const sf::Event& new_event );
 
 private:
     bool resizable; ///< Whether the box can be resized.
@@ -88,10 +88,6 @@ private:
     uint32_t fill_color; ///< What color to fill the widget with.
     int width; ///< The widget's width.
     int height; ///< The widget's height.
-
-    // Inherited from widget
-    int x; ///< The widget's horizontal position in screen coordinates.
-    int y; ///< The widget's vertical position in screen coordinates.
 
     // TODO: Add scroll bar
 };

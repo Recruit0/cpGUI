@@ -54,8 +54,10 @@ text_box::text_box( const string& new_text,
               resizable( 0 ), movable( 0 ), writable( 1 ),
               text( new_text ), text_color( new_text_color ),
               fill_color( new_fill_color ),
-              width( new_width ), height( new_height ), x( new_x ), y( new_y )
+              width( new_width ), height( new_height )
 {
+    x = new_x;
+    y = new_y;
 }
 
 void text_box::draw( RenderWindow& window ) const
@@ -63,7 +65,7 @@ void text_box::draw( RenderWindow& window ) const
     window.Draw( String( text ) );
 }
 
-void text_box::handle_event( const sf::Event& event )
+void text_box::handle_event( const sf::Event& new_event )
 {
 }
 

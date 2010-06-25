@@ -1,5 +1,6 @@
 The API is being rewritten. We do not recommend this for production environments yet.
 
-Recruit0: Some of the files seem to have been corrupted (source code changed from what I already wrote) when I tried to merge the updates. Will push the initial API changes first then double check that none of the original source (reference) code was deleted by git (which seems to have happened in some files). The code surrounding the entry point cp::gui should still be correct.
+Recruit0:
+The font_map object should probably be resource_manager. At the moment just trying to get the overall interface complete.
 
-Also we may be able to use his FontMap design. I'm not sure how to integrate it into the new API yet. May have to wait until the API is near complete to see how that piece will fit in.
+Also I'm unsure how to document (for doxygen to process) private functions.

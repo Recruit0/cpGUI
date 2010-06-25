@@ -1,13 +1,22 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
 <CodeBlocks_layout_file>
 	<ActiveTarget name="Debug" />
-	<File name="../include/text_box.hpp" open="1" top="0" tabpos="2">
-		<Cursor position="3322" topLine="72" />
+	<File name="../include/gui.hpp" open="1" top="1" tabpos="3">
+		<Cursor position="4544" topLine="124" />
 	</File>
-	<File name="../include/widget.hpp" open="1" top="0" tabpos="3">
-		<Cursor position="2029" topLine="54" />
+	<File name="../include/text_box.hpp" open="1" top="0" tabpos="5">
+		<Cursor position="3153" topLine="60" />
 	</File>
-	<File name="main.cpp" open="1" top="1" tabpos="1">
-		<Cursor position="1282" topLine="27" />
+	<File name="../include/widget.hpp" open="1" top="0" tabpos="2">
+		<Cursor position="2171" topLine="60" />
+	</File>
+	<File name="../src/gui.cpp" open="1" top="0" tabpos="4">
+		<Cursor position="0" topLine="30" />
+	</File>
+	<File name="../src/text_box.cpp" open="0" top="0" tabpos="0">
+		<Cursor position="2568" topLine="51" />
+	</File>
+	<File name="../src/widget.cpp" open="1" top="0" tabpos="1">
+		<Cursor position="243" topLine="3" />
 	</File>
 </CodeBlocks_layout_file>

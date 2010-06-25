@@ -1,6 +1,12 @@
 #include "widget.hpp"
+#include "gui.hpp"
 
 using namespace cp;
+
+widget::widget():
+        x( 0 ), y( 0 ), my_gui( 0 )
+{
+}
 
 widget::~widget()
 {
@@ -10,12 +16,18 @@ void widget::draw( sf::RenderWindow& window ) const
 {
 }
 
-void widget::handle_event( const sf::Event& event )
+void widget::handle_event( const sf::Event& new_event )
 {
 }
 
-void widget::set_location( std::vector< boost::reference_wrapper<cp::widget> >::
-                           iterator new_location )
+void widget::connect_to( gui& new_gui )
 {
-    location = new_location;
+    new_gui.connect( *this );
+    my_gui = &new_gui;
+}
+
+void widget::disconnect()
+{
+    my_gui->disconnect( this );
+    my_gui = 0;
 }

@@ -30,7 +30,7 @@
 	"cpGUI_base.h"
 	"cpShapeButton.h"
 
-1277406291 source:/home/recruit0/files/development/cpGUI/src/text_box.cpp
+1277486415 source:/home/recruit0/files/development/cpGUI/src/text_box.cpp
 	<string>
 	"text_box.hpp"
 	"cpGUI_base.h"
@@ -43,7 +43,7 @@
 	"cpGUI_base.h"
 	"cpTextInputBox.h"
 
-1277417342 source:/home/recruit0/files/development/cpGUI/tests/main.cpp
+1277488296 source:/home/recruit0/files/development/cpGUI/tests/main.cpp
 	"text_box.hpp"
 	"gui.hpp"
 
@@ -55,7 +55,7 @@
 	"cpGUI_base.h"
 	"cpShapeButton.h"
 
-1277417076 source:/home/recruit0/files/development/cpGUI/src/gui.cpp
+1277488693 source:/home/recruit0/files/development/cpGUI/src/gui.cpp
 	"cpGUI_base.h"
 	"cpGuiContainer.h"
 	"cpObject.h"
@@ -78,7 +78,7 @@
 	"cpGUI_base.h"
 	"cpSelection-DropDownBox.h"
 
-1277418460 /home/recruit0/files/development/cpGUI/include/gui.hpp
+1277488566 /home/recruit0/files/development/cpGUI/include/gui.hpp
 	<SFML/Graphics/RenderWindow.hpp>
 	<boost/ref.hpp>
 	"widget.hpp"
@@ -93,7 +93,7 @@
 
 1277418349 /home/recruit0/files/development/cpGUI/include/gui.inl
 
-1277414463 /home/recruit0/files/development/cpGUI/include/text_box.hpp
+1277478066 /home/recruit0/files/development/cpGUI/include/text_box.hpp
 	<SFML/Graphics.hpp>
 	"widget.hpp"
 	"cpGUI_base.h"
@@ -105,11 +105,12 @@
 	"cpGUI_base.h"
 	"cpScrollBar.h"
 
-1277417277 /home/recruit0/files/development/cpGUI/include/widget.hpp
+1277486223 /home/recruit0/files/development/cpGUI/include/widget.hpp
 	<SFML/Graphics.hpp>
 	<boost/ref.hpp>
 	"cpGuiContainer.h"
 
-1277417240 source:/home/recruit0/files/development/cpGUI/src/widget.cpp
+1277489123 source:/home/recruit0/files/development/cpGUI/src/widget.cpp
 	"widget.hpp"
+	"gui.hpp"
 

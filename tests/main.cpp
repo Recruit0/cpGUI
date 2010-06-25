@@ -42,7 +42,7 @@ int main()
     RenderWindow main_window( VideoMode(800, 600, 32), "cpGUI tests" );
     gui main_gui( main_window );
     text_box testing( "testing 1,2,3...", 0, 0xffffff, 0, 0, 100, 100 );
-    main_gui.connect( testing );
+    testing.connect_to( main_gui );
 
     while ( main_window.IsOpened() )
     {

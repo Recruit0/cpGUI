@@ -46,6 +46,7 @@ class gui;
 class widget
 {
 public:
+    widget();
     ~widget();
 
     /// Draws the widget in the specified window
@@ -58,20 +59,36 @@ public:
     ///
     /// \param event:   The event to process.
     ///
-    virtual void handle_event( const sf::Event& event );
+    virtual void handle_event( const sf::Event& new_event );
 
-    /// Used to set the location of where the gui stores this widget so that it
-    /// may be removed during destruction.
+    /// Connects widget to a gui.
     ///
-    /// \param new_location:    Location to point to.
+    /// \param new_gui:  The gui to connect to.
     ///
-    void set_location( std::vector< boost::reference_wrapper<cp::widget> >::iterator new_location );
+    // Use a client-server model to communicate between widget-gui
+    void connect_to( gui& new_gui );
+
+    /// Connects widget to another widget
+    ///
+    /// \param other_widget:    Widget to connect to.
+    ///
+    // We should probably use the signals/slots pattern. Boost has this.
+    void connect_to( widget& other_widget );
+
+    /// Disconnects widget from whatever gui it's connected to.
+    ///
+    void disconnect();
+
+    /// Disconnects widget from another widget.
+    ///
+    /// \param other_widget:    Widget to disconnect from.
+    ///
+    void disconnect( widget& other_widget );
+
 protected:
     int x; ///< The widget's horizontal position in screen coordinates.
     int y; ///< The widget's vertical position in screen coordinates.
-    /// Location of widget in gui::widgets so it can tell gui to delete it
-    std::vector< boost::reference_wrapper<cp::widget> >::iterator
-    location;
+    gui* my_gui; ///< The GUI this is connected to.
 };
 }
 

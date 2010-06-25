@@ -51,10 +51,27 @@ gui::gui( sf::RenderWindow& referenced_window ):
     focused_widget = widgets[ 0 ].get_pointer();
 }
 
-void cp::gui::connect( cp::widget& new_widget )
+void gui::connect( widget& new_widget )
 {
     widgets.push_back( reference_wrapper< widget >( new_widget ) );
-    //widgets.back().get().set_location( new_location );
+}
+
+// ONLY cp::widget::disconnect() should call this!!!
+// This function should be NULL dereference safe
+void gui::disconnect( const widget* remove_widget )
+{
+    // Just brute force search the list. Might use binary search later.
+    for ( vector< reference_wrapper< widget > >::iterator current_widget
+            = widgets.begin();
+            current_widget != widgets.end();
+            current_widget++ )
+    {
+        if ( current_widget->get_pointer() == remove_widget )
+        {
+            widgets.erase( current_widget );
+            break;
+        }
+    }
 }
 
 // This is unlikely to be inlined anyway since it's looping

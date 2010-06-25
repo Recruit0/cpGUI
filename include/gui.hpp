@@ -99,37 +99,13 @@ public:
     void draw() const;
     // Probably should add error handling
 
-    /// Connects a widget to the GUI
-    ///
-    /*
-    The way this is designed to work:
-    * Adds new_widget to list of widgets
-    * Tells new_widget to record where it's located in the list
-    * Once new_widget is destroyed, its destructor tell this class to remove
-    new widget from the list.
-    */
-    void connect( cp::widget& new_widget );
-    /*
-    Still deciding how to design this part
-    Either dynamic binding or perhaps template mixed with typedef
-    Preferably static binding, i.e. compiler time
-    R0: The simplest solution would be to just use dynamic binding
-    Other methods may work but are more complicated and any increase in speed
-    is questionable. In the future this shouldn't change the API much/at all.
-
-    pdusen: It may be more appropriate to require widgets to be
-    allocated dynamically and contained in shared_ptrs; this can be
-    ensured using factory functions. Revisit this option later.
-
-    R0: I'm going with the design discussed in the email. The factory pattern
-    will be used if this doesn't work out.
-    */
-
     /// Returns the attached window as read-only.
     ///
     const sf::RenderWindow& get_window() const;
-    // May have function to retrun writable reference if necessary
+    // May need function to return writable reference later
 
+    // UPDATE: font_manager should be resource_manager. We're probably going to
+    // have to use lots of #ifdef's to make everything separable.
     // NOTE: font_manager should be a seperate object
     /// Gets a font loaded in the GUI.
     ///
@@ -137,6 +113,10 @@ public:
     ///
     const sf::Font& get_font( const std::string& font ) const;
     // What about case where font is not found?
+
+    // So that widgets can connect/disconnect to/from this gui
+    friend void widget::connect_to( gui& new_gui );
+    friend void widget::disconnect();
 
 #if 0
     void Register(cpObject* object);
@@ -157,11 +137,34 @@ public:
 #endif
 
 private:
-    // References are preferred to make it impossible to add null pointers
+    // References are preferred to force it to point to something
     sf::RenderWindow& window; ///< The window that the GUI is attached to.
-    std::vector< boost::reference_wrapper<cp::widget> > widgets; ///< Widgets of the GUI.
+    std::vector< boost::reference_wrapper<widget> > widgets; ///< Widgets of the GUI.
+    // NOTE!!! Whenever there is no focused widget, focused_widget should point
+    // to dummy_widget!!!
     widget dummy_widget;
     widget* focused_widget;
+
+    void connect( widget& new_widget );
+    /*
+    Still deciding how to design this part
+    Either dynamic binding or perhaps template mixed with typedef
+    Preferably static binding, i.e. compiler time
+    R0: The simplest solution would be to just use dynamic binding
+    Other methods may work but are more complicated and any increase in speed
+    is questionable. In the future this shouldn't change the API much/at all.
+
+    pdusen: It may be more appropriate to require widgets to be
+    allocated dynamically and contained in shared_ptrs; this can be
+    ensured using factory functions. Revisit this option later.
+
+    R0: I'm going with a client-server model. The factory pattern does not apply
+    to this problem (which is a communication problem). If we need to control
+    the creation/destruction of widgets later then we should use the factory
+    pattern.
+    */
+
+    void disconnect( const widget* remove_widget );
 
 #if 0
     // Incorporate the old font map design as a font_manager object
