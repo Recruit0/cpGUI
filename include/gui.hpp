@@ -138,11 +138,12 @@ public:
 
 private:
     // References are preferred to force it to point to something
-    sf::RenderWindow& window; ///< The window that the GUI is attached to.
-    std::vector< boost::reference_wrapper<widget> > widgets; ///< Widgets of the GUI.
+    sf::RenderWindow& window; // The window that the GUI is attached to.
+    // Widgets of the GUI.
+    widget dummy_widget;
+    std::vector< boost::reference_wrapper<widget> > widgets;
     // NOTE!!! Whenever there is no focused widget, focused_widget should point
     // to dummy_widget!!!
-    widget dummy_widget;
     widget* focused_widget;
 
     void connect( widget& new_widget );
@@ -158,10 +159,10 @@ private:
     allocated dynamically and contained in shared_ptrs; this can be
     ensured using factory functions. Revisit this option later.
 
-    R0: I'm going with a client-server model. The factory pattern does not apply
-    to this problem (which is a communication problem). If we need to control
-    the creation/destruction of widgets later then we should use the factory
-    pattern.
+    R0: I'm going with a client-server model. The factory pattern doesn't seem
+    to apply to this problem (which is a communication problem). If we need to
+    control the creation/destruction of widgets later then we should use the
+    factory pattern.
     */
 
     void disconnect( const widget* remove_widget );

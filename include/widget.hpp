@@ -47,7 +47,7 @@ class widget
 {
 public:
     widget();
-    ~widget();
+    virtual ~widget();
 
     /// Draws the widget in the specified window
     ///
@@ -86,9 +86,9 @@ public:
     void disconnect( widget& other_widget );
 
 protected:
-    int x; ///< The widget's horizontal position in screen coordinates.
-    int y; ///< The widget's vertical position in screen coordinates.
-    gui* my_gui; ///< The GUI this is connected to.
+    int x; // The widget's horizontal position in screen coordinates.
+    int y; // The widget's vertical position in screen coordinates.
+    gui* my_gui; // The GUI this is connected to.
 };
 }
 

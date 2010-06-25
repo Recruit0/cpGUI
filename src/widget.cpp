@@ -10,6 +10,7 @@ widget::widget():
 
 widget::~widget()
 {
+    disconnect();
 }
 
 void widget::draw( sf::RenderWindow& window ) const
@@ -28,6 +29,9 @@ void widget::connect_to( gui& new_gui )
 
 void widget::disconnect()
 {
-    my_gui->disconnect( this );
-    my_gui = 0;
+    if ( my_gui != 0 )
+    {
+        my_gui->disconnect( this );
+        my_gui = 0;
+    }
 }

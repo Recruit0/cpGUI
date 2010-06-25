@@ -78,16 +78,16 @@ public:
     void handle_event( const sf::Event& new_event );
 
 private:
-    bool resizable; ///< Whether the box can be resized.
-    bool movable; ///< Whether the box can be moved.
-    bool writable; ///< Whether the text can be edited or not.
+    bool resizable; // Whether the box can be resized.
+    bool movable; // Whether the box can be moved.
+    bool writable; // Whether the text can be edited or not.
     // R0: I've heard from Laurent that the "String class could be faster" or
     // something similar. Might consider a different implementation later.
-    std::string text; ///< The text of this box.
-    uint32_t text_color; ///< What color to draw the text in.
-    uint32_t fill_color; ///< What color to fill the widget with.
-    int width; ///< The widget's width.
-    int height; ///< The widget's height.
+    std::string text; // The text of this box.
+    uint32_t text_color; // What color to draw the text in.
+    uint32_t fill_color; // What color to fill the widget with.
+    int width; // The widget's width.
+    int height; // The widget's height.
 
     // TODO: Add scroll bar
 };

@@ -47,7 +47,7 @@ gui::gui( sf::RenderWindow& referenced_window ):
         window( referenced_window )
 {
     // So that focused_widget always refers to something
-    widgets.push_back( reference_wrapper<widget>( dummy_widget ) );
+    widgets.push_back( reference_wrapper< widget >( dummy_widget ) );
     focused_widget = widgets[ 0 ].get_pointer();
 }
 
@@ -62,7 +62,7 @@ void gui::disconnect( const widget* remove_widget )
 {
     // Just brute force search the list. Might use binary search later.
     for ( vector< reference_wrapper< widget > >::iterator current_widget
-            = widgets.begin();
+            = widgets.begin() + 1;
             current_widget != widgets.end();
             current_widget++ )
     {
