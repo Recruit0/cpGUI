@@ -137,12 +137,14 @@ public:
     bool acceptsKeys, useArrowKeys, bShow;
     sf::Clock clock;
 #endif
+protected:
+    // So that dummy gui can be constructed
+    gui();
 
 private:
     // References are preferred to force it to point to something
     sf::RenderWindow& window; // The window that the GUI is attached to.
     // Widgets of the GUI.
-    widget dummy_widget;
     std::vector< boost::reference_wrapper<widget> > widgets;
     // NOTE!!! Whenever there is no focused widget, focused_widget should point
     // to dummy_widget!!!
@@ -177,6 +179,19 @@ private:
     sf::Font *defaultFont;
 #endif
 };
+
+/*
+Stay OUT of this namespace unless you KNOW what you're doing!
+Messing with it can cause cpGUI to break!
+You have been warned!
+THIS IS USED TO AVOID NULL POINTER CHECKS
+*/
+namespace dummy
+{
+static cp::widget dummy_widget;
+static sf::RenderWindow dummy_window;
+static cp::gui dummy_gui( dummy_window );
+}
 
 }
 

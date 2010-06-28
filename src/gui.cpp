@@ -44,11 +44,8 @@ using namespace std;
 using namespace boost;
 
 gui::gui( sf::RenderWindow& referenced_window ):
-        window( referenced_window )
+        window( referenced_window ), focused_widget( &dummy::dummy_widget )
 {
-    // So that focused_widget always refers to something
-    widgets.push_back( reference_wrapper< widget >( dummy_widget ) );
-    focused_widget = widgets[ 0 ].get_pointer();
 }
 
 void gui::connect( widget& new_widget )
@@ -57,12 +54,11 @@ void gui::connect( widget& new_widget )
 }
 
 // ONLY cp::widget::disconnect() should call this!!!
-// This function should be NULL dereference safe
 void gui::disconnect( const widget* remove_widget )
 {
     // Just brute force search the list. Might use binary search later.
     for ( vector< reference_wrapper< widget > >::iterator current_widget
-            = widgets.begin() + 1;
+            = widgets.begin();
             current_widget != widgets.end();
             current_widget++ )
     {
@@ -92,10 +88,10 @@ void gui::handle_event( const sf::Event& event )
             Point focused_widget to dummy_widget, then switch to whichever
             widget was actually selected (if any)
             */
-            focused_widget = widgets[ 0 ].get_pointer();
+            focused_widget = &dummy::dummy_widget;
 
             for ( vector<reference_wrapper<widget> >::const_iterator
-                    current_widget = widgets.begin() + 1; // Skip dummy widget
+                    current_widget = widgets.begin();
                     current_widget != widgets.end(); current_widget++ )
             {
                 if ( current_widget->get().contains( event.MouseButton.X,
@@ -121,7 +117,7 @@ void gui::draw() const
 {
     // Go through all the widgets and call their draw() functions
     for ( vector<reference_wrapper<widget> >::const_iterator current_widget =
-                widgets.begin() + 1;  // Skip dummy widget
+                widgets.begin();
             current_widget != widgets.end(); current_widget++ )
     {
         // NOTE: This may actually be undefined behavior

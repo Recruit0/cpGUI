@@ -4,7 +4,7 @@
 using namespace cp;
 
 widget::widget():
-        x( 0 ), y( 0 ), my_gui( 0 )
+        x( 0 ), y( 0 ), my_gui( &dummy::dummy_gui )
 {
 }
 
@@ -34,9 +34,6 @@ void widget::connect_to( gui& new_gui )
 
 void widget::disconnect()
 {
-    if ( my_gui != 0 )
-    {
-        my_gui->disconnect( this );
-        my_gui = 0;
-    }
+    my_gui->disconnect( this );
+    my_gui = &dummy::dummy_gui;
 }
