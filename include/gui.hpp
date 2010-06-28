@@ -181,16 +181,15 @@ private:
 };
 
 /*
-Stay OUT of this namespace unless you KNOW what you're doing!
-Messing with it can cause cpGUI to break!
+Messing with cp::dummy can cause cpGUI to break!
 You have been warned!
 THIS IS USED TO AVOID NULL POINTER CHECKS
 */
 namespace dummy
 {
-static cp::widget dummy_widget;
-static sf::RenderWindow dummy_window;
-static cp::gui dummy_gui( dummy_window );
+extern cp::widget dummy_widget;
+extern sf::RenderWindow dummy_window;
+extern cp::gui dummy_gui;
 }
 
 }

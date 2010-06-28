@@ -43,6 +43,16 @@ using namespace cp;
 using namespace std;
 using namespace boost;
 
+namespace cp
+{
+namespace dummy
+{
+cp::widget dummy_widget;
+sf::RenderWindow dummy_window;
+cp::gui dummy_gui( dummy_window );
+}
+}
+
 gui::gui( sf::RenderWindow& referenced_window ):
         window( referenced_window ), focused_widget( &dummy::dummy_widget )
 {
