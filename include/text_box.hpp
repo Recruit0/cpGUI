@@ -32,6 +32,7 @@ misrepresented as being the original software.
 #define TEXT_BOX_HPP
 
 #include <SFML/Graphics.hpp>
+#include <boost/cstdint.hpp>
 // I don't think this can be forward declared, tried and failed
 #include "widget.hpp"
 
@@ -64,8 +65,7 @@ public:
     text_box( const std::string& new_text,
               const uint32_t new_text_color = 0,
               const uint32_t new_fill_color = 0xffffff,
-              const int new_x = 0, const int new_y = 0,
-              const int new_width = 0, const int new_height = 0 );
+              const int new_x = 0, const int new_y = 0 );
 
     /// Loads a file as the text.
     ///
@@ -73,21 +73,29 @@ public:
     ///
     void load_file( const std::string& file_name );
 
+    /// Sets size of text box.
+    ///
+    /// \param new_width:   Width of box.
+    /// \param new_height:  Height of box.
+    ///
+    void set_size( const boost::uint32_t new_width,
+                   const boost::uint32_t new_height );
+
     // Inherited functions
     void draw( sf::RenderWindow& window ) const;
     void handle_event( const sf::Event& new_event );
+    bool contains( const int check_x, const int check_y ) const;
 
 private:
-    bool resizable; // Whether the box can be resized.
+    bool autosize; // Whether to autosize box or not.
     bool movable; // Whether the box can be moved.
     bool writable; // Whether the text can be edited or not.
-    // R0: I've heard from Laurent that the "String class could be faster" or
-    // something similar. Might consider a different implementation later.
+
     std::string text; // The text of this box.
-    uint32_t text_color; // What color to draw the text in.
-    uint32_t fill_color; // What color to fill the widget with.
-    int width; // The widget's width.
-    int height; // The widget's height.
+    boost::uint32_t text_color; // What color to draw the text in.
+    boost::uint32_t fill_color; // What color to fill the widget with.
+    boost::uint32_t width; // The widget's width.
+    boost::uint32_t height; // The widget's height.
 
     // TODO: Add scroll bar
 };

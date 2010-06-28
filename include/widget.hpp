@@ -26,7 +26,7 @@ misrepresented as being the original software.
 #ifndef WIDGET_HPP
 #define WIDGET_HPP
 
-#include <SFML/Graphics.hpp>
+#include <SFML/Graphics/RenderWindow.hpp>
 #include <boost/ref.hpp>
 
 // R0: I've been thinking about having the widgets cache an image in memory
@@ -60,6 +60,14 @@ public:
     /// \param event:   The event to process.
     ///
     virtual void handle_event( const sf::Event& new_event );
+
+    /// Returns whether widget contains a point.
+    ///
+    /// \param check_x: The x position to check.
+    /// \param checky_y: The y position to check.
+    ///
+    virtual bool contains( const int check_x,
+                           const int check_y ) const;
 
     /// Connects widget to a gui.
     ///

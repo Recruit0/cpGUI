@@ -31,42 +31,79 @@ using namespace sf;
 using namespace std;
 using namespace cp;
 
-bool resizable; ///< Whether the box can be resized.
-    bool moveable; ///< Whether the box can be moved.
-    bool writable; ///< Whether the text can be edited or not.
-    // R0: I've heard from Laurent that the "String class could be faster" or
-    // something similar. Might consider a different implementation later.
-    std::string text; ///< The text of this box.
-    sf::Color text_color; ///< What color to draw the text in.
-    uint32_t fill_color; ///< What color to fill the widget with.
-    uint32_t width; ///< The widget's width.
-    uint32_t height; ///< The widget's height.
-
-    // Inherited from widget
-    uint32_t x; ///< The widget's horizontal position in screen coordinates.
-    uint32_t y; ///< The widget's vertical position in screen coordinates.
-
 text_box::text_box( const string& new_text,
-              const uint32_t new_text_color,
-              const uint32_t new_fill_color,
-              const int new_x, const int new_y,
-              const int new_width, const int new_height ):
-              resizable( 0 ), movable( 0 ), writable( 1 ),
-              text( new_text ), text_color( new_text_color ),
-              fill_color( new_fill_color ),
-              width( new_width ), height( new_height )
+                    const uint32_t new_text_color,
+                    const uint32_t new_fill_color,
+                    const int new_x, const int new_y ):
+        autosize( 1 ), movable( 0 ), writable( 1 ),
+        text( new_text ), text_color( new_text_color ),
+        fill_color( new_fill_color )
 {
+    const FloatRect text_rect( String( text ).GetRect() );
+    width = text_rect.GetWidth();
+    height = text_rect.GetHeight();
+    // Inherited data members
     x = new_x;
     y = new_y;
 }
 
+void text_box::set_size( const boost::uint32_t new_width,
+                         const boost::uint32_t new_height )
+{
+    width = new_width;
+    height = new_height;
+}
+
+// R0: Code in this function is sloppy, will clean up later. Need to break down
+// color into 4 components
 void text_box::draw( RenderWindow& window ) const
 {
-    window.Draw( String( text ) );
+    String draw_text( text );
+    draw_text.SetColor( Color( text_color & 0xff,
+                               ( text_color >> 8 ) & 0xff,
+                               ( text_color >> 16 ) & 0xff ) );
+
+    const Shape box = Shape::Rectangle( x, y,
+                                        x + width, y + height,
+                                        Color( fill_color & 0xff,
+                                               ( fill_color >> 8 ) & 0xff,
+                                               ( fill_color >> 16 ) & 0xff ) );
+
+    window.Draw( box );
+    window.Draw( draw_text );
 }
 
 void text_box::handle_event( const sf::Event& new_event )
 {
+    if ( new_event.Type == Event::TextEntered )
+    {
+        const Unicode::Unicode::Text unicode_text( &new_event.Text.Unicode );
+        const string new_text( unicode_text );
+        if ( new_text[ 0 ] == '\b' )
+        {
+            if ( text.size() > 0 )
+            {
+                text.resize( text.size() - 1 );
+            }
+        }
+        else
+        {
+            text += new_event.Text.Unicode;
+        }
+
+        if ( autosize )
+        {
+            const FloatRect text_rect( String( text ).GetRect() );
+            width = text_rect.GetWidth();
+            height = text_rect.GetHeight();
+        }
+    }
+}
+
+bool text_box::contains( const int check_x, const int check_y ) const
+{
+    return check_x >= x && check_x <= x + int( width ) &&
+           check_y >= y && check_y <= y + int( height );
 }
 
 #if 0

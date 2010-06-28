@@ -74,17 +74,59 @@ void gui::disconnect( const widget* remove_widget )
     }
 }
 
-// This is unlikely to be inlined anyway since it's looping
+void gui::handle_event( const sf::Event& event )
+{
+    switch ( event.Type )
+    {
+#ifndef CP_GUI_NO_DEFAULT_CLOSE
+    case sf::Event::Closed:
+        window.Close();
+        break;
+#endif
+        // First, select widget
+    case sf::Event::MouseButtonPressed:
+        switch ( event.MouseButton.Button )
+        {
+        case sf::Mouse::Left:
+            /* Select widget with mouse
+            Point focused_widget to dummy_widget, then switch to whichever
+            widget was actually selected (if any)
+            */
+            focused_widget = widgets[ 0 ].get_pointer();
+
+            for ( vector<reference_wrapper<widget> >::const_iterator
+                    current_widget = widgets.begin() + 1; // Skip dummy widget
+                    current_widget != widgets.end(); current_widget++ )
+            {
+                if ( current_widget->get().contains( event.MouseButton.X,
+                                                     event.MouseButton.Y ) )
+                {
+                    focused_widget = current_widget->get_pointer();
+                    break;
+                }
+            }
+            break;
+        default:
+            break;
+        }
+    default:
+        break;
+    }
+
+    // Then pass event to selected widget
+    focused_widget->handle_event( event );
+}
+
 void gui::draw() const
 {
     // Go through all the widgets and call their draw() functions
     for ( vector<reference_wrapper<widget> >::const_iterator current_widget =
-                widgets.begin();
+                widgets.begin() + 1;  // Skip dummy widget
             current_widget != widgets.end(); current_widget++ )
     {
         // NOTE: This may actually be undefined behavior
         // Although references are sort of like pointers
-        (*current_widget).get().draw( window );
+        current_widget->get().draw( window );
     }
 }
 

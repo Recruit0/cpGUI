@@ -21,6 +21,11 @@ void widget::handle_event( const sf::Event& new_event )
 {
 }
 
+bool widget::contains( int check_x, int check_y ) const
+{
+    return 0;
+}
+
 void widget::connect_to( gui& new_gui )
 {
     new_gui.connect( *this );

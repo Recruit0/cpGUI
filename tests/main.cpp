@@ -25,8 +25,6 @@ misrepresented as being the original software.
 
 // #include "cpGUI.h"
 
-// #define CP_GUI_NO_DEFAULT_EVENTS
-
 #include "text_box.hpp"
 #include "gui.hpp"
 
@@ -41,7 +39,7 @@ int main()
     // Need to automate if it doesn't
     RenderWindow main_window( VideoMode(800, 600, 32), "cpGUI tests" );
     gui main_gui( main_window );
-    text_box testing( "testing 1,2,3...", 0, 0xffffff, 0, 0, 100, 100 );
+    text_box testing( "testing 1,2,3...", 0, 0xffffff, 0, 0 );
     testing.connect_to( main_gui );
 
     while ( main_window.IsOpened() )

@@ -35,6 +35,7 @@ misrepresented as being the original software.
 
 // Try to minimize includes in header files
 #include <SFML/Graphics/RenderWindow.hpp>
+#include <SFML/Graphics/Font.hpp>
 // Tried and failed to forward declare this
 // Errors with destructors and constructors without this header file
 #include <boost/ref.hpp>
@@ -91,8 +92,7 @@ public:
     ///
     /// \param event:   The event to process
     ///
-    void handle_event( const sf::Event& event ) const;
-    // I don't think this should change any of its private contents
+    void handle_event( const sf::Event& event );
 
     /// Draws the entire GUI.
     ///
@@ -112,6 +112,8 @@ public:
     /// \param font:    The font to get
     ///
     const sf::Font& get_font( const std::string& font ) const;
+
+    const widget* get_focused_widget() const;
     // What about case where font is not found?
 
     // So that widgets can connect/disconnect to/from this gui
