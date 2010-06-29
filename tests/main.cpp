@@ -2,7 +2,7 @@
 cpGUI - a GUI tool kit with SFML as its primary back-end.
 
 Copyright (c) 2009 Jason Cupp
-Copyright (c) 2010 Patrick VanDusen, Alvin F.
+Copyright (c) 2010 Patrick VanDusen, Alvin Fagan
 
 This software is provided 'as-is', without any express or implied warranty.
 In no event will the authors be held liable for any damages arising from the
@@ -39,7 +39,7 @@ int main()
     // Need to automate if it doesn't
     RenderWindow main_window( VideoMode(800, 600, 32), "cpGUI tests" );
     gui main_gui( main_window );
-    text_box testing( "testing 1,2,3...", 0, 0xffffff, 0, 0 );
+    text_box testing( "testing 1,2,3..." );
     testing.connect_to( main_gui );
 
     while ( main_window.IsOpened() )

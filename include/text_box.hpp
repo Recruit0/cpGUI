@@ -2,7 +2,7 @@
 cpGUI - a GUI tool kit with SFML as its primary back-end.
 
 Copyright (c) 2009 Jason Cupp
-Copyright (c) 2010 Patrick VanDusen, Alvin F.
+Copyright (c) 2010 Patrick VanDusen, Alvin Fagan
 
 This software is provided 'as-is', without any express or implied warranty.
 In no event will the authors be held liable for any damages arising from the
@@ -33,6 +33,9 @@ misrepresented as being the original software.
 
 #include <SFML/Graphics.hpp>
 #include <boost/cstdint.hpp>
+// Recruit0: Tried to forward declare this, traced it through 3 files and
+// decided to just include it for now
+#include <boost/gil/rgba.hpp>
 // I don't think this can be forward declared, tried and failed
 #include "widget.hpp"
 
@@ -41,18 +44,21 @@ namespace std
 // Forward declare std::string
 template<typename CharT, typename Traits, typename Alloc> class basic_string;
 typedef basic_string<char> string;
+template< class Tp, class Alloc > class vector;
 }
 
-namespace std
+namespace boost
 {
-template< class Tp, class Alloc > class vector;
+    namespace gil
+    {
+        template < typename ChannelValue, typename Layout > class pixel;
+    }
 }
 
 namespace cp
 {
 
 /*
-Maybe make into template later because of sf::Rect<T>
 Am considering whether to use inheritance (create widget class)
 Or use template with typedef
 Add option to bold, underline, etc.
@@ -61,10 +67,16 @@ Maybe add AA option later
 /// Represents a text box.
 class text_box : public widget
 {
+private:
+    typedef boost::gil::pixel< boost::uint8_t, boost::gil::rgba_layout_t >
+    rgba_pixel_t; // This is a ridiculously long typename so I'm aliasing it
+
 public:
     text_box( const std::string& new_text,
-              const uint32_t new_text_color = 0,
-              const uint32_t new_fill_color = 0xffffff,
+              const rgba_pixel_t new_text_color
+              = rgba_pixel_t( 255, 255, 255, 255 ),
+              const rgba_pixel_t new_fill_color
+              = rgba_pixel_t( 128, 128, 128, 255 ),
               const int new_x = 0, const int new_y = 0 );
 
     /// Loads a file as the text.
@@ -87,13 +99,16 @@ public:
     bool contains( const int check_x, const int check_y ) const;
 
 private:
-    bool autosize; // Whether to autosize box or not.
-    bool movable; // Whether the box can be moved.
-    bool writable; // Whether the text can be edited or not.
+
+    bool resizable; // Whether it's resizable with mouse click.
+    bool movable; // Whether it can be moved with mouse drag.
+    bool writable; // Whether it can be edited.
 
     std::string text; // The text of this box.
-    boost::uint32_t text_color; // What color to draw the text in.
-    boost::uint32_t fill_color; // What color to fill the widget with.
+    // What color to draw the text in.
+    rgba_pixel_t text_color;
+    // What color to fill the widget with.
+    rgba_pixel_t fill_color;
     boost::uint32_t width; // The widget's width.
     boost::uint32_t height; // The widget's height.
 

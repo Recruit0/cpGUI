@@ -2,7 +2,7 @@
 cpGUI - a GUI tool kit with SFML as its primary back-end.
 
 Copyright (c) 2009 Jason Cupp
-Copyright (c) 2010 Patrick VanDusen, Alvin F.
+Copyright (c) 2010 Patrick VanDusen, Alvin Fagan
 
 This software is provided 'as-is', without any express or implied warranty.
 In no event will the authors be held liable for any damages arising from the
@@ -163,10 +163,8 @@ private:
     allocated dynamically and contained in shared_ptrs; this can be
     ensured using factory functions. Revisit this option later.
 
-    R0: I'm going with a client-server model. The factory pattern doesn't seem
-    to apply to this problem (which is a communication problem). If we need to
-    control the creation/destruction of widgets later then we should use the
-    factory pattern.
+    R0: We may be able to use the factory function to provide ABI (after we
+    freeze the API).
     */
 
     void disconnect( const widget* remove_widget );
@@ -184,6 +182,7 @@ private:
 Messing with cp::dummy can cause cpGUI to break!
 You have been warned!
 THIS IS USED TO AVOID NULL POINTER CHECKS
+BY FORCING EVERYTHING TO POINT TO SOMETHING
 */
 namespace dummy
 {

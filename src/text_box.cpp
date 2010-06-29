@@ -2,7 +2,7 @@
 cpGUI - a GUI tool kit with SFML as its primary back-end.
 
 Copyright (c) 2009 Jason Cupp
-Copyright (c) 2010 Patrick VanDusen, Alvin F.
+Copyright (c) 2010 Patrick VanDusen, Alvin Fagan
 
 This software is provided 'as-is', without any express or implied warranty.
 In no event will the authors be held liable for any damages arising from the
@@ -24,6 +24,7 @@ misrepresented as being the original software.
 //----------------------------------------------------------------------------*/
 
 #include <string>
+#include <boost/gil/pixel.hpp>
 
 #include "text_box.hpp"
 
@@ -31,17 +32,17 @@ using namespace sf;
 using namespace std;
 using namespace cp;
 
-text_box::text_box( const string& new_text,
-                    const uint32_t new_text_color,
-                    const uint32_t new_fill_color,
+text_box::text_box( const std::string& new_text,
+                    const rgba_pixel_t new_text_color,
+                    const rgba_pixel_t new_fill_color,
                     const int new_x, const int new_y ):
-        autosize( 1 ), movable( 0 ), writable( 1 ),
+        resizable( 0 ), movable( 0 ), writable( 1 ),
         text( new_text ), text_color( new_text_color ),
         fill_color( new_fill_color )
 {
-    const FloatRect text_rect( String( text ).GetRect() );
+    /*const FloatRect text_rect( String( text ).GetRect() );
     width = text_rect.GetWidth();
-    height = text_rect.GetHeight();
+    height = text_rect.GetHeight();*/
     // Inherited data members
     x = new_x;
     y = new_y;
@@ -55,19 +56,21 @@ void text_box::set_size( const boost::uint32_t new_width,
 }
 
 // R0: Code in this function is sloppy, will clean up later. Need to break down
-// color into 4 components
+// color into 4 components rather than 1 variable
 void text_box::draw( RenderWindow& window ) const
 {
     String draw_text( text );
-    draw_text.SetColor( Color( text_color & 0xff,
-                               ( text_color >> 8 ) & 0xff,
-                               ( text_color >> 16 ) & 0xff ) );
+    draw_text.SetColor( Color( text_color[ 0 ],
+                               text_color[ 1 ],
+                               text_color[ 2 ],
+                               text_color[ 3 ] ) );
 
     const Shape box = Shape::Rectangle( x, y,
                                         x + width, y + height,
-                                        Color( fill_color & 0xff,
-                                               ( fill_color >> 8 ) & 0xff,
-                                               ( fill_color >> 16 ) & 0xff ) );
+                                        Color( fill_color[ 0 ],
+                                               fill_color[ 1 ],
+                                               fill_color[ 2 ],
+                                               fill_color[ 3 ] ) );
 
     window.Draw( box );
     window.Draw( draw_text );
@@ -91,12 +94,12 @@ void text_box::handle_event( const sf::Event& new_event )
             text += new_event.Text.Unicode;
         }
 
-        if ( autosize )
+        /*if ( autosize )
         {
             const FloatRect text_rect( String( text ).GetRect() );
             width = text_rect.GetWidth();
             height = text_rect.GetHeight();
-        }
+        }*/
     }
 }
 

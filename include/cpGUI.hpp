@@ -2,7 +2,7 @@
 cpGUI - a GUI tool kit with SFML as its primary back-end.
 
 Copyright (c) 2009 Jason Cupp
-Copyright (c) 2010 Patrick VanDusen, Alvin F.
+Copyright (c) 2010 Patrick VanDusen, Alvin Fagan
 
 This software is provided 'as-is', without any express or implied warranty.
 In no event will the authors be held liable for any damages arising from the
