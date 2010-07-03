@@ -39,7 +39,7 @@ int main()
     // Need to automate if it doesn't
     RenderWindow main_window( VideoMode(800, 600, 32), "cpGUI tests" );
     gui main_gui( main_window );
-    text_box testing( "testing 1,2,3..." );
+    text_box testing( "Testing 1,2,3...", 10, 10, 100, 40 );
     testing.connect_to( main_gui );
 
     while ( main_window.IsOpened() )
@@ -49,7 +49,7 @@ int main()
         {
             main_gui.handle_event( event );
         }
-        main_window.Clear();
+        main_window.Clear( Color( 0, 255, 0 ) );
 
         main_gui.draw();
 

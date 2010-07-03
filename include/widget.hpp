@@ -28,6 +28,7 @@ misrepresented as being the original software.
 
 #include <SFML/Graphics/RenderWindow.hpp>
 #include <boost/ref.hpp>
+#include <boost/cstdint.hpp>
 
 // R0: I've been thinking about having the widgets cache an image in memory
 // then just blit that during the gui.draw() function. Then just update their
@@ -47,6 +48,7 @@ class widget
 {
 public:
     widget();
+    widget( const boost::uint32_t new_x, const boost::uint32_t new_y );
     virtual ~widget();
 
     /// Draws the widget in the specified window

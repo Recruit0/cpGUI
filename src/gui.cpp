@@ -42,6 +42,7 @@ using namespace cp;
 using namespace cp;
 using namespace std;
 using namespace boost;
+using namespace sf;
 
 namespace cp
 {
@@ -85,15 +86,15 @@ void gui::handle_event( const sf::Event& event )
     switch ( event.Type )
     {
 #ifndef CP_GUI_NO_DEFAULT_CLOSE
-    case sf::Event::Closed:
+    case Event::Closed:
         window.Close();
         break;
 #endif
         // First, select widget
-    case sf::Event::MouseButtonPressed:
+    case Event::MouseButtonPressed:
         switch ( event.MouseButton.Button )
         {
-        case sf::Mouse::Left:
+        case Mouse::Left:
             /* Select widget with mouse
             Point focused_widget to dummy_widget, then switch to whichever
             widget was actually selected (if any)

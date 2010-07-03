@@ -27,25 +27,27 @@ misrepresented as being the original software.
 #include <boost/gil/pixel.hpp>
 
 #include "text_box.hpp"
+#include "gui.hpp"
 
 using namespace sf;
 using namespace std;
 using namespace cp;
+using namespace boost;
+using namespace gil;
 
-text_box::text_box( const std::string& new_text,
-                    const rgba_pixel_t new_text_color,
-                    const rgba_pixel_t new_fill_color,
-                    const int new_x, const int new_y ):
+text_box::text_box( const string& new_text,
+                    const int new_x, const int new_y,
+                    const boost::uint32_t new_width,
+                    const boost::uint32_t new_height,
+                    const rgba8_pixel_t new_text_color,
+                    const rgba8_pixel_t new_fill_color,
+                    const rgba8_pixel_t new_border_color ):
+        widget( new_x, new_y ),
         resizable( 0 ), movable( 0 ), writable( 1 ),
         text( new_text ), text_color( new_text_color ),
-        fill_color( new_fill_color )
+        fill_color( new_fill_color ), border_color( new_border_color ),
+        width( new_width ), height( new_height ), caret_position( 0 )
 {
-    /*const FloatRect text_rect( String( text ).GetRect() );
-    width = text_rect.GetWidth();
-    height = text_rect.GetHeight();*/
-    // Inherited data members
-    x = new_x;
-    y = new_y;
 }
 
 void text_box::set_size( const boost::uint32_t new_width,
@@ -55,51 +57,112 @@ void text_box::set_size( const boost::uint32_t new_width,
     height = new_height;
 }
 
-// R0: Code in this function is sloppy, will clean up later. Need to break down
-// color into 4 components rather than 1 variable
+const string& text_box::get_text() const
+{
+    return text;
+}
+
 void text_box::draw( RenderWindow& window ) const
 {
+    const Color FILL_COLOR( fill_color[ 0 ], fill_color[ 1 ],
+                            fill_color[ 2 ], fill_color[ 3 ] );
+    const Color BORDER_COLOR( border_color[ 0 ], border_color[ 1 ],
+                               border_color[ 2 ], border_color[ 3 ] );
+    const Shape DRAW_BOX =
+        Shape::Rectangle( x, y, x + width, y + height, FILL_COLOR,
+                          1, BORDER_COLOR );
+
+    window.Draw( DRAW_BOX );
+
     String draw_text( text );
-    draw_text.SetColor( Color( text_color[ 0 ],
-                               text_color[ 1 ],
-                               text_color[ 2 ],
-                               text_color[ 3 ] ) );
 
-    const Shape box = Shape::Rectangle( x, y,
-                                        x + width, y + height,
-                                        Color( fill_color[ 0 ],
-                                               fill_color[ 1 ],
-                                               fill_color[ 2 ],
-                                               fill_color[ 3 ] ) );
+    /*const FloatRect text_rect( String( text ).GetRect() );
+    width = text_rect.GetWidth();
+    height = text_rect.GetHeight();*/
 
-    window.Draw( box );
+    const Color TEXT_COLOR( text_color[ 0 ], text_color[ 1 ],
+                            text_color[ 2 ], text_color[ 3 ] );
+    draw_text.SetColor( TEXT_COLOR );
+    draw_text.SetPosition( x, y );
+
+    // Only draw part of string that lies inside the box
+    glEnable( GL_SCISSOR_TEST ); // This requires linking against libGL ( -lGL )
+    glScissor( x, window.GetHeight() - ( y + height ), width, height );
     window.Draw( draw_text );
+    glDisable( GL_SCISSOR_TEST );
+
+    // Draw caret
+    const Vector2f CARET_VECTOR = draw_text.GetCharacterPos( caret_position );
+    enum
+    {
+        Y_ADJUSTMENT = 5
+    };
+    const Shape draw_caret =
+        Shape::Line( x + CARET_VECTOR.x,
+                     y + CARET_VECTOR.y + Y_ADJUSTMENT,
+                     x + CARET_VECTOR.x,
+                     y + CARET_VECTOR.y + draw_text.GetSize() + Y_ADJUSTMENT,
+                     1, Color( 0, 0, 0 ) );
+    if ( my_gui->get_focused_widget() == this )
+    {
+        window.Draw( draw_caret );
+    }
 }
 
 void text_box::handle_event( const sf::Event& new_event )
 {
     if ( new_event.Type == Event::TextEntered )
     {
-        const Unicode::Unicode::Text unicode_text( &new_event.Text.Unicode );
-        const string new_text( unicode_text );
-        if ( new_text[ 0 ] == '\b' )
+        if ( writable )
         {
-            if ( text.size() > 0 )
-            {
-                text.resize( text.size() - 1 );
-            }
-        }
-        else
-        {
-            text += new_event.Text.Unicode;
-        }
+            const Unicode::Unicode::Text
+            unicode_text( &new_event.Text.Unicode );
 
-        /*if ( autosize )
+            const string new_text( unicode_text );
+            // FIX THIS: Only compares the first char, not Unicode correct?
+            // Also may need to take endianess into account
+            if ( new_text[ 0 ] == '\b' )
+            {
+                if ( caret_position > 0 )
+                {
+                    text.erase( caret_position - 1, 1 );
+                    caret_position--;
+                }
+            }
+            else
+            {
+                text.insert( caret_position, new_text );
+                caret_position += 1 /*new_text.size()*/;
+            }
+
+            /*if ( autosize )
+            {
+                const FloatRect text_rect( String( text ).GetRect() );
+                width = text_rect.GetWidth();
+                height = text_rect.GetHeight();
+            }*/
+        }
+    }
+    else if ( new_event.Type == Event::KeyPressed )
+    {
+        switch ( new_event.Key.Code )
         {
-            const FloatRect text_rect( String( text ).GetRect() );
-            width = text_rect.GetWidth();
-            height = text_rect.GetHeight();
-        }*/
+        case Key::Left:
+            if ( caret_position > 0 )
+            {
+                caret_position--;
+            }
+            break;
+        case Key::Right:
+            if ( caret_position < text.size() )
+            {
+                caret_position++;
+            }
+            break;
+            // Add Key::Up and Key::Down
+        default:
+            break;
+        }
     }
 }
 

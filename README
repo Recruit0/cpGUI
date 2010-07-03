@@ -4,3 +4,5 @@ Recruit0:
 The font_map object should probably be resource_manager. At the moment just trying to get the overall interface complete.
 
 Fixed code so that dummy widget doesn't try to dereference null. This also fixes the problem of widgets not connected to a gui and trying to dereference a null (during destruction).
+
+NOTE: In order to build you have to link to libGL now!!! ( for glScissor() )

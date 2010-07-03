@@ -38,6 +38,7 @@
 			<Add option="-lsfml-graphics" />
 			<Add option="-lsfml-window" />
 			<Add option="-lsfml-system" />
+			<Add option="-lGL" />
 		</Linker>
 		<Unit filename="../include/button.hpp" />
 		<Unit filename="../include/check_box.hpp" />

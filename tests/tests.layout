@@ -1,28 +1,4 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
 <CodeBlocks_layout_file>
 	<ActiveTarget name="Debug" />
-	<File name="../include/gui.hpp" open="1" top="1" tabpos="2">
-		<Cursor position="5783" topLine="170" />
-	</File>
-	<File name="../include/gui.inl" open="1" top="0" tabpos="3">
-		<Cursor position="207" topLine="0" />
-	</File>
-	<File name="../include/text_box.hpp" open="0" top="0" tabpos="0">
-		<Cursor position="2633" topLine="74" />
-	</File>
-	<File name="../include/widget.hpp" open="0" top="0" tabpos="0">
-		<Cursor position="2857" topLine="75" />
-	</File>
-	<File name="../src/gui.cpp" open="1" top="0" tabpos="1">
-		<Cursor position="1402" topLine="37" />
-	</File>
-	<File name="../src/text_box.cpp" open="0" top="0" tabpos="0">
-		<Cursor position="3486" topLine="84" />
-	</File>
-	<File name="../src/widget.cpp" open="1" top="0" tabpos="4">
-		<Cursor position="81" topLine="0" />
-	</File>
-	<File name="main.cpp" open="0" top="0" tabpos="0">
-		<Cursor position="1574" topLine="30" />
-	</File>
 </CodeBlocks_layout_file>

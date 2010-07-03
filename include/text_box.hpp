@@ -36,6 +36,7 @@ misrepresented as being the original software.
 // Recruit0: Tried to forward declare this, traced it through 3 files and
 // decided to just include it for now
 #include <boost/gil/rgba.hpp>
+#include <boost/gil/typedefs.hpp>
 // I don't think this can be forward declared, tried and failed
 #include "widget.hpp"
 
@@ -49,10 +50,10 @@ template< class Tp, class Alloc > class vector;
 
 namespace boost
 {
-    namespace gil
-    {
-        template < typename ChannelValue, typename Layout > class pixel;
-    }
+namespace gil
+{
+template < typename ChannelValue, typename Layout > class pixel;
+}
 }
 
 namespace cp
@@ -67,17 +68,17 @@ Maybe add AA option later
 /// Represents a text box.
 class text_box : public widget
 {
-private:
-    typedef boost::gil::pixel< boost::uint8_t, boost::gil::rgba_layout_t >
-    rgba_pixel_t; // This is a ridiculously long typename so I'm aliasing it
-
 public:
     text_box( const std::string& new_text,
-              const rgba_pixel_t new_text_color
-              = rgba_pixel_t( 255, 255, 255, 255 ),
-              const rgba_pixel_t new_fill_color
-              = rgba_pixel_t( 128, 128, 128, 255 ),
-              const int new_x = 0, const int new_y = 0 );
+              const int new_x = 0, const int new_y = 0,
+              const boost::uint32_t new_width = 0,
+              const boost::uint32_t new_height = 0,
+              const boost::gil::rgba8_pixel_t new_text_color
+              = boost::gil::rgba8_pixel_t( 0, 0, 0, 255 ),
+              const boost::gil::rgba8_pixel_t new_fill_color
+              = boost::gil::rgba8_pixel_t( 128, 128, 128, 255 ),
+              const boost::gil::rgba8_pixel_t new_border_color
+              = boost::gil::rgba8_pixel_t( 0, 0, 0, 255 )  );
 
     /// Loads a file as the text.
     ///
@@ -93,6 +94,10 @@ public:
     void set_size( const boost::uint32_t new_width,
                    const boost::uint32_t new_height );
 
+    /// Gets the text string.
+    ///
+    const std::string& get_text() const;
+
     // Inherited functions
     void draw( sf::RenderWindow& window ) const;
     void handle_event( const sf::Event& new_event );
@@ -106,11 +111,14 @@ private:
 
     std::string text; // The text of this box.
     // What color to draw the text in.
-    rgba_pixel_t text_color;
+    boost::gil::rgba8_pixel_t text_color;
     // What color to fill the widget with.
-    rgba_pixel_t fill_color;
+    boost::gil::rgba8_pixel_t fill_color;
+    // What color the bounding box is.
+    boost::gil::rgba8_pixel_t border_color;
     boost::uint32_t width; // The widget's width.
     boost::uint32_t height; // The widget's height.
+    boost::uint32_t caret_position; // Position of caret in the text.
 
     // TODO: Add scroll bar
 };

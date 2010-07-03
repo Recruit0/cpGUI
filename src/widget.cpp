@@ -28,6 +28,11 @@ misrepresented as being the original software.
 
 using namespace cp;
 
+widget::widget( const boost::uint32_t new_x, const boost::uint32_t new_y ):
+        x( new_x ), y( new_y ), my_gui( &dummy::dummy_gui )
+{
+}
+
 widget::widget():
         x( 0 ), y( 0 ), my_gui( &dummy::dummy_gui )
 {
