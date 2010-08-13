@@ -112,9 +112,9 @@ public:
     /// \param font:    The font to get
     ///
     const sf::Font& get_font( const std::string& font ) const;
+    // What about case where font is not found? Return dummy font?
 
     const widget* get_focused_widget() const;
-    // What about case where font is not found?
 
     // So that widgets can connect/disconnect to/from this gui
     friend void widget::connect_to( gui& new_gui );

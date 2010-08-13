@@ -104,7 +104,9 @@ public:
     bool contains( const int check_x, const int check_y ) const;
 
 private:
-
+    // Caret position handlers so that caret always stays inside box
+    void increase_caret_position();
+    void decrease_caret_position();
     bool resizable; // Whether it's resizable with mouse click.
     bool movable; // Whether it can be moved with mouse drag.
     bool writable; // Whether it can be edited.
@@ -119,6 +121,9 @@ private:
     boost::uint32_t width; // The widget's width.
     boost::uint32_t height; // The widget's height.
     boost::uint32_t caret_position; // Position of caret in the text.
+
+    int text_x; // Text's x position.
+    int text_y; // Text's y position.
 
     // TODO: Add scroll bar
 };

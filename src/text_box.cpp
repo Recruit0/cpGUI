@@ -42,11 +42,12 @@ text_box::text_box( const string& new_text,
                     const rgba8_pixel_t new_text_color,
                     const rgba8_pixel_t new_fill_color,
                     const rgba8_pixel_t new_border_color ):
-        widget( new_x, new_y ),
-        resizable( 0 ), movable( 0 ), writable( 1 ),
-        text( new_text ), text_color( new_text_color ),
-        fill_color( new_fill_color ), border_color( new_border_color ),
-        width( new_width ), height( new_height ), caret_position( 0 )
+    widget( new_x, new_y ),
+    resizable( 0 ), movable( 0 ), writable( 1 ),
+    text( new_text ), text_color( new_text_color ),
+    fill_color( new_fill_color ), border_color( new_border_color ),
+    width( new_width ), height( new_height ), caret_position( 0 ),
+    text_x( new_x ), text_y( new_y )
 {
 }
 
@@ -67,45 +68,92 @@ void text_box::draw( RenderWindow& window ) const
     const Color FILL_COLOR( fill_color[ 0 ], fill_color[ 1 ],
                             fill_color[ 2 ], fill_color[ 3 ] );
     const Color BORDER_COLOR( border_color[ 0 ], border_color[ 1 ],
-                               border_color[ 2 ], border_color[ 3 ] );
+                              border_color[ 2 ], border_color[ 3 ] );
+    // x and y specifically refer to the box's position
     const Shape DRAW_BOX =
         Shape::Rectangle( x, y, x + width, y + height, FILL_COLOR,
                           1, BORDER_COLOR );
 
     window.Draw( DRAW_BOX );
 
-    String draw_text( text );
-
-    /*const FloatRect text_rect( String( text ).GetRect() );
-    width = text_rect.GetWidth();
-    height = text_rect.GetHeight();*/
-
+    String text_image( text );
     const Color TEXT_COLOR( text_color[ 0 ], text_color[ 1 ],
                             text_color[ 2 ], text_color[ 3 ] );
-    draw_text.SetColor( TEXT_COLOR );
-    draw_text.SetPosition( x, y );
+    text_image.SetColor( TEXT_COLOR );
+    text_image.SetPosition( text_x, text_y );
 
     // Only draw part of string that lies inside the box
     glEnable( GL_SCISSOR_TEST ); // This requires linking against libGL ( -lGL )
     glScissor( x, window.GetHeight() - ( y + height ), width, height );
-    window.Draw( draw_text );
+    window.Draw( text_image );
     glDisable( GL_SCISSOR_TEST );
 
-    // Draw caret
-    const Vector2f CARET_VECTOR = draw_text.GetCharacterPos( caret_position );
-    enum
-    {
-        Y_ADJUSTMENT = 5
-    };
-    const Shape draw_caret =
-        Shape::Line( x + CARET_VECTOR.x,
-                     y + CARET_VECTOR.y + Y_ADJUSTMENT,
-                     x + CARET_VECTOR.x,
-                     y + CARET_VECTOR.y + draw_text.GetSize() + Y_ADJUSTMENT,
-                     1, Color( 0, 0, 0 ) );
+    // If this has focus, draw the caret
     if ( my_gui->get_focused_widget() == this )
     {
+        // The caret's position relative to the text's position
+        const Vector2f CARET_VECTOR
+        = text_image.GetCharacterPos( caret_position );
+        // So that it fits into the box correctly, this was fixed manually.
+        // This should be replaced with a more "correct" version, i.e. it may
+        // only work for the default font and size.
+        enum
+        {
+            Y_ADJUSTMENT = 5
+        };
+        const Shape draw_caret
+        = Shape::Line( text_x + CARET_VECTOR.x,
+                       text_y + CARET_VECTOR.y + Y_ADJUSTMENT,
+                       text_x + CARET_VECTOR.x,
+                       text_y + CARET_VECTOR.y + Y_ADJUSTMENT + text_image.GetSize(),
+                       1, Color( 0, 0, 0 ) );
+
         window.Draw( draw_caret );
+    }
+}
+
+void text_box::increase_caret_position()
+{
+    caret_position++;
+    // If caret is outside box, move text to put it back inside
+    // Must locate where caret is on screen since it's not stored
+    const String TEXT_IMAGE( text );
+    // The caret's position relative to the text's position
+    const Vector2f CARET_VECTOR
+    = TEXT_IMAGE.GetCharacterPos( caret_position );
+    // WARNING: If text box is small, bugs may occur.
+    if ( text_x + CARET_VECTOR.x > x + width )
+    {
+        const Vector2f PREV_CHAR_POS
+        = TEXT_IMAGE.GetCharacterPos( caret_position - 1 );
+        const Vector2f DISTANCE_MOVED
+        = CARET_VECTOR - PREV_CHAR_POS;
+        text_x -= DISTANCE_MOVED.x;
+        text_y -= DISTANCE_MOVED.y;
+    }
+}
+
+void text_box::decrease_caret_position()
+{
+    caret_position--;
+
+    // Do opposite of Key::Right
+
+    // If caret is outside box, move text to put it back inside
+    // Must locate where caret is on screen since it's not stored
+    const String TEXT_IMAGE( text );
+    // The caret's position relative to the text's position
+    const Vector2f CARET_VECTOR
+    = TEXT_IMAGE.GetCharacterPos( caret_position );
+    // WARNING: If text box is small, bugs may occur.
+    if ( text_x + CARET_VECTOR.x < x )
+    {
+        const Vector2f PREV_CHAR_POS
+        = TEXT_IMAGE.GetCharacterPos( caret_position + 1 );
+        const Vector2f DISTANCE_MOVED
+        = PREV_CHAR_POS - CARET_VECTOR;
+        text_x += DISTANCE_MOVED.x;
+        text_y += DISTANCE_MOVED.y;
     }
 }
 
@@ -126,13 +174,14 @@ void text_box::handle_event( const sf::Event& new_event )
                 if ( caret_position > 0 )
                 {
                     text.erase( caret_position - 1, 1 );
-                    caret_position--;
+                    decrease_caret_position(); //caret_position--;
                 }
             }
             else
             {
                 text.insert( caret_position, new_text );
-                caret_position += 1 /*new_text.size()*/;
+                increase_caret_position();
+                //caret_position += 1 /*new_text.size()*/;
             }
 
             /*if ( autosize )
@@ -147,19 +196,20 @@ void text_box::handle_event( const sf::Event& new_event )
     {
         switch ( new_event.Key.Code )
         {
-        case Key::Left:
-            if ( caret_position > 0 )
-            {
-                caret_position--;
-            }
-            break;
-        case Key::Right:
+        case Key::Right: // Move the caret
+            // Fix later to handle when caret moves to next line of text
             if ( caret_position < text.size() )
             {
-                caret_position++;
+                increase_caret_position();
             }
             break;
             // Add Key::Up and Key::Down
+        case Key::Left: // Move the caret
+            if ( caret_position > 0 )
+            {
+                decrease_caret_position();
+            }
+            break;
         default:
             break;
         }
@@ -189,7 +239,7 @@ using namespace std;
 /// *************************************************************
 cpTextBox::cpTextBox(sf::RenderWindow *parent, cpGuiContainer *GUI,
                      float posx, float posy, float width, float height) :
-        cpObject(parent, GUI, "", posx, posy, width, height)
+    cpObject(parent, GUI, "", posx, posy, width, height)
 {
     backgroundColor = sf::Color::White;
     if (Width < 200)
@@ -251,7 +301,7 @@ void cpTextBox::LoadFile( const char* const filename)
     // The code below used to try to use a completely null pointer "filename"
     // Should work as intended now, although have not stepped through the logic
     // of this code
-    if ( filename == 0 ) // New code that catches null ptr
+    if ( filename == 0 )   // New code that catches null ptr
     {
         return;
     }
@@ -472,7 +522,7 @@ using namespace cp;
 cpTextInputBox::cpTextInputBox(sf::RenderWindow *parent, cpGuiContainer *GUI,
                                std::string label, float posx, float posy,
                                float width, float height, int Style) : cpObject(
-                                           parent, GUI, label, posx, posy, width, height)
+                                       parent, GUI, label, posx, posy, width, height)
 {
     backgroundColor = sf::Color::White;
     bTooBig = false;
@@ -491,7 +541,7 @@ cpTextInputBox::cpTextInputBox(sf::RenderWindow *parent, cpGuiContainer *GUI,
 
 }
 
-cpTextInputBox::cpTextInputBox() : cpObject(NULL, NULL, ""){}
+cpTextInputBox::cpTextInputBox() : cpObject(NULL, NULL, "") {}
 
 /// Updates the look of the text input box.
 /// Computes the text alignement and position of the
@@ -583,7 +633,7 @@ void cpTextInputBox::ProcessTextInput(sf::Event *evt)
         int textSize = tempText.size();
         unsigned short unicode = evt->Text.Unicode;
 
-        if (unicode == 8) //If backspace
+        if (unicode == 8)   //If backspace
         {
             if (textSize > 0)
                 tempText.erase(textSize - 1, 1);
@@ -673,3 +723,7 @@ void cpTextInputBox::SetLabelText(std::string text)
 }
 
 #endif
+
+
+
+
