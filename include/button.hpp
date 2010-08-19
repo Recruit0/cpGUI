@@ -23,14 +23,27 @@ misrepresented as being the original software.
 3. This notice may not be removed or altered from any source distribution.
 //----------------------------------------------------------------------------*/
 
-namespace cpGUI
+#include <SFML/Graphics.hpp>
+
+namespace cp
 {
+class functor;
+
 class button
 {
 public:
+    button();
+    bool is_pressed() const;
+
+    // Inherited functions
+    void draw() const;
+    void handle_event( const sf::Event& new_event );
+    bool contains( const int check_x, const int check_y ) const;
 
 private:
-
+    bool pressed; // Whether button is pressed or not
+    functor* my_callback; // Function to call when pressed
+    // Store button images with Boost GIL
 };
 }
 
@@ -48,7 +61,8 @@ REMOVE BEFORE API IS RELEASED
 #include "cpObject.h"
 #include "cpGuiContainer.h"
 
-namespace cp {
+namespace cp
+{
 class cpButton : public cpObject
 {
 public:

@@ -51,11 +51,9 @@ public:
     widget( const boost::uint32_t new_x, const boost::uint32_t new_y );
     virtual ~widget();
 
-    /// Draws the widget in the specified window
+    /// Draws the widget in the window it belongs to.
     ///
-    /// \param  window: The window to draw in.
-    ///
-    virtual void draw( sf::RenderWindow& window ) const;
+    virtual void draw() const;
 
     /// Responds to an event.
     ///
@@ -98,8 +96,16 @@ public:
 protected:
     int x; // The widget's horizontal position in screen coordinates.
     int y; // The widget's vertical position in screen coordinates.
+    // Can't be reference due to connect/disconnect functions... are these
+    // functions necessary?
     gui* my_gui; // The GUI this is connected to.
 };
+
+namespace dummy
+{
+extern cp::widget dummy_widget;
+}
+
 }
 
 #endif // WIDGET_HPP

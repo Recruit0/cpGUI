@@ -28,6 +28,14 @@ misrepresented as being the original software.
 
 using namespace cp;
 
+namespace cp
+{
+namespace dummy
+{
+cp::widget dummy_widget;
+}
+}
+
 widget::widget( const boost::uint32_t new_x, const boost::uint32_t new_y ):
         x( new_x ), y( new_y ), my_gui( &dummy::dummy_gui )
 {
@@ -43,7 +51,7 @@ widget::~widget()
     disconnect();
 }
 
-void widget::draw( sf::RenderWindow& window ) const
+void widget::draw() const
 {
 }
 

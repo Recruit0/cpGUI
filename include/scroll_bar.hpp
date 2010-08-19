@@ -23,6 +23,9 @@ misrepresented as being the original software.
 3. This notice may not be removed or altered from any source distribution.
 //----------------------------------------------------------------------------*/
 
+// This does not need to be a separate object. A widget does not need multiple
+// horizontal/vertical scroll bars.
+
 /*----------------------------------------------------------------------------//
 THIS IS THE OLD CODE BELOW
 USED AS A REFERENCE

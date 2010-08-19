@@ -69,6 +69,7 @@ Maybe add AA option later
 class text_box : public widget
 {
 public:
+    // Possibly too many arguments.
     text_box( const std::string& new_text,
               const int new_x = 0, const int new_y = 0,
               const boost::uint32_t new_width = 0,
@@ -99,7 +100,7 @@ public:
     const std::string& get_text() const;
 
     // Inherited functions
-    void draw( sf::RenderWindow& window ) const;
+    void draw() const;
     void handle_event( const sf::Event& new_event );
     bool contains( const int check_x, const int check_y ) const;
 

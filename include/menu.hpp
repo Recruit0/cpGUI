@@ -24,6 +24,7 @@ misrepresented as being the original software.
 //----------------------------------------------------------------------------*/
 
 // Radio buttons, drop-down list, full list and bar all classify as menu types
+// Menus have buttons.
 
 /*----------------------------------------------------------------------------//
 THIS IS THE OLD CODE BELOW

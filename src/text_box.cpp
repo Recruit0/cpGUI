@@ -63,8 +63,11 @@ const string& text_box::get_text() const
     return text;
 }
 
-void text_box::draw( RenderWindow& window ) const
+void text_box::draw() const
 {
+    // Figure out how to make this work with other types of windows (e.g. SDL)
+    RenderWindow& window = my_gui->reference_window();
+
     const Color FILL_COLOR( fill_color[ 0 ], fill_color[ 1 ],
                             fill_color[ 2 ], fill_color[ 3 ] );
     const Color BORDER_COLOR( border_color[ 0 ], border_color[ 1 ],
@@ -137,7 +140,7 @@ void text_box::decrease_caret_position()
 {
     caret_position--;
 
-    // Do opposite of Key::Right
+    // Do opposite of increase_caret_position()
 
     // If caret is outside box, move text to put it back inside
     // Must locate where caret is on screen since it's not stored

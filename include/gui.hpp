@@ -102,7 +102,10 @@ public:
     /// Returns the attached window as read-only.
     ///
     const sf::RenderWindow& get_window() const;
-    // May need function to return writable reference later
+
+    /// Returns writable reference to window.
+    ///
+    sf::RenderWindow& reference_window();
 
     // UPDATE: font_manager should be resource_manager. We're probably going to
     // have to use lots of #ifdef's to make everything separable.
@@ -117,6 +120,7 @@ public:
     const widget* get_focused_widget() const;
 
     // So that widgets can connect/disconnect to/from this gui
+    // Consider rewriting this, keyword "friend" is a weak locking mechanism
     friend void widget::connect_to( gui& new_gui );
     friend void widget::disconnect();
 
@@ -163,7 +167,7 @@ private:
     allocated dynamically and contained in shared_ptrs; this can be
     ensured using factory functions. Revisit this option later.
 
-    R0: We may be able to use the factory function to provide ABI (after we
+    R0: We may be able to use the factory pattern to provide ABI (after we
     freeze the API).
     */
 
@@ -178,15 +182,15 @@ private:
 #endif
 };
 
+class functor;
+
 /*
-Messing with cp::dummy can cause cpGUI to break!
-You have been warned!
-THIS IS USED TO AVOID NULL POINTER CHECKS
-BY FORCING EVERYTHING TO POINT TO SOMETHING
+Messing with cp::dummy can cause cpGUI to break! You have been warned!
+Dereferencing nulls can cause a crash. This namespace is used to avoid checking
+for null pointers by forcing everything to point to something.
 */
 namespace dummy
 {
-extern cp::widget dummy_widget;
 extern sf::RenderWindow dummy_window;
 extern cp::gui dummy_gui;
 }

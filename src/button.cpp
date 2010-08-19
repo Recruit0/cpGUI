@@ -26,6 +26,45 @@ misrepresented as being the original software.
 
 // ***NOTE***: Combined image_button and shape_button together into just button
 
+#include "button.hpp"
+#include "functor.hpp"
+
+using namespace sf;
+using namespace cp;
+
+button::button():
+pressed( 0 ), my_callback( &dummy::dummy_functor )
+{
+}
+
+bool button::is_pressed() const
+{
+    return pressed;
+}
+
+void button::handle_event( const sf::Event& new_event )
+{
+    switch( new_event.Type )
+    {
+        // Add case for mouse hovering
+    case Event::MouseButtonPressed:
+        if ( new_event.MouseButton.Button == Mouse::Left )
+        {
+            pressed = 1;
+        }
+        break;
+    case Event::MouseButtonReleased:
+        if ( new_event.MouseButton.Button == Mouse::Left )
+        {
+            pressed = 0;
+            my_callback->run();
+        }
+        break;
+    default:
+        break;
+    }
+}
+
 #if 0
 
 #include "cpGUI_base.h"
@@ -39,38 +78,38 @@ using namespace cp;
 /// size of the image sent to it.  Also, there is no text label.
 /// ******************************************************************
 cpImageButton::cpImageButton(sf::RenderWindow *parent, cpGuiContainer *GUI,
-							 sf::Image *image, float posx, float posy) : cpObject(parent,
-							 GUI, "", posx, posy, (float)image->GetWidth()+3,
-								(float)image->GetHeight()+3)
+                             sf::Image *image, float posx, float posy) : cpObject(parent,
+                                         GUI, "", posx, posy, (float)image->GetWidth()+3,
+                                         (float)image->GetHeight()+3)
 {
-	sprite.SetImage(*image);
-	sprite.SetPosition(posx + 1, posy + 1);
+    sprite.SetImage(*image);
+    sprite.SetPosition(posx + 1, posy + 1);
 }
 
-cpImageButton::cpImageButton() : cpObject(NULL, NULL, ""){}
+cpImageButton::cpImageButton() : cpObject(NULL, NULL, "") {}
 
 /// Clears the sprite and loads the new image into it.
 /// the sprite is used to display the image in the button.
 void cpImageButton::SetImage(sf::Image *image)
 {
-	Width = (float)image->GetWidth()+3;
-	Height = (float)image->GetHeight()+3;
-	sprite.SetImage(sf::Image());
-	sprite.SetImage(*image);
-	CreateRects("");
+    Width = (float)image->GetWidth()+3;
+    Height = (float)image->GetHeight()+3;
+    sprite.SetImage(sf::Image());
+    sprite.SetImage(*image);
+    CreateRects("");
 }
 
 /// Draws the different parts that make up an image button
 void cpImageButton::Draw()
 {
-	if(!bShow)
-		return;
+    if(!bShow)
+        return;
 
-	Parent->Draw(backRect);
-	Parent->Draw(sprite);
+    Parent->Draw(backRect);
+    Parent->Draw(sprite);
 
-	if(hasFocus)
-		DrawDashedRect(PosX+2, PosY+2, Width-4, Height-4);
+    if(hasFocus)
+        DrawDashedRect(PosX+2, PosY+2, Width-4, Height-4);
 }
 
 /// This function checks for mouse events within the control.
@@ -85,43 +124,43 @@ void cpImageButton::Draw()
 /// and ENTER is only active right when the mouse enters the control
 int cpImageButton::CheckState(const sf::Input *input)
 {
-	int state = cpObject::CheckState(input);
+    int state = cpObject::CheckState(input);
 
-	if(state == CP_ST_MOUSE_LBUTTON_DOWN)
-		backgroundColor = sf::Color(140, 140, 140);
+    if(state == CP_ST_MOUSE_LBUTTON_DOWN)
+        backgroundColor = sf::Color(140, 140, 140);
 
-	if(state == CP_ST_MOUSE_LBUTTON_RELEASED)
-		backgroundColor = backgroundColorTemp;
+    if(state == CP_ST_MOUSE_LBUTTON_RELEASED)
+        backgroundColor = backgroundColorTemp;
 
-	CreateRects("");
-	return state;
+    CreateRects("");
+    return state;
 }
 
 /// Sets the image button's width & height dimensions
 bool cpImageButton::SetSize(float width, float height)
 {
-	return false;
+    return false;
 }
 
 /// Sets the image button's position coordinates in the window
 void cpImageButton::SetPosition(float posx, float posy)
 {
-	cpObject::SetPosition(posx, posy);
-	CreateRects("");
+    cpObject::SetPosition(posx, posy);
+    CreateRects("");
 }
 
 /// Sets the image button's background color
 void cpImageButton::SetBackgroundColor(sf::Color color)
 {
-	cpObject::SetBackgroundColor(color);
-	CreateRects("");
+    cpObject::SetBackgroundColor(color);
+    CreateRects("");
 }
 
 /// Sets whether the image button is shown or hidden
 void cpImageButton::Show(bool show)
 {
-	cpObject::Show(show);
-	CreateRects("");
+    cpObject::Show(show);
+    CreateRects("");
 }
 #endif
 
@@ -138,31 +177,31 @@ using namespace cp;
 /// A clickable button based on an sf::Shape.
 /// **************************************************************
 cpShapeButton::cpShapeButton(sf::RenderWindow *parent, cpGuiContainer *GUI, sf::Shape *shape,
-							 float posx, float posy) : cpObject(parent, GUI, "", posx, posy)
+                             float posx, float posy) : cpObject(parent, GUI, "", posx, posy)
 {
-	button = shape;
-	ComputeRectDimensions();
-	SetPosition(PosX, PosY);
+    button = shape;
+    ComputeRectDimensions();
+    SetPosition(PosX, PosY);
 
 }
 
-cpShapeButton::cpShapeButton() : cpObject(NULL, NULL, ""){}
+cpShapeButton::cpShapeButton() : cpObject(NULL, NULL, "") {}
 
 /// Sets the shape that makes the button
 void cpShapeButton::SetShape(sf::Shape *shape)
 {
-	button = shape;
-	ComputeRectDimensions();
-	CreateRects(Label.GetText());
+    button = shape;
+    ComputeRectDimensions();
+    CreateRects(Label.GetText());
 }
 
 /// Draws the shape button
 void cpShapeButton::Draw()
 {
-	if(!bShow)
-		return;
+    if(!bShow)
+        return;
 
-	Parent->Draw(*button);
+    Parent->Draw(*button);
 }
 
 /// This function checks for mouse events within the control.
@@ -177,45 +216,45 @@ void cpShapeButton::Draw()
 /// and ENTER is only active right when the mouse enters the control
 int cpShapeButton::CheckState(const sf::Input *input)
 {
-	int state = cpObject::CheckState(input);
-	if(state == CP_ST_NONE)
-	{
-		if(hasFocus)
-			outlineColor = sf::Color(90,90,230);
-		else
-			outlineColor = sf::Color::Black;
-	}
-	else
-		outlineColor = outlineColorTemp;
+    int state = cpObject::CheckState(input);
+    if(state == CP_ST_NONE)
+    {
+        if(hasFocus)
+            outlineColor = sf::Color(90,90,230);
+        else
+            outlineColor = sf::Color::Black;
+    }
+    else
+        outlineColor = outlineColorTemp;
 
 
-	CreateRects("");
-	return state;
+    CreateRects("");
+    return state;
 }
 
 /// This function is unavailable in this class.
 bool cpShapeButton::SetSize(float width, float height)
 {
-	return false;
+    return false;
 }
 
 /// Moves the shape button to new coordinates
 void cpShapeButton::SetPosition(float posx, float posy)
 {
-	PosX = posx;
-	PosY = posy;
-	button->Move(PosX-relX, PosY-relY);
-	relX = PosX;
-	relY = PosY;
-	CreateRects("");
+    PosX = posx;
+    PosY = posy;
+    button->Move(PosX-relX, PosY-relY);
+    relX = PosX;
+    relY = PosY;
+    CreateRects("");
 }
 
 /// Updates the look of the shape button
 void cpShapeButton::CreateRects(std::string label)
 {
-	button->SetOutlineWidth(1.f);
-	for(unsigned int t=0; t < button->GetNbPoints(); t++)
-		button->SetPointOutlineColor(t, outlineColor);
+    button->SetOutlineWidth(1.f);
+    for(unsigned int t=0; t < button->GetNbPoints(); t++)
+        button->SetPointOutlineColor(t, outlineColor);
 }
 
 /// Computes the width and height of the rectangle
@@ -223,40 +262,40 @@ void cpShapeButton::CreateRects(std::string label)
 /// the top left corner
 void cpShapeButton::ComputeRectDimensions()
 {
-	int left=0, right=0, top=0, bottom=0;
-	for(unsigned int t=1; t < button->GetNbPoints(); t++)
-	{
-		if(button->GetPointPosition(t).x < button->GetPointPosition(t-1).x)
-			left = t;
-		if(button->GetPointPosition(t).x > button->GetPointPosition(t-1).x)
-			right = t;
-		if(button->GetPointPosition(t).y < button->GetPointPosition(t-1).y)
-			top = t;
-		if(button->GetPointPosition(t).y > button->GetPointPosition(t-1).y)
-			bottom = t;
-	}
-	Width = button->GetPointPosition(right).x - button->GetPointPosition(left).x;
-	Height = button->GetPointPosition(bottom).y - button->GetPointPosition(top).y;
-	relX = button->GetPointPosition(left).x;
-	relY = button->GetPointPosition(top).y;
+    int left=0, right=0, top=0, bottom=0;
+    for(unsigned int t=1; t < button->GetNbPoints(); t++)
+    {
+        if(button->GetPointPosition(t).x < button->GetPointPosition(t-1).x)
+            left = t;
+        if(button->GetPointPosition(t).x > button->GetPointPosition(t-1).x)
+            right = t;
+        if(button->GetPointPosition(t).y < button->GetPointPosition(t-1).y)
+            top = t;
+        if(button->GetPointPosition(t).y > button->GetPointPosition(t-1).y)
+            bottom = t;
+    }
+    Width = button->GetPointPosition(right).x - button->GetPointPosition(left).x;
+    Height = button->GetPointPosition(bottom).y - button->GetPointPosition(top).y;
+    relX = button->GetPointPosition(left).x;
+    relY = button->GetPointPosition(top).y;
 }
 
 /// This function is unavailable in this class
-void cpShapeButton::SetFont(std::string filename, unsigned int size){}
+void cpShapeButton::SetFont(std::string filename, unsigned int size) {}
 
 /// This function is unavailable in this class
-void cpShapeButton::SetBackgroundColor(sf::Color color){}
+void cpShapeButton::SetBackgroundColor(sf::Color color) {}
 
 /// This function is unavailable in this class
-void cpShapeButton::SetFontSize(unsigned int size){}
+void cpShapeButton::SetFontSize(unsigned int size) {}
 
 /// This function is unavailable in this class
-void cpShapeButton::SetFontStyle(unsigned long TextStyle){}
+void cpShapeButton::SetFontStyle(unsigned long TextStyle) {}
 
 /// This function is unavailable in this class
-void cpShapeButton::SetLabelColor(sf::Color color){}
+void cpShapeButton::SetLabelColor(sf::Color color) {}
 
 /// This function is unavailable in this class
-void cpShapeButton::SetLabelText(std::string text){}
+void cpShapeButton::SetLabelText(std::string text) {}
 
 #endif

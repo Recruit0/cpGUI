@@ -48,7 +48,6 @@ namespace cp
 {
 namespace dummy
 {
-cp::widget dummy_widget;
 sf::RenderWindow dummy_window;
 cp::gui dummy_gui( dummy_window );
 }
@@ -116,6 +115,7 @@ void gui::handle_event( const sf::Event& event )
         default:
             break;
         }
+        break;
     default:
         break;
     }
@@ -127,13 +127,13 @@ void gui::handle_event( const sf::Event& event )
 void gui::draw() const
 {
     // Go through all the widgets and call their draw() functions
-    for ( vector<reference_wrapper<widget> >::const_iterator current_widget =
+    for ( vector< reference_wrapper<widget> >::const_iterator current_widget =
                 widgets.begin();
             current_widget != widgets.end(); current_widget++ )
     {
         // NOTE: This may actually be undefined behavior
         // Although references are sort of like pointers
-        current_widget->get().draw( window );
+        current_widget->get().draw();
     }
 }
 
