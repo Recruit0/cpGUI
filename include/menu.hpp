@@ -68,6 +68,7 @@ public:
     bool is_selected( const boost::uint32_t option ) const;
 
     // Inherited functions
+    // Default behavior is to tell all options to draw themselves.
     virtual void draw() const;
     virtual void handle_event( const sf::Event& new_event );
     virtual bool contains( const int x, const int y ) const;

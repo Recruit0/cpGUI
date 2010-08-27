@@ -46,6 +46,7 @@
 		<Unit filename="../include/functor.hpp" />
 		<Unit filename="../include/gui.hpp" />
 		<Unit filename="../include/gui.inl" />
+		<Unit filename="../include/list_box.hpp" />
 		<Unit filename="../include/menu.hpp" />
 		<Unit filename="../include/scroll_bar.hpp" />
 		<Unit filename="../include/text_box.hpp" />
@@ -53,8 +54,8 @@
 		<Unit filename="../src/button.cpp" />
 		<Unit filename="../src/check_box.cpp" />
 		<Unit filename="../src/functor.cpp" />
-		<Unit filename="../src/functor.hpp" />
 		<Unit filename="../src/gui.cpp" />
+		<Unit filename="../src/list_box.cpp" />
 		<Unit filename="../src/menu.cpp" />
 		<Unit filename="../src/text_box.cpp" />
 		<Unit filename="../src/widget.cpp" />

@@ -1,25 +1,52 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
 <CodeBlocks_layout_file>
 	<ActiveTarget name="Debug" />
-	<File name="../include/functor.hpp" open="1" top="0" tabpos="5">
-		<Cursor position="190" topLine="0" />
+	<File name="../include/button.hpp" open="0" top="0" tabpos="0">
+		<Cursor position="1428" topLine="30" />
+	</File>
+	<File name="../include/check_box.hpp" open="0" top="0" tabpos="0">
+		<Cursor position="0" topLine="9" />
+	</File>
+	<File name="../include/cpGUI.hpp" open="0" top="0" tabpos="0">
+		<Cursor position="415" topLine="11" />
+	</File>
+	<File name="../include/functor.hpp" open="0" top="0" tabpos="0">
+		<Cursor position="131" topLine="0" />
 	</File>
 	<File name="../include/gui.hpp" open="0" top="0" tabpos="0">
-		<Cursor position="0" topLine="39" />
+		<Cursor position="4630" topLine="135" />
 	</File>
-	<File name="../include/menu.hpp" open="1" top="1" tabpos="1">
-		<Cursor position="1664" topLine="39" />
+	<File name="../include/gui.inl" open="0" top="0" tabpos="0">
+		<Cursor position="276" topLine="0" />
 	</File>
-	<File name="../include/text_box.hpp" open="1" top="0" tabpos="2">
-		<Cursor position="4457" topLine="129" />
+	<File name="../include/menu.hpp" open="1" top="0" tabpos="1">
+		<Cursor position="2822" topLine="64" />
+	</File>
+	<File name="../include/scroll_bar.hpp" open="0" top="0" tabpos="0">
+		<Cursor position="1606" topLine="12" />
+	</File>
+	<File name="../include/text_box.hpp" open="0" top="0" tabpos="0">
+		<Cursor position="3302" topLine="15" />
 	</File>
 	<File name="../include/widget.hpp" open="0" top="0" tabpos="0">
-		<Cursor position="0" topLine="84" />
+		<Cursor position="1721" topLine="84" />
 	</File>
-	<File name="../src/menu.cpp" open="1" top="0" tabpos="3">
-		<Cursor position="1210" topLine="27" />
+	<File name="../src/button.cpp" open="0" top="0" tabpos="0">
+		<Cursor position="1827" topLine="56" />
 	</File>
-	<File name="../src/text_box.cpp" open="1" top="0" tabpos="4">
-		<Cursor position="1158" topLine="33" />
+	<File name="../src/gui.cpp" open="0" top="0" tabpos="0">
+		<Cursor position="3934" topLine="114" />
+	</File>
+	<File name="../src/menu.cpp" open="1" top="0" tabpos="2">
+		<Cursor position="2534" topLine="75" />
+	</File>
+	<File name="../src/text_box.cpp" open="0" top="0" tabpos="0">
+		<Cursor position="1183" topLine="21" />
+	</File>
+	<File name="../src/widget.cpp" open="0" top="0" tabpos="0">
+		<Cursor position="1588" topLine="49" />
+	</File>
+	<File name="main.cpp" open="0" top="0" tabpos="0">
+		<Cursor position="3240" topLine="6" />
 	</File>
 </CodeBlocks_layout_file>
