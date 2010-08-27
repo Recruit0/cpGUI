@@ -40,22 +40,6 @@ misrepresented as being the original software.
 // I don't think this can be forward declared, tried and failed
 #include "widget.hpp"
 
-namespace std
-{
-// Forward declare std::string
-template<typename CharT, typename Traits, typename Alloc> class basic_string;
-typedef basic_string<char> string;
-template< class Tp, class Alloc > class vector;
-}
-
-namespace boost
-{
-namespace gil
-{
-template < typename ChannelValue, typename Layout > class pixel;
-}
-}
-
 namespace cp
 {
 
@@ -139,7 +123,26 @@ USED AS A REFERENCE
 REMOVE BEFORE API IS RELEASED
 //----------------------------------------------------------------------------*/
 
+/*namespace boost
+{
+namespace gil
+{
+template < typename ChannelValue, typename Layout > class pixel;
+}
+}*/
+
 #if 0
+
+// Start - Removed new code
+
+namespace std
+{
+// Forward declare std::string
+template<typename CharT, typename Traits, typename Alloc> class basic_string;
+typedef basic_string<char> string;
+}
+
+// End - Removed new code
 
 #ifndef CPTEXTBOX
 #define CPTEXTBOX

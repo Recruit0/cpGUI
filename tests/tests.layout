@@ -1,22 +1,25 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
 <CodeBlocks_layout_file>
 	<ActiveTarget name="Debug" />
-	<File name="../include/check_box.hpp" open="0" top="0" tabpos="0">
-		<Cursor position="1890" topLine="38" />
+	<File name="../include/functor.hpp" open="1" top="0" tabpos="5">
+		<Cursor position="190" topLine="0" />
 	</File>
-	<File name="../include/cpGUI.hpp" open="0" top="0" tabpos="0">
-		<Cursor position="0" topLine="11" />
+	<File name="../include/gui.hpp" open="0" top="0" tabpos="0">
+		<Cursor position="0" topLine="39" />
 	</File>
-	<File name="../include/gui.hpp" open="1" top="0" tabpos="2">
-		<Cursor position="0" topLine="36" />
+	<File name="../include/menu.hpp" open="1" top="1" tabpos="1">
+		<Cursor position="1664" topLine="39" />
 	</File>
-	<File name="../src/check_box.cpp" open="0" top="0" tabpos="0">
-		<Cursor position="395" topLine="0" />
+	<File name="../include/text_box.hpp" open="1" top="0" tabpos="2">
+		<Cursor position="4457" topLine="129" />
 	</File>
-	<File name="../src/functor.cpp" open="1" top="0" tabpos="3">
-		<Cursor position="8" topLine="0" />
+	<File name="../include/widget.hpp" open="0" top="0" tabpos="0">
+		<Cursor position="0" topLine="84" />
 	</File>
-	<File name="../src/gui.cpp" open="1" top="0" tabpos="4">
-		<Cursor position="0" topLine="30" />
+	<File name="../src/menu.cpp" open="1" top="0" tabpos="3">
+		<Cursor position="1210" topLine="27" />
+	</File>
+	<File name="../src/text_box.cpp" open="1" top="0" tabpos="4">
+		<Cursor position="1158" topLine="33" />
 	</File>
 </CodeBlocks_layout_file>

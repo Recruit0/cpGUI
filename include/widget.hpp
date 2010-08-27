@@ -62,6 +62,7 @@ public:
     virtual void handle_event( const sf::Event& new_event );
 
     /// Returns whether widget contains a point.
+    /// This is used when selecting a widget.
     ///
     /// \param check_x: The x position to check.
     /// \param checky_y: The y position to check.

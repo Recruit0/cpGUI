@@ -61,6 +61,7 @@ void widget::handle_event( const sf::Event& new_event )
 
 bool widget::contains( int check_x, int check_y ) const
 {
+    // dummy_widget can't be selected
     return 0;
 }
 

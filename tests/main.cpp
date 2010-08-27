@@ -26,6 +26,7 @@ misrepresented as being the original software.
 // #include "cpGUI.h"
 
 #include "text_box.hpp"
+#include "menu.hpp"
 #include "gui.hpp"
 
 using namespace sf;
