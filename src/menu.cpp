@@ -27,12 +27,17 @@ misrepresented as being the original software.
 #include <vector>
 
 #include "menu.hpp"
+#include "gui.hpp"
 
+using namespace sf;
 using namespace std;
 using namespace cp;
+using namespace boost;
+using namespace gil;
 
 void menu::add( cp::widget* const new_widget )
 {
+    my_options.push_back( option( new_widget ) );
 }
 
 void menu::remove( const boost::uint32_t option )
@@ -54,16 +59,33 @@ bool menu::is_selected( const boost::uint32_t option ) const
 
 void menu::draw() const
 {
+    // Only draw part of the menu that lies inside the box
+    // Possibly encapsulate this as a "view" or "window"
+    glEnable( GL_SCISSOR_TEST ); // This requires linking against libGL ( -lGL )
+    glScissor( my_x,
+               my_gui->reference_window().GetHeight() - ( my_y + my_height ),
+               my_width, my_height );
+
+    // Go through all the widgets and call their draw() functions
+    for ( vector< option >::const_iterator current_option =
+                my_options.begin();
+            current_option != my_options.end(); current_option++ )
+    {
+        // Try to see if we can reduce the pointer jumping.
+        current_option->my_widget->draw();
+    }
+
+    glDisable( GL_SCISSOR_TEST );
 }
 
 void menu::handle_event( const sf::Event& new_event )
 {
 }
 
-bool menu::contains( const int check_x, const int check_y ) const
+bool menu::contains( const int x, const int y ) const
 {
-    return check_x >= x && check_x <= x + int( my_width ) &&
-           check_y >= y && check_y <= y + int( my_height );
+    return x >= my_x && x <= my_x + int( my_width ) &&
+           y >= my_y && y <= my_y + int( my_height );
 }
 
 menu::option::option( cp::widget* const new_widget ):

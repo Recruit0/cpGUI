@@ -54,13 +54,14 @@ cp::gui dummy_gui( dummy_window );
 }
 
 gui::gui( sf::RenderWindow& referenced_window ):
-        window( referenced_window ), focused_widget( &dummy::dummy_widget )
+    my_window( referenced_window ),
+    my_focused_widget( &dummy::dummy_widget )
 {
 }
 
 void gui::connect( widget& new_widget )
 {
-    widgets.push_back( reference_wrapper< widget >( new_widget ) );
+    my_widgets.push_back( reference_wrapper< widget >( new_widget ) );
 }
 
 // ONLY cp::widget::disconnect() should call this!!!
@@ -68,13 +69,13 @@ void gui::disconnect( const widget* remove_widget )
 {
     // Just brute force search the list. Might use binary search later.
     for ( vector< reference_wrapper< widget > >::iterator current_widget
-            = widgets.begin();
-            current_widget != widgets.end();
+            = my_widgets.begin();
+            current_widget != my_widgets.end();
             current_widget++ )
     {
         if ( current_widget->get_pointer() == remove_widget )
         {
-            widgets.erase( current_widget );
+            my_widgets.erase( current_widget );
             break;
         }
     }
@@ -86,7 +87,7 @@ void gui::handle_event( const sf::Event& event )
     {
 #ifndef CP_GUI_NO_DEFAULT_CLOSE
     case Event::Closed:
-        window.Close();
+        my_window.Close();
         break;
 #endif
         // First, select widget
@@ -98,16 +99,16 @@ void gui::handle_event( const sf::Event& event )
             Point focused_widget to dummy_widget, then switch to whichever
             widget was actually selected (if any)
             */
-            focused_widget = &dummy::dummy_widget;
+            my_focused_widget = &dummy::dummy_widget;
 
             for ( vector<reference_wrapper<widget> >::const_iterator
-                    current_widget = widgets.begin();
-                    current_widget != widgets.end(); current_widget++ )
+                    current_widget = my_widgets.begin();
+                    current_widget != my_widgets.end(); current_widget++ )
             {
                 if ( current_widget->get().contains( event.MouseButton.X,
                                                      event.MouseButton.Y ) )
                 {
-                    focused_widget = current_widget->get_pointer();
+                    my_focused_widget = current_widget->get_pointer();
                     break;
                 }
             }
@@ -121,15 +122,15 @@ void gui::handle_event( const sf::Event& event )
     }
 
     // Then pass event to selected widget
-    focused_widget->handle_event( event );
+    my_focused_widget->handle_event( event );
 }
 
 void gui::draw() const
 {
     // Go through all the widgets and call their draw() functions
     for ( vector< reference_wrapper<widget> >::const_iterator current_widget =
-                widgets.begin();
-            current_widget != widgets.end(); current_widget++ )
+                my_widgets.begin();
+            current_widget != my_widgets.end(); current_widget++ )
     {
         // NOTE: This may actually be undefined behavior
         // Although references are sort of like pointers
@@ -334,7 +335,8 @@ void cpGuiContainer::NextObjectFocus()
             focus = 0;
         if (focus < 0)
             focus = size - 1;
-    }while (!control[focus]->GetShow());
+    }
+    while (!control[focus]->GetShow());
 
     control[focus]->hasFocus = true;
 }
@@ -796,7 +798,7 @@ sf::Color cpObject::GetMouseoverColor()
 /// *********************************************************************************
 cpButton::cpButton(sf::RenderWindow* parent, cpGuiContainer *GUI, std::string label,
                    float posx, float posy, float width, float height) : cpObject(parent,
-                                   GUI, label, posx, posy, width, height)
+                               GUI, label, posx, posy, width, height)
 {
     labelInside = true;
 
@@ -813,7 +815,7 @@ cpButton::cpButton(sf::RenderWindow* parent, cpGuiContainer *GUI, std::string la
     gradient.AddPoint(PosX+2, PosY+Height-3, backgroundColor2);
 }
 
-cpButton::cpButton() : cpObject(NULL, NULL, ""){}
+cpButton::cpButton() : cpObject(NULL, NULL, "") {}
 
 /// If the button is shown, everything in the button is drawn.
 /// If the button has focus, a dashed rectangle is drawn.
@@ -1051,7 +1053,7 @@ cpScrollBar::cpScrollBar(sf::RenderWindow *parent, cpGuiContainer *GUI,
     gui->Unregister(downButton);
 }
 
-cpScrollBar::cpScrollBar(){}
+cpScrollBar::cpScrollBar() {}
 
 cpScrollBar::~cpScrollBar()
 {
@@ -1370,7 +1372,8 @@ int cpScrollBar::CheckState(const sf::Input *input)
                     focus = 0;
                 if (focus < 0)
                     focus = size - 1;
-            }while (!control[focus]->GetShow());
+            }
+            while (!control[focus]->GetShow());
 
             control[focus]->hasFocus = true;
         }
@@ -1832,7 +1835,7 @@ int cpScrollBar::CheckState(const sf::Input *input)
 /// *********************************************************************************
         cpButton::cpButton(sf::RenderWindow* parent, cpGuiContainer *GUI, std::string label,
                            float posx, float posy, float width, float height) : cpObject(parent,
-                                           GUI, label, posx, posy, width, height)
+                                       GUI, label, posx, posy, width, height)
         {
             labelInside = true;
 
@@ -1849,7 +1852,7 @@ int cpScrollBar::CheckState(const sf::Input *input)
             gradient.AddPoint(PosX+2, PosY+Height-3, backgroundColor2);
         }
 
-        cpButton::cpButton() : cpObject(NULL, NULL, ""){}
+        cpButton::cpButton() : cpObject(NULL, NULL, "") {}
 
 /// If the button is shown, everything in the button is drawn.
 /// If the button has focus, a dashed rectangle is drawn.
@@ -2087,7 +2090,7 @@ int cpScrollBar::CheckState(const sf::Input *input)
             gui->Unregister(downButton);
         }
 
-        cpScrollBar::cpScrollBar(){}
+        cpScrollBar::cpScrollBar() {}
 
         cpScrollBar::~cpScrollBar()
         {

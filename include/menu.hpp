@@ -46,6 +46,8 @@ namespace cp
 class menu: public widget
 {
 public:
+    // virtual ~menu(); Is this needed?
+
     /// Adds an option to the list.
     ///
     /// \param new_widget: What widget to add.
@@ -68,27 +70,27 @@ public:
     // Inherited functions
     virtual void draw() const;
     virtual void handle_event( const sf::Event& new_event );
-    virtual bool contains( const int check_x, const int check_y ) const;
+    virtual bool contains( const int x, const int y ) const;
 
 private:
+    // A menu is ambigous, user must create a specific one.
+    // Also no need for dummy menu.
+    menu();
+
     struct option
     {
         option( cp::widget* const new_widget );
-        // Should probably use a smart pointer, not sure which one.
+        // Should probably use a smart pointer below, not sure which one.
         widget* my_widget; // What widget the option is for.
         bool my_selected; // Whether it's selected or not.
     };
 
-    bool resizable; // Whether it's resizable with mouse click.
-    bool movable; // Whether it can be moved with mouse drag.
+    bool my_resizable; // Whether it's resizable with mouse click.
+    bool my_movable; // Whether it can be moved with mouse drag.
     // How many options can be selected at once. A negative value means no max.
-    int max_selections;
+    int my_max_selections;
 
     std::vector< option > my_options; // Choices up for selection.
-    // What color to border selections with.
-    boost::gil::rgba8_pixel_t my_selection_border_color;
-    // What color to highlight selections with.
-    boost::gil::rgba8_pixel_t my_selection_color;
     // What color to border mouse overs with.
     boost::gil::rgba8_pixel_t my_hover_border_color;
     // What color to fill mouse overs with.
@@ -97,8 +99,6 @@ private:
     boost::gil::rgba8_pixel_t my_fill_color;
     // What color the bounding box is.
     boost::gil::rgba8_pixel_t my_border_color;
-    boost::uint32_t my_width; // The widget's width.
-    boost::uint32_t my_height; // The widget's height.
 
     // Position of options relative to the menu.
     int my_options_x, my_options_y;

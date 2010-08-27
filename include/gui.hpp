@@ -147,12 +147,12 @@ protected:
 
 private:
     // References are preferred to force it to point to something
-    sf::RenderWindow& window; // The window that the GUI is attached to.
+    sf::RenderWindow& my_window; // The window that the GUI is attached to.
     // Widgets of the GUI.
-    std::vector< boost::reference_wrapper<widget> > widgets;
+    std::vector< boost::reference_wrapper<widget> > my_widgets;
     // NOTE!!! Whenever there is no focused widget, focused_widget should point
     // to dummy_widget!!!
-    widget* focused_widget;
+    widget* my_focused_widget;
 
     void connect( widget& new_widget );
     /*

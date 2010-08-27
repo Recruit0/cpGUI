@@ -48,7 +48,8 @@ class widget
 {
 public:
     widget();
-    widget( const boost::uint32_t new_x, const boost::uint32_t new_y );
+    widget( const boost::uint32_t x, const boost::uint32_t y,
+            const boost::uint32_t width = 0, const boost::uint32_t height = 0 );
     virtual ~widget();
 
     /// Draws the widget in the window it belongs to.
@@ -64,11 +65,11 @@ public:
     /// Returns whether widget contains a point.
     /// This is used when selecting a widget.
     ///
-    /// \param check_x: The x position to check.
-    /// \param checky_y: The y position to check.
+    /// \param x: The x position to check.
+    /// \param y: The y position to check.
     ///
-    virtual bool contains( const int check_x,
-                           const int check_y ) const;
+    virtual bool contains( const int x,
+                           const int y ) const;
 
     /// Connects widget to a gui.
     ///
@@ -95,8 +96,11 @@ public:
     void disconnect( widget& other_widget );
 
 protected:
-    int x; // The widget's horizontal position in screen coordinates.
-    int y; // The widget's vertical position in screen coordinates.
+    int my_x; // The widget's horizontal position in screen coordinates.
+    int my_y; // The widget's vertical position in screen coordinates.
+    boost::uint32_t my_width; // The widget's width.
+    boost::uint32_t my_height; // The widget's height.
+
     // Can't be reference due to connect/disconnect functions... are these
     // functions necessary?
     gui* my_gui; // The GUI this is connected to.

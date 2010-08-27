@@ -55,9 +55,9 @@ class text_box : public widget
 public:
     // Possibly too many arguments.
     text_box( const std::string& new_text,
-              const int new_x = 0, const int new_y = 0,
-              const boost::uint32_t new_width = 0,
-              const boost::uint32_t new_height = 0,
+              const int x = 0, const int y = 0,
+              const boost::uint32_t width = 0,
+              const boost::uint32_t height = 0,
               const boost::gil::rgba8_pixel_t new_text_color
               = boost::gil::rgba8_pixel_t( 0, 0, 0, 255 ),
               const boost::gil::rgba8_pixel_t new_fill_color
@@ -86,29 +86,28 @@ public:
     // Inherited functions
     void draw() const;
     void handle_event( const sf::Event& new_event );
-    bool contains( const int check_x, const int check_y ) const;
+    bool contains( const int x, const int y ) const;
 
 private:
     // Caret position handlers so that caret always stays inside box
     void increase_caret_position();
     void decrease_caret_position();
-    bool resizable; // Whether it's resizable with mouse click.
-    bool movable; // Whether it can be moved with mouse drag.
-    bool writable; // Whether it can be edited.
 
-    std::string text; // The text of this box.
+    bool my_resizable; // Whether it's resizable with mouse click.
+    bool my_movable; // Whether it can be moved with mouse drag.
+    bool my_writable; // Whether it can be edited.
+
+    std::string my_text; // The text of this box.
     // What color to draw the text in.
-    boost::gil::rgba8_pixel_t text_color;
+    boost::gil::rgba8_pixel_t my_text_color;
     // What color to fill the widget with.
-    boost::gil::rgba8_pixel_t fill_color;
+    boost::gil::rgba8_pixel_t my_fill_color;
     // What color the bounding box is.
-    boost::gil::rgba8_pixel_t border_color;
-    boost::uint32_t width; // The widget's width.
-    boost::uint32_t height; // The widget's height.
-    boost::uint32_t caret_position; // Position of caret in the text.
+    boost::gil::rgba8_pixel_t my_border_color;
+    boost::uint32_t my_caret_position; // Position of caret in the text.
 
-    int text_x; // Text's x position.
-    int text_y; // Text's y position.
+    int my_text_x; // Text's x position.
+    int my_text_y; // Text's y position.
 
     // TODO: Add scroll bar
 };

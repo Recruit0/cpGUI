@@ -33,13 +33,13 @@ using namespace sf;
 using namespace cp;
 
 button::button():
-pressed( 0 ), my_callback( &dummy::dummy_functor )
+my_pressed( 0 ), my_callback( &dummy::dummy_functor )
 {
 }
 
 bool button::is_pressed() const
 {
-    return pressed;
+    return my_pressed;
 }
 
 void button::handle_event( const sf::Event& new_event )
@@ -50,13 +50,13 @@ void button::handle_event( const sf::Event& new_event )
     case Event::MouseButtonPressed:
         if ( new_event.MouseButton.Button == Mouse::Left )
         {
-            pressed = 1;
+            my_pressed = 1;
         }
         break;
     case Event::MouseButtonReleased:
         if ( new_event.MouseButton.Button == Mouse::Left )
         {
-            pressed = 0;
+            my_pressed = 0;
             my_callback->run();
         }
         break;

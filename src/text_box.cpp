@@ -35,32 +35,31 @@ using namespace cp;
 using namespace boost;
 using namespace gil;
 
-text_box::text_box( const string& new_text,
-                    const int new_x, const int new_y,
-                    const boost::uint32_t new_width,
-                    const boost::uint32_t new_height,
-                    const rgba8_pixel_t new_text_color,
-                    const rgba8_pixel_t new_fill_color,
-                    const rgba8_pixel_t new_border_color ):
-    widget( new_x, new_y ),
-    resizable( 0 ), movable( 0 ), writable( 1 ),
-    text( new_text ), text_color( new_text_color ),
-    fill_color( new_fill_color ), border_color( new_border_color ),
-    width( new_width ), height( new_height ), caret_position( 0 ),
-    text_x( new_x ), text_y( new_y )
+text_box::text_box( const string& text,
+                    const int x, const int y,
+                    const boost::uint32_t width,
+                    const boost::uint32_t height,
+                    const rgba8_pixel_t text_color,
+                    const rgba8_pixel_t fill_color,
+                    const rgba8_pixel_t border_color ):
+    widget( x, y, width, height ),
+    my_resizable( 0 ), my_movable( 0 ), my_writable( 1 ),
+    my_text( text ), my_text_color( text_color ),
+    my_fill_color( fill_color ), my_border_color( border_color ),
+    my_caret_position( 0 ), my_text_x( x ), my_text_y( y )
 {
 }
 
 void text_box::set_size( const boost::uint32_t new_width,
                          const boost::uint32_t new_height )
 {
-    width = new_width;
-    height = new_height;
+    my_width = new_width;
+    my_height = new_height;
 }
 
 const string& text_box::get_text() const
 {
-    return text;
+    return my_text;
 }
 
 void text_box::draw() const
@@ -68,26 +67,28 @@ void text_box::draw() const
     // Figure out how to make this work with other types of windows (e.g. SDL)
     RenderWindow& window = my_gui->reference_window();
 
-    const Color FILL_COLOR( fill_color[ 0 ], fill_color[ 1 ],
-                            fill_color[ 2 ], fill_color[ 3 ] );
-    const Color BORDER_COLOR( border_color[ 0 ], border_color[ 1 ],
-                              border_color[ 2 ], border_color[ 3 ] );
+    const Color FILL_COLOR( my_fill_color[ 0 ], my_fill_color[ 1 ],
+                            my_fill_color[ 2 ], my_fill_color[ 3 ] );
+    const Color BORDER_COLOR( my_border_color[ 0 ], my_border_color[ 1 ],
+                              my_border_color[ 2 ], my_border_color[ 3 ] );
     // x and y specifically refer to the box's position
     const Shape DRAW_BOX =
-        Shape::Rectangle( x, y, x + width, y + height, FILL_COLOR,
-                          1, BORDER_COLOR );
+        Shape::Rectangle( my_x, my_y, my_x + my_width, my_y + my_height,
+                          FILL_COLOR, 1, BORDER_COLOR );
 
     window.Draw( DRAW_BOX );
 
-    String text_image( text );
-    const Color TEXT_COLOR( text_color[ 0 ], text_color[ 1 ],
-                            text_color[ 2 ], text_color[ 3 ] );
+    String text_image( my_text );
+    const Color TEXT_COLOR( my_text_color[ 0 ], my_text_color[ 1 ],
+                            my_text_color[ 2 ], my_text_color[ 3 ] );
     text_image.SetColor( TEXT_COLOR );
-    text_image.SetPosition( text_x, text_y );
+    text_image.SetPosition( my_text_x, my_text_y );
 
     // Only draw part of string that lies inside the box
+    // Possibly encapsulate this as a "view" or "window"
     glEnable( GL_SCISSOR_TEST ); // This requires linking against libGL ( -lGL )
-    glScissor( x, window.GetHeight() - ( y + height ), width, height );
+    glScissor( my_x, window.GetHeight() - ( my_y + my_height ),
+               my_width, my_height );
     window.Draw( text_image );
     glDisable( GL_SCISSOR_TEST );
 
@@ -96,7 +97,7 @@ void text_box::draw() const
     {
         // The caret's position relative to the text's position
         const Vector2f CARET_VECTOR
-        = text_image.GetCharacterPos( caret_position );
+        = text_image.GetCharacterPos( my_caret_position );
         // So that it fits into the box correctly, this was fixed manually.
         // This should be replaced with a more "correct" version, i.e. it may
         // only work for the default font and size.
@@ -105,10 +106,10 @@ void text_box::draw() const
             Y_ADJUSTMENT = 5
         };
         const Shape draw_caret
-        = Shape::Line( text_x + CARET_VECTOR.x,
-                       text_y + CARET_VECTOR.y + Y_ADJUSTMENT,
-                       text_x + CARET_VECTOR.x,
-                       text_y + CARET_VECTOR.y + Y_ADJUSTMENT + text_image.GetSize(),
+        = Shape::Line( my_text_x + CARET_VECTOR.x,
+                       my_text_y + CARET_VECTOR.y + Y_ADJUSTMENT,
+                       my_text_x + CARET_VECTOR.x,
+                       my_text_y + CARET_VECTOR.y + Y_ADJUSTMENT + text_image.GetSize(),
                        1, Color( 0, 0, 0 ) );
 
         window.Draw( draw_caret );
@@ -117,46 +118,46 @@ void text_box::draw() const
 
 void text_box::increase_caret_position()
 {
-    caret_position++;
+    my_caret_position++;
     // If caret is outside box, move text to put it back inside
     // Must locate where caret is on screen since it's not stored
-    const String TEXT_IMAGE( text );
+    const String TEXT_IMAGE( my_text );
     // The caret's position relative to the text's position
     const Vector2f CARET_VECTOR
-    = TEXT_IMAGE.GetCharacterPos( caret_position );
+    = TEXT_IMAGE.GetCharacterPos( my_caret_position );
     // WARNING: If text box is small, bugs may occur.
-    if ( text_x + CARET_VECTOR.x > x + width )
+    if ( my_text_x + CARET_VECTOR.x > my_x + my_width )
     {
         const Vector2f PREV_CHAR_POS
-        = TEXT_IMAGE.GetCharacterPos( caret_position - 1 );
+        = TEXT_IMAGE.GetCharacterPos( my_caret_position - 1 );
         const Vector2f DISTANCE_MOVED
         = CARET_VECTOR - PREV_CHAR_POS;
-        text_x -= DISTANCE_MOVED.x;
-        text_y -= DISTANCE_MOVED.y;
+        my_text_x -= DISTANCE_MOVED.x;
+        my_text_y -= DISTANCE_MOVED.y;
     }
 }
 
 void text_box::decrease_caret_position()
 {
-    caret_position--;
+    my_caret_position--;
 
     // Do opposite of increase_caret_position()
 
     // If caret is outside box, move text to put it back inside
     // Must locate where caret is on screen since it's not stored
-    const String TEXT_IMAGE( text );
+    const String TEXT_IMAGE( my_text );
     // The caret's position relative to the text's position
     const Vector2f CARET_VECTOR
-    = TEXT_IMAGE.GetCharacterPos( caret_position );
+    = TEXT_IMAGE.GetCharacterPos( my_caret_position );
     // WARNING: If text box is small, bugs may occur.
-    if ( text_x + CARET_VECTOR.x < x )
+    if ( my_text_x + CARET_VECTOR.x < my_x )
     {
         const Vector2f PREV_CHAR_POS
-        = TEXT_IMAGE.GetCharacterPos( caret_position + 1 );
+        = TEXT_IMAGE.GetCharacterPos( my_caret_position + 1 );
         const Vector2f DISTANCE_MOVED
         = PREV_CHAR_POS - CARET_VECTOR;
-        text_x += DISTANCE_MOVED.x;
-        text_y += DISTANCE_MOVED.y;
+        my_text_x += DISTANCE_MOVED.x;
+        my_text_y += DISTANCE_MOVED.y;
     }
 }
 
@@ -164,7 +165,7 @@ void text_box::handle_event( const sf::Event& new_event )
 {
     if ( new_event.Type == Event::TextEntered )
     {
-        if ( writable )
+        if ( my_writable )
         {
             const Unicode::Unicode::Text
             unicode_text( &new_event.Text.Unicode );
@@ -174,15 +175,15 @@ void text_box::handle_event( const sf::Event& new_event )
             // Also may need to take endianess into account
             if ( new_text[ 0 ] == '\b' )
             {
-                if ( caret_position > 0 )
+                if ( my_caret_position > 0 )
                 {
-                    text.erase( caret_position - 1, 1 );
+                    my_text.erase( my_caret_position - 1, 1 );
                     decrease_caret_position(); //caret_position--;
                 }
             }
             else
             {
-                text.insert( caret_position, new_text );
+                my_text.insert( my_caret_position, new_text );
                 increase_caret_position();
                 //caret_position += 1 /*new_text.size()*/;
             }
@@ -201,14 +202,14 @@ void text_box::handle_event( const sf::Event& new_event )
         {
         case Key::Right: // Move the caret
             // Fix later to handle when caret moves to next line of text
-            if ( caret_position < text.size() )
+            if ( my_caret_position < my_text.size() )
             {
                 increase_caret_position();
             }
             break;
             // Add Key::Up and Key::Down
         case Key::Left: // Move the caret
-            if ( caret_position > 0 )
+            if ( my_caret_position > 0 )
             {
                 decrease_caret_position();
             }
@@ -219,10 +220,10 @@ void text_box::handle_event( const sf::Event& new_event )
     }
 }
 
-bool text_box::contains( const int check_x, const int check_y ) const
+bool text_box::contains( const int x, const int y ) const
 {
-    return check_x >= x && check_x <= x + int( width ) &&
-           check_y >= y && check_y <= y + int( height );
+    return x >= my_x && x <= my_x + int( my_width ) &&
+           y >= my_y && y <= my_y + int( my_height );
 }
 
 #if 0

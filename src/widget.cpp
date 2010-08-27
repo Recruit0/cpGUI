@@ -36,13 +36,16 @@ cp::widget dummy_widget;
 }
 }
 
-widget::widget( const boost::uint32_t new_x, const boost::uint32_t new_y ):
-        x( new_x ), y( new_y ), my_gui( &dummy::dummy_gui )
+widget::widget( const boost::uint32_t x, const boost::uint32_t y,
+                const boost::uint32_t width, const boost::uint32_t height ):
+    my_x( x ), my_y( y ), my_width( width ), my_height( height ),
+    my_gui( &dummy::dummy_gui )
 {
 }
 
 widget::widget():
-        x( 0 ), y( 0 ), my_gui( &dummy::dummy_gui )
+    my_x( 0 ), my_y( 0 ), my_width( 0 ), my_height( 0 ),
+    my_gui( &dummy::dummy_gui )
 {
 }
 
@@ -59,7 +62,7 @@ void widget::handle_event( const sf::Event& new_event )
 {
 }
 
-bool widget::contains( int check_x, int check_y ) const
+bool widget::contains( int x, int y ) const
 {
     // dummy_widget can't be selected
     return 0;

@@ -41,7 +41,7 @@ public:
     bool contains( const int check_x, const int check_y ) const;
 
 private:
-    bool pressed; // Whether button is pressed or not
+    bool my_pressed; // Whether button is pressed or not
     functor* my_callback; // Function to call when pressed
     // Store button images with Boost GIL
 };
