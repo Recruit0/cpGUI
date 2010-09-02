@@ -86,11 +86,17 @@ void text_box::draw() const
 
     // Only draw part of string that lies inside the box
     // Possibly encapsulate this as a "view" or "window"
+    const GLboolean SCISSOR_TEST_PREVIOUS = glIsEnabled( GL_SCISSOR_TEST );
     glEnable( GL_SCISSOR_TEST ); // This requires linking against libGL ( -lGL )
     glScissor( my_x, window.GetHeight() - ( my_y + my_height ),
                my_width, my_height );
     window.Draw( text_image );
-    glDisable( GL_SCISSOR_TEST );
+
+    // Reset OpenGL state
+    if ( SCISSOR_TEST_PREVIOUS == GL_FALSE )
+    {
+        glDisable( GL_SCISSOR_TEST );
+    }
 
     // If this has focus, draw the caret
     if ( my_gui->get_focused_widget() == this )

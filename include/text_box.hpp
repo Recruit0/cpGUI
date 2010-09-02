@@ -61,7 +61,7 @@ public:
               const boost::gil::rgba8_pixel_t new_text_color
               = boost::gil::rgba8_pixel_t( 0, 0, 0, 255 ),
               const boost::gil::rgba8_pixel_t new_fill_color
-              = boost::gil::rgba8_pixel_t( 128, 128, 128, 255 ),
+              = boost::gil::rgba8_pixel_t( 255, 255, 255, 255 ),
               const boost::gil::rgba8_pixel_t new_border_color
               = boost::gil::rgba8_pixel_t( 0, 0, 0, 255 )  );
 

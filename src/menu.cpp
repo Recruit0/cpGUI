@@ -59,11 +59,24 @@ bool menu::is_selected( const boost::uint32_t option ) const
 
 void menu::draw() const
 {
-    // Only draw part of the menu that lies inside the box
+    RenderWindow& window = my_gui->reference_window();
+    const Color FILL_COLOR( my_fill_color[ 0 ], my_fill_color[ 1 ],
+                            my_fill_color[ 2 ], my_fill_color[ 3 ] );
+    const Color BORDER_COLOR( my_border_color[ 0 ], my_border_color[ 1 ],
+                              my_border_color[ 2 ], my_border_color[ 3 ] );
+    // x and y specifically refer to the box's position
+    const Shape DRAW_BOX =
+        Shape::Rectangle( my_x, my_y, my_x + my_width, my_y + my_height,
+                          FILL_COLOR, 1, BORDER_COLOR );
+
+    window.Draw( DRAW_BOX );
+
+    // Only draw what lies inside the box
     // Possibly encapsulate this as a "view" or "window"
+    const GLboolean SCISSOR_TEST_PREVIOUS = glIsEnabled( GL_SCISSOR_TEST );
     glEnable( GL_SCISSOR_TEST ); // This requires linking against libGL ( -lGL )
     glScissor( my_x,
-               my_gui->reference_window().GetHeight() - ( my_y + my_height ),
+               window.GetHeight() - ( my_y + my_height ),
                my_width, my_height );
 
     // Go through all the widgets and call their draw() functions
@@ -71,11 +84,14 @@ void menu::draw() const
                 my_options.begin();
             current_option != my_options.end(); current_option++ )
     {
-        // Try to see if we can reduce the pointer jumping.
         current_option->my_widget->draw();
     }
 
-    glDisable( GL_SCISSOR_TEST );
+    // Reset OpenGL state
+    if ( SCISSOR_TEST_PREVIOUS == GL_FALSE )
+    {
+        glDisable( GL_SCISSOR_TEST );
+    }
 }
 
 void menu::handle_event( const sf::Event& new_event )
