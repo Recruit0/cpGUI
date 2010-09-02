@@ -12,7 +12,7 @@ namespace cp
 class functor
 {
 public:
-    virtual void run();
+    virtual void run( widget& parent_widget );
 private:
 };
 

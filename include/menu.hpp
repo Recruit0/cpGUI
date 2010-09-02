@@ -60,8 +60,15 @@ public:
     ///
     void remove( const boost::uint32_t option );
 
-    /// Returns whether option is selected or not. If option does not exist then
-    /// returns 0.
+    /// Gets option to read data from it. Returns dummy_widget if option does
+    /// not exist.
+    ///
+    /// \param option: What option to get.
+    ///
+    const widget& get_option( const boost::uint32_t option ) const;
+
+    /// Returns whether option is selected or not. Returns 0 if option does not
+    /// exist.
     ///
     /// \param option:  What option to check.
     ///

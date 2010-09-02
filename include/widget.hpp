@@ -52,6 +52,14 @@ public:
             const boost::uint32_t width = 0, const boost::uint32_t height = 0 );
     virtual ~widget();
 
+    /// Sets size of widget.
+    ///
+    /// \param new_width:   Width of box.
+    /// \param new_height:  Height of box.
+    ///
+    void set_size( const boost::uint32_t new_width,
+                   const boost::uint32_t new_height );
+
     /// Draws the widget in the window it belongs to.
     ///
     virtual void draw() const;

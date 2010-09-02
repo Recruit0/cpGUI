@@ -48,6 +48,15 @@ void menu::remove( const boost::uint32_t option )
     }
 }
 
+const widget& menu::get_option( const boost::uint32_t option ) const
+{
+    if ( option < my_options.size() )
+    {
+        return my_options[ option ].my_widget;
+    }
+    return dummy::dummy_widget;
+}
+
 bool menu::is_selected( const boost::uint32_t option ) const
 {
     if ( option < my_options.size() )

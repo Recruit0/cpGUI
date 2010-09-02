@@ -71,14 +71,6 @@ public:
     ///
     void load_file( const std::string& file_name );
 
-    /// Sets size of text box.
-    ///
-    /// \param new_width:   Width of box.
-    /// \param new_height:  Height of box.
-    ///
-    void set_size( const boost::uint32_t new_width,
-                   const boost::uint32_t new_height );
-
     /// Gets the text string.
     ///
     const std::string& get_text() const;

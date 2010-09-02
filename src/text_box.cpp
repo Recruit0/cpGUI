@@ -50,13 +50,6 @@ text_box::text_box( const string& text,
 {
 }
 
-void text_box::set_size( const boost::uint32_t new_width,
-                         const boost::uint32_t new_height )
-{
-    my_width = new_width;
-    my_height = new_height;
-}
-
 const string& text_box::get_text() const
 {
     return my_text;

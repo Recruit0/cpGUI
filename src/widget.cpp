@@ -54,6 +54,13 @@ widget::~widget()
     disconnect();
 }
 
+void widget::set_size( const boost::uint32_t new_width,
+                         const boost::uint32_t new_height )
+{
+    my_width = new_width;
+    my_height = new_height;
+}
+
 void widget::draw() const
 {
 }

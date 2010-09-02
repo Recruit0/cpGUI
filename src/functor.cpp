@@ -10,6 +10,6 @@ cp::functor dummy_functor;
 }
 }
 
-void functor::run()
+void functor::run( widget& parent_widget )
 {
 }

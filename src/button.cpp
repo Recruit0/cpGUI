@@ -57,7 +57,7 @@ void button::handle_event( const sf::Event& new_event )
         if ( new_event.MouseButton.Button == Mouse::Left )
         {
             my_pressed = 0;
-            my_callback->run();
+            my_callback->run( *this );
         }
         break;
     default:
