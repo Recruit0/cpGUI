@@ -35,7 +35,7 @@ using namespace cp;
 using namespace boost;
 using namespace gil;
 
-void menu::add( cp::widget* const new_widget )
+void menu::add( const cp::widget& new_widget )
 {
     my_options.push_back( option( new_widget ) );
 }
@@ -84,7 +84,7 @@ void menu::draw() const
                 my_options.begin();
             current_option != my_options.end(); current_option++ )
     {
-        current_option->my_widget->draw();
+        current_option->my_widget.draw();
     }
 
     // Reset OpenGL state
@@ -104,7 +104,7 @@ bool menu::contains( const int x, const int y ) const
            y >= my_y && y <= my_y + int( my_height );
 }
 
-menu::option::option( cp::widget* const new_widget ):
+menu::option::option( const cp::widget& new_widget ):
     my_widget( new_widget ), my_selected( 0 )
 {
 }

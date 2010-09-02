@@ -174,7 +174,7 @@
 
 1282947721 /cache/home/recruit0/files/development/cpGUI/include/gui.inl
 
-1283394902 source:/cache/home/recruit0/files/development/cpGUI/src/menu.cpp
+1283400960 source:/cache/home/recruit0/files/development/cpGUI/src/menu.cpp
 	<string>
 	<vector>
 	"menu.hpp"
@@ -233,7 +233,7 @@
 
 1283395639 /cache/home/recruit0/files/development/cpGUI/include/functor.hpp
 
-1283393524 /cache/home/recruit0/files/development/cpGUI/include/menu.hpp
+1283400951 /cache/home/recruit0/files/development/cpGUI/include/menu.hpp
 	<SFML/Graphics.hpp>
 	<boost/cstdint.hpp>
 	<boost/gil/rgba.hpp>
@@ -242,9 +242,10 @@
 	"cpGUI_base.h"
 	"cpScrollBar.h"
 
-1282950637 source:/cache/home/recruit0/files/development/cpGUI/src/list_box.cpp
+1283401040 source:/cache/home/recruit0/files/development/cpGUI/src/list_box.cpp
 	"list_box.hpp"
+	"text_box.hpp"
 
-1282950642 /cache/home/recruit0/files/development/cpGUI/include/list_box.hpp
+1283401146 /cache/home/recruit0/files/development/cpGUI/include/list_box.hpp
 	"menu.hpp"
 

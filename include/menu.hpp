@@ -52,7 +52,7 @@ public:
     ///
     /// \param new_widget: What widget to add.
     ///
-    void add( cp::widget* const new_widget );
+    void add( const cp::widget& new_widget );
 
     /// Removes an option from the list. Does nothing if option does not exist.
     ///
@@ -81,9 +81,9 @@ private:
 
     struct option
     {
-        option( cp::widget* const new_widget );
+        option( const cp::widget& new_widget );
         // Should probably use a smart pointer below, not sure which one.
-        widget* my_widget; // What widget the option is for.
+        widget my_widget; // What widget the option is for.
         bool my_selected; // Whether it's selected or not.
     };
 
